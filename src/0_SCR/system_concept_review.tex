@@ -1,0 +1,471 @@
+\documentclass[conf]{new-aiaa}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{longtable,tabularx}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{hyperref}
+
+\setlength\LTleft{0pt}
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{6.75cm}
+
+    {\LARGE \textbf{TAMU-SPIRIT System Concept Review Report}\par}
+
+    \vspace{.75cm}
+    {\large by \par}
+    \vspace{.75cm}
+    {\large
+    Sophia Cuellar - 832006961 - Team Member\\
+    Aiden Kampwerth - 632003715 - Team Member\\
+    Noah Matus - 732007548 - Team Member\\
+    Riley McNew - 234001693 - Team Member\\
+    Steven Minniear - 233009885 - Team Member\\
+    Vin Manoj Nair - 833006608 - Team Member\\
+    Param Patel - 332002218 - Team Member\\
+    Matthew Thanjan - 732004647 - Team Member
+    \par}
+
+    \vspace{1cm}
+    {\large Department of Aerospace Engineering\\
+    AERO 401 Capstone\\
+    Texas A\&M University\\
+    Spring 2026\par}
+
+
+    \vspace*{\fill}
+\end{titlepage}
+
+
+
+
+
+\tableofcontents
+\newpage
+
+
+% \section*{Nomenclature}
+
+% {\renewcommand\arraystretch{1.0}
+% \noindent\begin{longtable*}{@{}l @{\quad=\quad} l@{}}
+% $A$  & amplitude of oscillation \\
+% $a$ &    cylinder diameter \\
+% $C_p$& pressure coefficient \\
+% $Cx$ & force coefficient in the \textit{x} direction \\
+% $Cy$ & force coefficient in the \textit{y} direction \\
+% c   & chord \\
+% d$t$ & time step \\
+% $Fx$ & $X$ component of the resultant pressure force acting on the vehicle \\
+% $Fy$ & $Y$ component of the resultant pressure force acting on the vehicle \\
+% $f, g$   & generic functions \\
+% $h$  & height \\
+% $i$  & time index during navigation \\
+% $j$  & waypoint index \\
+% $K$  & trailing-edge (TE) nondimensional angular deflection rate
+% \end{longtable*}}
+
+\section{Background}
+\label{sec:introduction}
+
+\subsection{Motivation}
+Developing a new system within spaceflight experimental testing is deeply rooted in both societal and aerospace engineering needs. Studying how novel systems behave in the Low Earth Orbit (LEO) environment is crucial to understanding and developing future space systems, including satellites, crewed spacecraft, and space infrastructure. It is necessary to consider exposure to atomic oxygen, radiation, ultraviolet flux, and thermal cycling, which can degrade performance over time; however, these effects are difficult to replicate accurately in ground-based testing.
+
+\subsection{History}
+Based upon the extensive research history conducted aboard the ISS, external exposure experiments remain the most difficult for many universities to pursue independently. Common barriers include inaccessible interfaces and complexity, demanding timelines, high costs, and in-environment testing and qualification. These challenges often prevent such concepts from advancing beyond early design stages. Despite this, Texas A\&M's aerospace program recently developed a university-dedicated external facility on the International Space Station (ISS), known as the TAMU-SPIRIT Flight Facility, to provide Texas A\&M University researchers with direct access to space-based technology demonstrations and environmental exposure opportunities. The TAMU-SPIRIT mitigates limitations by providing standardized carrier envelopes, Aegis verification, and an established integration framework. TAMU-SPIRIT's modular design of experiments also allows them to be rotated and cycled through, rather than using one-off experiments, which are significantly harder to obtain spaceflight approval for. By reducing uncertainty in its interfaces and operational constraints, TAMU-SPIRIT and Aegis mitigate issues associated with university-led spaceflight experiments, while maintaining compatibility with ISS safety and operational requirements.
+
+\subsection{Solving Issues}
+Texas A\&M's aerospace program recently developed a university-dedicated external facility on the International Space Station (ISS), known as the TAMU-SPIRIT Flight Facility, to provide Texas A\&M University researchers direct access to space-based technology demonstration and environmental exposure opportunities. The TAMU-SPIRIT Flight Facility is designed to host multiple external payload carriers for six- to twelve-month deployments. Once completed, experiments are returned to Earth. This platform offers a rare opportunity for campus research groups to gain hands-on experience with flight-ready hardware through interfaces and a structured integration pathway. Moreover, the value extends beyond individual scientific results; it lies in the development of sustainable capabilities. These capabilities begin by selecting a feasible experiment, engineering it to comply with ISS constraints, validating performance through ground testing, and ultimately demonstrating functionality in orbit.
+
+\subsection{TAMU-SPIRIT}
+The TAMU-SPIRIT Flight Facility is designed to host multiple external payload carriers for six- to twelve-month deployments. Once completed, experiments are returned to Earth. This platform offers a rare opportunity for campus research groups to gain hands-on experience with flight-ready hardware through interfaces and a structured integration pathway. Moreover, the value extends beyond individual scientific results; it lies in the development of sustainable capabilities for spaceflight testing and operations. These capabilities begin by selecting a feasible experiment, engineering the experiment to comply with ISS constraints, validating performance through ground testing with Aegis, and ultimately demonstrating functionality in orbit.
+
+\subsection{Preliminary Phase}
+Expanding on the sequence of events, the initial phase of this project focuses on selecting a preliminary concept that is technically credible within the constraints of the TAMU-SPIRIT interface while addressing meaningful stakeholder needs. Throughout the AERO 401 design timeline, concepts are evaluated based on their ability to deliver high scientific and engineering value. The emphasis is on defining clear and measurable success criteria and on ensuring that the implementation path does not depend on resources unavailable on board the ISS.
+
+\subsection{Capabilities}
+Regarding available resources, the TAMU-SPIRIT facility can host up to twelve external payload carriers, each capable of supplying up to 75 W of electrical power and providing uplink and downlink data rates of a few megabits per second. The experimental mass is limited only by the carrier type. This can be either smaller carriers of 10 kg or larger carriers of up to 20 kg. Given these constraints, passive exposure, low-duty-cycle sensing, and bounded data products are preferred, enabling continuous, high-rate imaging. Designing within these limits is required to achieve a robust, flight-credible system that can be successfully integrated and operated on the ISS. These flight experiments enabled by TAMU-SPRIT provide essential data to reduce uncertainty in material selection and system design. Ultimately, this supports safer, longer-lasting, and more cost-effective space missions.
+
+\newpage
+\section{Stakeholder Needs}
+
+\bigskip
+  In \textbf{Table 1}, stakeholder needs will be ranked on a scale of 1 to 3, which indicates low, moderate, and high priority needs, respectively. The stakeholders are listed by priority of impact on the project in descending order in the table.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\begin{table}[H]
+
+
+\caption{Stakeholder Needs}
+\centering\begin{tabular}{|
+>{\centering\arraybackslash}m{3cm}|
+m{11cm}|
+>{\centering\arraybackslash}m{1.5cm}|
+}
+\hline
+
+\textbf{Stakeholder}
+& \multicolumn{1}{c|}{\textbf{Needs}} & \textbf{Priority} \\
+\hline
+
+\multirow{10}{*}{\textbf{NASA}}
+& The project design must not interfere with crew essential habitability factors nor current ISS safety precautions. [7]
+& 3\\
+
+\cline{2-3}
+& Verification and certification of the project for dynamic and static clearance (internally and externally), environmental compatibility, mechanical compliance, pressure system compliance, and electrical system compliance, without interference. [7,8]
+& 3\\
+
+\cline{2-3}
+& The project design has Design for Minimum Risk (DFMR) or Fail Safe ability at the International Space Station Program (ISSP) acceptable level, for standard and special case conditions, through launch, experimentation, and return. [7]
+& 3\\
+
+\cline{2-3}
+& Complete the project design process efficiently to launch at a reasonable date. & 2\\
+
+\cline{2-3}
+& The project experiment deployment procedure minimizes crew responsibility, and when necessary, simplifies complexity of procedures.
+& 1\\
+
+\hline
+\multirow{3}{*}{\textbf{TAMU-SPIRIT}}
+& The project is of sufficient technical depth and likely to produce desired experiment results that advance science/technology in the focus area. [6]
+& 2\\
+
+\cline{2-3}
+& The project experiment communication, power, and physical needs are all within the TAMU-SPIRIT resource limitations. [2]
+& 3\\
+
+\hline
+\textbf{Aegis}
+& The project is verifiable per internal Aegis limitations for vibration, thermal and Electromagnetic Interference (EMI) testing.
+& 3\\
+
+\hline
+\textbf{SpaceX}
+& The project is designed according to launch requirements, and delivered on time for launch.
+& 3\\
+
+\hline
+\multirow{3}{*}{\parbox{3cm}{\centering\textbf{Principal Investigator (PI)}}}
+& The complete design process, including production of end item, is within funding constraints for the experiment.
+& 2\\
+
+\cline{2-3}
+& The project aligns with the research specialty of the PI, and has substantial technical potential in the field.
+& 2\\
+
+\hline
+\multirow{5}{*}{\parbox{3cm}{\centering\textbf{Texas A\&M Aerospace Department}}}
+& The project reflects a real-world aerospace application which students can learn from and the university can advance research in both aerospace and the related research department, if applicable.
+& 3\\
+
+\cline{2-3}
+& The project can be designed within two semesters by currently assigned team, or easily transitioned to another.
+& 1\\
+
+\cline{2-3}
+& The project design stays within the allotted budget by the aerospace department, and any additional funding from relevant research PIs.
+& 2\\
+
+\hline
+\multirow{3}{*}{\parbox{3cm}{\centering\textbf{Texas A\&M University}}}
+& The project poses little, if any, legal, financial, and reputational risk, and complies with all university policies.
+& 2\\
+
+\cline{2-3}
+& The topic of the project is scientifically innovative and aligned with university research initiatives. & 1\\
+
+\hline
+\end{tabular}
+\end{table}
+
+\clearpage
+\section{System Goals \& Success Criteria}
+\captionsetup{type=table}
+\captionof{table}{Program and System Goals}
+\centering
+    \renewcommand{\arraystretch}{1.3}
+    \small
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}m{1.3cm}|
+                                      >{\raggedright\arraybackslash}X|
+                                      >{\centering\arraybackslash}p{0.9cm}|
+                                      >{\raggedright\arraybackslash}p{2.7cm}|
+                                      >{\raggedright\arraybackslash}p{2.7cm}|
+                                      >{\raggedright\arraybackslash}p{1cm}|}
+    \hline
+    \textbf{Category} &
+    \multicolumn{1}{c|}{\textbf{Goal}} &
+    \multicolumn{1}{c|}{\textbf{Priority}} &
+    \multicolumn{1}{c|}{\textbf{Metric}} &
+    \multicolumn{1}{c|}{\textbf{Target Value}} &
+    \multicolumn{1}{c|}{\textbf{Reference}} \\
+    \hline
+    \hline
+
+    \multirow{17}{*}{\parbox{1.3cm}{\centering\textbf{Program}\\\textbf{Goals}}}
+    & The project must identify and design viable experiments
+    & Critical
+    & Number of feasible experiment concepts approved at SDR
+    & $\geq$ 1 experiment approved by the TAMU-SPIRIT review panel
+    & REF-1\\
+
+    \cline{2-6}
+    & Experiments must spend 6-12 months in space
+    & Critical
+    & Earth return success
+    & $\geq$ 100\% of flight hardware recovered
+    & REF-1\\
+
+    \cline{2-6}
+    & Experiments must return to Earth at the conclusion of their operation
+    & Critical
+    & Operation duration
+    & $\geq$ 6 months of operation on the TAMU-SPIRIT facility
+    & REF-1\\
+
+    \cline{2-6}
+    & Flight experiments should be used to advance TAMU space science and technologies
+    & High
+    & Number of PI-defined research objectives supported by collected data
+    & $\geq$ 1 primary research objective successfully achieved
+    & REF-1\\
+
+    \cline{2-6}
+    & Flight experiments should showcase the University's capabilities to create, design, and fabricate space experiments
+    & High
+    & Completion and approval of required design reviews
+    & Successful completion of SCR, SRR, SDR, PDR, and CDR
+    & REF-1\\
+
+    \hline
+    \multirow{25}{*}{\parbox{1.3cm}{\centering\textbf{System}\\\textbf{Goals}}}
+    & The project must be designed by December 2026 to be sent to Aegis Aerospace
+    & Critical
+    & Acceptance status by Aegis Aerospace and TAMU-SPIRIT
+    & $\geq$ 1 flight-ready hardware delivered to Aegis Aerospace
+    & REF-3\\
+
+    \cline{2-6}
+    & The project must meet all TAMU-SPIRIT and ISS requirements
+    & Critical
+    & Number of violations
+    & 0 violations
+    & REF-2\\
+
+    \cline{2-6}
+    & The project should survive through mission phases
+    & High
+    & Function status after environmental testing and mission completion
+    & No loss of system functionality pre-flight and post-flight
+    & REF-3\\
+
+    \cline{2-6}
+    & The project must meet SC and/or PC mass constraints
+    & Critical
+    & SC and/or PC mass
+    & $\leq$ 10 kg for SC and $\leq$ 20 kg for PC
+    & REF-1\\
+
+    \cline{2-6}
+    & The project should have PI's research objectives clearly defined
+    & High
+    & \# of PI defined objectives supported by collected data
+    & $\geq$ 2 PI defined research objectives
+    & REF-3\\
+
+    \cline{2-6}
+    & The flight experiments should be operated and analyzed carefully, if handoff occurs
+    & High
+    & Clarify questions that are required after project handoff
+    & $\leq$ 3 questions
+    & REF-3\\
+
+    \cline{2-6}
+    & The project should produce data that can be directly analyzed
+    & High
+    & \% of collected data must be usable for analysis
+    & $\geq$ 90\% of data usable
+    & REF-3\\
+
+    \cline{2-6}
+    & The project should produce results that support at least one clear conclusion
+    & High
+    & \# of conclusions supported by data
+    & $\geq$ 1 supported conclusion
+    & REF-3\\
+
+    \cline{2-6}
+    & The project must operate within allocated TAMU-SPIRIT data budget
+    & Critical
+    & TAMU-SPIRIT upload/download data
+    & $\leq$ 2 Mbps upload and $\leq$ 5 Mbps download
+    & REF-2\\
+
+    \cline{2-6}
+    & The project must operate within allocated TAMU-SPIRIT power budget
+    & Critical
+    & TAMU-SPIRIT power consumption
+    & $\leq$ 75 watts
+    & REF-2\\
+
+    \hline
+\end{tabularx}
+\vspace{0.5em}
+\vspace{0.5em}
+
+\scriptsize
+\begin{tabular}{@{}ll@{}}
+
+    REF-1: & \href{https://canvas.tamu.edu/courses/425282/files/93621442?module_item_id=14624175}{TAMU-SPIRIT Request for Proposal} \\
+
+    REF-2: & \href{https://engineering.tamu.edu/_files/_documents/_content-documents/TAMU-SPIRIT-Quick-Reference-Guidev3.pdf}{TAMU-SPIRIT Quick Reference Guide} \\
+
+    REF-3: & Self Imposed
+\end{tabular}
+\normalsize
+
+\newpage
+
+
+\section{Conops}
+
+At the start of a TAMU-SPIRIT mission, the flight hardware is packaged into a carrier that serves as the mechanical and electrical interface with the TAMU-SPIRIT flight facility. Because the specific carrier experiment set can vary from flight to flight, this method of using a carrier enables consistent integration even if the specifics of a final payload are still in progress. Once hardware is integrated with a Science Carrier or a Pallet Carrier, the carrier is manifested as pressurized cargo onboard a SpaceX Dragon capsule. After arriving at the ISS, the crew moves the carrier to a Transfer Tray. The Transfer Tray is then passed through the JEM/Bishop airlock and the hardware is released into space, all without the need of a human to perform an EVA.
+\\
+The ISS robotic arm then captures the Transfer Tray and stows it in an available slot on the TAMU-SPIRIT flight facility. The facility is capable of accommodating up to twelve carriers. This configuration enables the systematic and orderly swap-out of payloads. After installing the carriers, the operational phase starts which lasts several months to a year based on mission constraints. The command and data downlink is managed by TAMU-SPIRIT, while the POC in Houston coordinates the experiment's operation. Once the mission window closes the carrier leaves the Flight Facility, passes through the airlock to the pressurized section of the ISS, and is reconfigured for downmass. It then returns to Earth on Dragon for an intact recovery and post-flight analysis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.9\linewidth]{Images/conops.png}
+    \caption{\centering ConOps of Project}
+    \label{fig:conop}
+\end{figure}
+
+\newpage
+
+\section{Concept Exploration}
+
+The primary motivation for concept analysis of the project is the determination of valid flight experiments to be developed in later phases. However, at the current phase of the project, no flight experiments have been identified for further investigation. Therefore, the concept exploration will focus on the technical scope boundaries of the project as well as the selection criteria of viable flight experiments. \\
+
+The primary two boundaries on the potential flight experiment are volume and mass. No specific mass or volume requirements are placed on individual flight experiments, but instead they apply to the entire Sample Carriers (SCs) or Pallet Carriers (PCs). SCs (for a single exposure deck) have a maximum volume and mass of [298.45 mm x 168.91 mm x 79.375 mm] and 10 kg, respectively. PCs have a maximum volume and mass of [421.64 mm x 218.44 mm x 250.69 mm] and 20 kg, respectively. These dimensions represent upper bounds for volume and mass for individual flight experiments; however, the odds of selection by the TAMU-SPIRIT committee proportionally increase with a decrease in volume and mass. Therefore, the selection criteria for flight experiments must promote minimizing volume and mass usage. \\
+
+The second limitation involves the orientation of the SC or PC. The TAMU-SPIRIT facility is configured for SCs or PCs oriented in the Ram (prograde), Wake (retrograde), Nadir (radially inward), and Zenith (radially outward) directions and limited to only three total SCs or PCs in each direction. Each direction has unique environmental conditions that affect the flight experiments applicable for that given direction. Ram faces directly in the flight path of the ISS and therefore has increased exposure to atomic oxygen and residual atmospheric particles. Wake faces directly opposite the flight path and consequently experiences a near-perfect vacuum.  Nadir maintains a constant view of the Earth's surface and atmosphere, while Zenith views directly into outer space. Therefore, selection criteria for flight experiments should promote diversification of orientations to improve overall odds of selection and effectively utilize TAMU-SPIRIT capacity. \\
+
+The third factor in flight experiments is between passive and active experiments. Passive experiments do not require power or data bandwidth to function and, therefore, do not experience additional limitations on design. In contrast, active experiments are held on an active SC or PC, which are rated for a maximum power of 75 W and a maximum data bandwidth of 5 Mbps and 2 Mbps for download and upload, respectively. As with volume and mass requirements, the power and data bandwidth for the entire SC or PC represent upper bounds on an individual flight experiment, and selection criteria promoting the minimization of their usage would improve the odds of selection. Furthermore, passive-type experiments can be mounted in active experiment slots. Therefore, the selection criteria should promote passive experiments to improve the odds of selection. \\
+
+In terms of experimental ideas of interest, the team has investigated several compelling research leads. The aim was to identify PIs from different departments so that a diverse set of experiments may be considered for spaceflight. The team began with a general list of departments to target: astrophysics, industrial \& systems engineering, aerospace engineering, mechanical engineering, materials science engineering, nuclear engineering, horticulture, geology/geophysics, and entomology. The table below outlines their specific research subsets.
+
+\begin{table}[H]
+\centering
+\caption{Department Research Areas of Interest}
+\begin{tabular}{|>{\raggedright\arraybackslash}m{4cm}|>{\raggedright\arraybackslash}m{10cm}|}
+\hline
+\textbf{Department} & \textbf{Research Areas of Interest} \\
+\hline
+\hline
+Astrophysics & Astronomical Instrumentation \\
+\hline
+Industrial \& Systems Engineering & Extreme Manufacturing and AI-Powered Intelligent Materials \& Manufacturing \\
+\hline
+Aerospace Engineering & Artificial gravity, Bioastronautics, and Astrodynamics \& Controls \\
+\hline
+Mechanical Engineering & Chemomechanics, Nanoindentation, and Micromechanics \\
+\hline
+Materials Science Engineering & Cryogenics, Hybrid Additive Manufacturing \\
+\hline
+Nuclear Engineering & Multiphase Flow, Gas Liquid Separation, and Nuclear Reactions relevant for Astrophysics \\
+\hline
+Horticulture & Bioprocessing \\
+\hline
+Geology \& Geophysics & Planetary Astrobiology and Materials Characterization \\
+\hline
+Entomology & Decomposition Ecology and Waste Management \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Next Steps}
+
+While progress has been made up until now, it is important to identify what the main focuses should be moving forward. There are a number of decisions to be made going forward, and even more ways these decisions can impact the cost, design, and overall result of the project mission. Taking this into account, careful deliberation and team collaboration is key to success.
+To ensure the success of the mission, a collection of primary trade studies and analyses have been identified in order to guide the actions of the project team and reduce risk. This establishes a means through which decisions can be made, competitive design options can be debated, and a rigid system architecture can be developed. All of these primary methods should be complete before the presentation of the Preliminary Design Review (PDR) at the end of the semester.
+
+Below is \textbf{Table~\ref{tab:trade_studies}}, which tabulates all of the major tradeoffs and analysis that must be completed before the PDR, including a description and how they are necessary to the project. Each method is given a rank 1 to 3 in priority and the resource level that should be allocated to it. The rank indicates low, moderate, and high priority needs.
+
+\begin{table}[H]
+\centering
+\caption{Key Trade Studies and Analyses}
+\label{tab:trade_studies}
+\begin{tabular}{|p{2.2cm}|p{4.8cm}|p{4cm}|c|c|}
+\hline
+TRADE STUDIES/ ANALYSES &
+DESCRIPTION &
+NECESSITY &
+PRIORITY &
+RESOURCES \\
+  \hline
+Flight Experiment Tradeoffs &
+  Updated list of candidate Principal Investigators and their experiments must be consolidated based on a number of factors including: physical and energy restrictions, funding, and relevance of research. &
+  Limited resources and opportunity requires deliberate selection on the flight experiments to maximize value without exceeding said limitations. &
+  3 &
+  2 \\ \hline
+Defining Conceptual Solutions &
+  Developing experiment-specific solutions that satisfying the requirements of each system, as well as the project as a whole. &
+  Clear conceptual solutions allows the team to fully gauge the scope, key components, and complexity of each flight experiment. &
+  3 &
+  2 \\ \hline
+Functional Requirement Analysis &
+  The goals of each experiment will be refined into need statements, and further so into the detailed requirements, which the engineering team must complete. &
+  Requirements are the primary deliverables of any engineering process, allowing for consistent design choices and measurable successes. &
+  3 &
+  3 \\ \hline
+System Architecture Tradeoff &
+  Creating functional system architecture that promotes progress and efficiency specific for each flight experiment, following a number of system concepts. &
+  Architecture bridges all components of the project mission, outlining specific processes and methods of each system. &
+  2 &
+  2 \\ \hline
+Technical Planning &
+  Analyze and consolidate all required technical objectives into a system-centered plan for setting deadlines and delegating tasks. &
+  Provides clear conditions on what, when, and how a project element should be constructed, minimizing schedule ricks and technical errors. &
+  2 &
+  3 \\ \hline
+Timeline Analysis &
+  Analysis on the time duration of each system deadline and order of operations. &
+  Maximizes total time efficiency of the project. &
+  2 &
+  1 \\ \hline
+Manufacturing Tradeoffs &
+  Consideration of potential methods of manufacturing based on availability and cost, concluded with the development of a Master Equipment List, schematics, and other descriptive contents. &
+  Proper manufacturing tradeoffs provide time and cost estimates, while ensuring completion within system boundaries. &
+  1 &
+  2 \\ \hline
+Formal Proposal &
+  Collaborate with PIs to draft and submit a formal proposal for consideration of flight to the ISS. &
+  The proposal is the channel through which the project can complete the over-arching mission. &
+  1 &
+  3 \\ \hline
+\end{tabular}
+\end{table}
+
+% \end{equation}
+\newpage
+\bibliographystyle{aiaa}
+\bibliography{references}
+{\normalsize
+\begin{enumerate}[label={[\arabic*]}]
+\item ``TAMU-SPIRIT,'' Aggie Space Lab Available: \url{https://aggiespacelab.tamu.edu/}.
+\item ``TAMU-SPIRIT Quick Reference Guide,'' Texas A\&M University Engineering. Available: \url{https://engineering.tamu.edu/_files/_documents/_content-documents/TAMU-SPIRIT-Quick-Reference-Guidev3.pdf}.
+\item ``Multi-purpose ISS Experiment Flight Facility,'' ISS National Lab Available: \url{https://issnationallab.org/facilities/multi-purpose-iss-experiment-flight-facility/}.
+\item ``MISSE-FF 1\&2,'' Gunter's Space Page Available: \url{https://space.skyrocket.de/doc_sdat/misse-ff.htm}.
+\item ``About the MISSE Facility,'' Alpha Space Available: \url{https://www.alphaspace.com/about-misse-ff.html}.
+\item ``TAMU-SPIRIT,'' Texas A\&M University Engineering. Available:
+\url{https://engineering.tamu.edu/research/tamu-spirit.html}.
+\item NASA, ``ISS Safety Requirements Document,'' International Space Station Program - Baseline, Sep. 2019.
+\item ``9.0 Hardware and Equipment,'' NASA. Available:
+\url{https://www.nasa.gov/reference/9-0-hardware-and-equipment-vol-2/}.
+\end{enumerate}
+}
+
+\end{document}
