@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{longtable,tabularx}
+\usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{float}
 \usepackage{hyperref}
@@ -438,68 +439,77 @@ The table below outlines their specific research subsets.
 While progress has been made up until now, it is important to identify what the main focuses should be moving forward.
 There are a number of decisions to be made going forward, and even more ways these decisions can impact the cost, design, and overall result of the project mission.
 Taking this into account, careful deliberation and team collaboration is key to success.
+
 To ensure the success of the mission, a collection of primary trade studies and analyses have been identified in order to guide the actions of the project team and reduce risk.
 This establishes a means through which decisions can be made, competitive design options can be debated, and a rigid system architecture can be developed.
 All of these primary methods should be complete before the presentation of the Preliminary Design Review (PDR) at the end of the semester.
 
-\begin{table}[H]
+Table~\ref{tab:trade_studies} summarizes the major trade studies and analyses that must be completed before the PDR, along with their descriptions and relevance.
+Each method is given a rank from 1 to 3 in priority and the resource level that should be allocated to it.
+The rank indicates low, moderate, and high priority needs.
+
+\begin{table}[!htbp]
     \centering
-    \begin{tabular}{|p{2.2cm}|p{4.8cm}|p{4cm}|c|c|}
-    \hline
-    TRADE STUDIES/ ANALYSES &
-    DESCRIPTION &
-    NECESSITY &
-    PRIORITY &
-    RESOURCES \\
-    \hline
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}
+                                    >{\raggedright\arraybackslash}X
+                                    >{\raggedright\arraybackslash}X
+                                    >{\centering\arraybackslash}p{0.9cm}
+                                    >{\centering\arraybackslash}p{0.9cm}@{}}
+    \toprule
+    \textbf{\shortstack[l]{Trade Studies/\\Analyses}} &
+    \textbf{Description} &
+    \textbf{Necessity} &
+    \textbf{Priority} &
+    \textbf{Resources} \\
+    \midrule
     Flight Experiment Tradeoffs &
       Updated list of candidate Principal Investigators and their experiments must be consolidated based on a number of factors including: physical and energy restrictions, funding, and relevance of research. &
       Limited resources and opportunity requires deliberate selection on the flight experiments to maximize value without exceeding said limitations. &
       3 &
-      2 \\ \hline
+      2 \\
     Defining Conceptual Solutions &
       Developing experiment-specific solutions that satisfying the requirements of each system, as well as the project as a whole. &
       Clear conceptual solutions allows the team to fully gauge the scope, key components, and complexity of each flight experiment. &
       3 &
-      2 \\ \hline
+      2 \\
     Functional Requirement Analysis &
       The goals of each experiment will be refined into need statements, and further so into the detailed requirements, which the engineering team must complete. &
       Requirements are the primary deliverables of any engineering process, allowing for consistent design choices and measurable successes. &
       3 &
-      3 \\ \hline
+      3 \\
     System Architecture Tradeoff &
       Creating functional system architecture that promotes progress and efficiency specific for each flight experiment, following a number of system concepts. &
       Architecture bridges all components of the project mission, outlining specific processes and methods of each system. &
       2 &
-      2 \\ \hline
+      2 \\
     Technical Planning &
       Analyze and consolidate all required technical objectives into a system-centered plan for setting deadlines and delegating tasks. &
       Provides clear conditions on what, when, and how a project element should be constructed, minimizing schedule ricks and technical errors. &
       2 &
-      3 \\ \hline
+      3 \\
     Timeline Analysis
     & Analysis on the time duration of each system deadline and order of operations.
     & Maximizes total time efficiency of the project.
     & 2
-    & 1 \\ \hline
+    & 1 \\
     Manufacturing Tradeoffs &
       Consideration of potential methods of manufacturing based on availability and cost, concluded with the development of a Master Equipment List, schematics, and other descriptive contents. &
       Proper manufacturing tradeoffs provide time and cost estimates, while ensuring completion within system boundaries. &
       1 &
-      2 \\ \hline
+      2 \\
     Formal Proposal &
       Collaborate with PIs to draft and submit a formal proposal for consideration of flight to the ISS. &
       The proposal is the channel through which the project can complete the over-arching mission. &
       1 &
-      3 \\ \hline
-    \end{tabular}
+      3 \\
+    \bottomrule
+    \end{tabularx}
     \caption{Key Trade Studies and Analyses}
     \label{tab:trade_studies}
 \end{table}
-
-Below is \textbf{Table~\ref{tab:trade_studies}}, which tabulates all the major tradeoffs and analysis that must be completed before the PDR, including a description and how they are necessary to the project.
-Each method is given a rank 1 to 3 in priority and the resource level that should be allocated to it.
-The rank indicates low, moderate, and high priority needs.
 
 \clearpage
 \section{References}
