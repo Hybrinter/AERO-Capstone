@@ -18,30 +18,35 @@
 \begin{document}
 \begin{titlepage}
     \centering
-    \vspace*{6.75cm}
+    \vspace*{1.5cm}
 
     {\LARGE \textbf{TAMU-SPIRIT System Concept Review Report}\par}
+    \vspace{0.2cm}
+    {\large \textbf{System Concept Review (SCR)}\par}
 
-    \vspace{.75cm}
-    {\large by \par}
-    \vspace{.75cm}
-    {\large
-    Sophia Cuellar - 832006961 - Team Member\\
-    Aiden Kampwerth - 632003715 - Team Member\\
-    Noah Matus - 732007548 - Team Member\\
-    Riley McNew - 234001693 - Team Member\\
-    Steven Minniear - 233009885 - Team Member\\
-    Vin Manoj Nair - 833006608 - Team Member\\
-    Param Patel - 332002218 - Team Member\\
-    Matthew Thanjan - 732004647 - Team Member
-    \par}
+    \vspace{0.6cm}
+    \rule{0.8\textwidth}{0.4pt}\par
+    \vspace{0.6cm}
 
-    \vspace{1cm}
-    {\large Department of Aerospace Engineering\\
-    AERO 401 Capstone\\
-    Texas A\&M University\\
-    Spring 2026\par}
+    {\large AERO 401 Capstone \textbar\ Section 930\par}
+    {\large Department of Aerospace Engineering\par}
+    {\large Texas A\&M University\par}
+    {\large Spring 2026\par}
 
+    \vspace{0.8cm}
+    {\large \textbf{Team Members}\par}
+    \vspace{0.3cm}
+    \begin{tabular}{@{}p{0.48\textwidth}p{0.48\textwidth}@{}}
+    Sophia Cuellar \hfill 832006961 & Noah Matus \hfill 732007548 \\
+    Aiden Kampwerth \hfill 632003715 & Riley McNew \hfill 234001693 \\
+    Steven Minniear \hfill 233009885 & Vin Manoj Nair \hfill 833006608 \\
+    Param Patel \hfill 332002218 & Matthew Thanjan \hfill 732004647 \\
+    \end{tabular}
+
+    \vspace{0.8cm}
+    {\large \textbf{Faculty Advisor:} John Connolly\par}
+    {\large \textbf{Revision:} Final v1.0\par}
+    {\large \textbf{Prepared on:} \today\par}
 
     \vspace*{\fill}
 \end{titlepage}
@@ -51,6 +56,34 @@
 \listoffigures
 \clearpage
 \listoftables
+\clearpage
+
+\section*{Team Contributions}
+\addcontentsline{toc}{section}{Team Contributions}
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}
+                                    >{\raggedright\arraybackslash}X
+                                    >{\raggedright\arraybackslash}X
+                                    >{\centering\arraybackslash}p{2.0cm}
+                                    >{\centering\arraybackslash}p{2.0cm}@{}}
+    \toprule
+    \textbf{Team Member} & \textbf{Sections Contributed} & \textbf{Sections Reviewed} & \textbf{Total Words} & \textbf{Total Graphics} \\
+    \midrule
+    Sophia Cuellar & [Sections] & [Sections] & [Count] & [Count] \\
+    Aiden Kampwerth & [Sections] & [Sections] & [Count] & [Count] \\
+    Noah Matus & [Sections] & [Sections] & [Count] & [Count] \\
+    Riley McNew & [Sections] & [Sections] & [Count] & [Count] \\
+    Steven Minniear & [Sections] & [Sections] & [Count] & [Count] \\
+    Vin Manoj Nair & [Sections] & [Sections] & [Count] & [Count] \\
+    Param Patel & [Sections] & [Sections] & [Count] & [Count] \\
+    Matthew Thanjan & [Sections] & [Sections] & [Count] & [Count] \\
+    \bottomrule
+    \end{tabularx}
+\end{table}
 \clearpage
 
 % \section*{Nomenclature}
@@ -131,7 +164,7 @@ The stakeholders are listed by priority of impact on the project in descending o
     \toprule
     \textbf{Stakeholder} & \textbf{Needs} & \textbf{Priority} \\
     \midrule
-    \multirow{5}{*}{\textbf{NASA}} &
+    \multirow{10}{*}{\textbf{NASA}} &
       The project design must not interfere with crew essential habitability factors nor current ISS safety precautions. \cite{nasaSSP51721_2019} &
       3 \\
     & Verification and certification of the project for dynamic and static clearance (internally and externally), environmental compatibility, mechanical compliance, pressure system compliance, and electrical system compliance, without interference. \cite{nasaSSP51721_2019,nasaHardwareEquipmentVol2_2025} &
@@ -143,7 +176,7 @@ The stakeholders are listed by priority of impact on the project in descending o
     & The project experiment deployment procedure minimizes crew responsibility, and when necessary, simplifies complexity of procedures. &
       1 \\
     \midrule
-    \multirow{2}{*}{\textbf{TAMU-SPIRIT}} &
+    \multirow{3}{*}{\textbf{TAMU-SPIRIT}} &
       The project is of sufficient technical depth and likely to produce desired experiment results that advance science/technology in the focus area. \cite{tamuSpiritWeb_2025} &
       2 \\
     & The project experiment communication, power, and physical needs are all within the TAMU-SPIRIT resource limitations. \cite{tamuSpiritQRGv3_2025} &
@@ -157,13 +190,13 @@ The stakeholders are listed by priority of impact on the project in descending o
       The project is designed according to launch requirements, and delivered on time for launch. &
       3 \\
     \midrule
-    \multirow{2}{*}{\shortstack[c]{\textbf{Principal}\\\textbf{Investigator (PI)}}} &
+    \multirow{3}{*}{\shortstack[c]{\textbf{Principal}\\\textbf{Investigator (PI)}}} &
       The complete design process, including production of end item, is within funding constraints for the experiment. &
       2 \\
     & The project aligns with the research specialty of the PI, and has substantial technical potential in the field. &
       2 \\
     \midrule
-    \multirow{3}{*}{\shortstack[c]{\textbf{Texas A\&M}\\\textbf{Aerospace Department}}} &
+    \multirow{5}{*}{\shortstack[c]{\textbf{Texas A\&M}\\\textbf{Aerospace Department}}} &
       The project reflects a real-world aerospace application which students can learn from and the university can advance research in both aerospace and the related research department, if applicable. &
       3 \\
     & The project can be designed within two semesters by currently assigned team, or easily transitioned to another. &
@@ -171,7 +204,7 @@ The stakeholders are listed by priority of impact on the project in descending o
     & The project design stays within the allotted budget by the aerospace department, and any additional funding from relevant research PIs. &
       2 \\
     \midrule
-    \multirow{2}{*}{\textbf{Texas A\&M University}} &
+    \multirow{3}{*}{\textbf{Texas A\&M University}} &
       The project poses little, if any, legal, financial, and reputational risk, and complies with all university policies. &
       2 \\
     & The topic of the project is scientifically innovative and aligned with university research initiatives. &
@@ -203,39 +236,39 @@ The stakeholders are listed by priority of impact on the project in descending o
     \textbf{Target Value} &
     \textbf{Reference} \\
     \midrule
-    \multirow{5}{*}{\shortstack[c]{\textbf{Program}\\\textbf{Goals}}}
+    \multirow{17}{*}{\shortstack[c]{\textbf{Program}\\\textbf{Goals}}}
     & The project must identify and design viable experiments
     & Critical
     & Number of feasible experiment concepts approved at SDR
     & $\geq$ 1 experiment approved by the TAMU-SPIRIT review panel
-    & \cite{tamu-spirit-rfp}\\
+    &\cite{tamu-spirit-rfp}\\
 
     & Experiments must spend 6-12 months in space
     & Critical
     & Earth return success
     & $\geq$ 100\% of flight hardware recovered
-    & \cite{tamu-spirit-rfp}\\
+    &\cite{tamu-spirit-rfp}\\
 
     & Experiments must return to Earth at the conclusion of their operation
     & Critical
     & Operation duration
     & $\geq$ 6 months of operation on the TAMU-SPIRIT facility
-    & \cite{tamu-spirit-rfp}\\
+    &\cite{tamu-spirit-rfp}\\
 
     & Flight experiments should be used to advance TAMU space science and technologies
     & High
     & Number of PI-defined research objectives supported by collected data
     & $\geq$ 1 primary research objective successfully achieved
-    & \cite{tamu-spirit-rfp}\\
+    &\cite{tamu-spirit-rfp}\\
 
     & Flight experiments should showcase the University's capabilities to create, design, and fabricate space experiments
     & High
     & Completion and approval of required design reviews
     & Successful completion of SCR, SRR, SDR, PDR, and CDR
-    & \cite{tamu-spirit-rfp}\\
+    &\cite{tamu-spirit-rfp}\\
 
     \midrule
-    \multirow{10}{*}{\shortstack[c]{\textbf{System}\\\textbf{Goals}}}
+    \multirow{25}{*}{\shortstack[c]{\textbf{System}\\\textbf{Goals}}}
     & The project must be designed by December 2026 to be sent to Aegis Aerospace
     & Critical
     & Acceptance status by Aegis Aerospace and TAMU-SPIRIT
@@ -246,7 +279,7 @@ The stakeholders are listed by priority of impact on the project in descending o
     & Critical
     & Number of violations
     & 0 violations
-    & \cite{tamuSpiritQRGv3_2025}\\
+    &\cite{tamuSpiritQRGv3_2025}\\
 
     & The project should survive through mission phases
     & High
@@ -258,7 +291,7 @@ The stakeholders are listed by priority of impact on the project in descending o
     & Critical
     & SC and/or PC mass
     & $\leq$ 10 kg for SC and $\leq$ 20 kg for PC
-    & \cite{tamu-spirit-rfp}\\
+    &\cite{tamu-spirit-rfp}\\
 
     & The project should have PI's research objectives clearly defined
     & High
@@ -288,13 +321,13 @@ The stakeholders are listed by priority of impact on the project in descending o
     & Critical
     & TAMU-SPIRIT upload/download data
     & $\leq$ 2 Mbps upload and $\leq$ 5 Mbps download
-    & \cite{tamuSpiritQRGv3_2025}\\
+    &\cite{tamuSpiritQRGv3_2025}\\
 
     & The project must operate within allocated TAMU-SPIRIT power budget
     & Critical
     & TAMU-SPIRIT power consumption
     & $\leq$ 75 watts
-    & \cite{tamuSpiritQRGv3_2025}\\
+    &\cite{tamuSpiritQRGv3_2025}\\
 
     \bottomrule
     \end{tabularx}
