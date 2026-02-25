@@ -817,9 +817,11 @@ The Phage Biofilms experiment evaluates bacteriophage effectiveness at suppressi
 \clearpage
 \section{Next Steps}
 
-High-level requirements have been identified for all ten flight experiments, defining preliminary scope. The immediate next step is to reduce ambiguity in currently vague or unknown requirements by executing focused subsystem analyses. A first-pass viability sizing identified nine experiments as feasible within projected allocations; MGVS was removed from current flight selection because estimated resource demand would displace multiple otherwise viable experiments.
+The high-level system requirements for all ten flight experiments have been identified, which outlines the rough scope of each flight experiment. The preliminary next step remains identifying vague or unknown aspects and requirements that define the specific scope of each experiment.
 
-The next major effort is analysis closure for each retained experiment. The table below captures required analyses and ordered practical actions for converting high-level requirements into bounded, verifiable design envelopes.
+The primary constraining unknown across most experiments is required TAMU-SPIRIT onboard resource allocation, including power, mass, volume, and data bandwidth. The initial pass of mission definitions and requirements therefore included first-order sizing estimates to determine inclusion viability. Nine of ten flight experiments passed initial sizing estimates. The Micro-Gravity Vortex Separator (MGVS) was estimated to require nearly all available resources aboard the single PC module on this launch, and its inclusion would have required excluding four other viable flight experiments. MGVS was therefore removed from current flight experiment selection.
+
+The next major unknowns are subsystem investigations tied to each high-level requirement. For each flight experiment, the primary proposed analyses and practical actions are listed in Table~\ref{tab:next_steps_by_experiment}.
 
 {\footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -923,18 +925,20 @@ EMI analysis; thermal sensors; contaminant study. &
 \end{longtable}
 }
 
-The objective of these analyses is to determine viability of the remaining flight experiments and support a structured downselect to a set of constructable and validatable experiments for AERO 402 execution. Analysis outputs will convert high-level requirements into bounded, verifiable requirements by resolving open technical risks such as thermal margins, EMI compliance, structural loading, and contamination control.
+The aim of these analyses is to determine the viability of the remaining flight experiments and support down-selection into a set of constructable and validatable experiments for AERO 402. The analyses are intended to convert high-level requirements into bounded, verifiable requirements by resolving key unknowns such as thermal margins, EMI compliance, structural loading, and contamination risk. For each experiment, the analysis output will define the minimum compliant design envelope, required operational constraints, and the verification approach needed to demonstrate requirement satisfaction.
 
-To support consistent decision-making, each experiment will be evaluated against common gates:
+To ensure consistent decision-making across the flight experiments as their systems are developed, viability will be assigned using a common set of gates:
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Feasibility:} Implementable within expected TAMU-SPIRIT allocations and packaging constraints with no exceptional subsystem accommodation.
-    \item \textbf{Safety/Compliance:} Meets ISS external payload expectations, including containment, contamination control, structural margins, and EMI compatibility.
-    \item \textbf{Thermal/Power:} Maintains components within allowable operating and survival limits without exceeding allocated power.
-    \item \textbf{Operations:} Can be commanded/monitored with available concepts while producing meaningful scientific results.
-    \item \textbf{Verification:} Can be tested/analyzed within AERO 402 schedule and available resources with traceable evidence.
+    \item \textbf{Feasibility:} The experiment can be implemented within expected TAMU-SPIRIT allocations and packaging constraints with no subsystem requiring exceptional accommodation.
+    \item \textbf{Safety/Compliance:} The experiment can meet ISS external payload safety expectations, including containment, contamination control, structural margins, and EMI compatibility.
+    \item \textbf{Thermal/Power:} The experiment can maintain components within allowable operating and survival limits, including rare events, without exceeding allocated power or requiring unsupported thermal interfaces.
+    \item \textbf{Operations:} The experiment can be operated with available commanding and monitoring concepts and produce meaningful scientific results.
+    \item \textbf{Verification:} The experiment can be tested or analyzed within available AERO 402 schedule and resources to produce evidence traceable to requirements.
 \end{itemize}
 
-If an experiment fails a gate due to schedule or technical limitations, disposition paths are: (1) drop if safety/compliance or fundamental physical feasibility is not met, (2) handoff to a future AERO 401 cycle if safety/compliance passes but operational maturity is insufficient, or (3) handoff/continuation through AERO 402 for validation closure when operations are viable but verification remains incomplete.
+If a flight experiment fails a gate due to scheduling constraints, one of three outcomes will occur. If safety/compliance cannot be met, the experiment is scrapped. If safety/compliance passes but progress cannot be made past operations requirements, the experiment should be handed off to a future AERO 401 capstone group. If operational requirements are met but validation remains incomplete, the experiment will be handed off to a future AERO 402 group or continued by current team members after the AERO 402 semester. If any experiment fails due to fundamental physical system limitations, it is also scrapped.
+
+This gate system is intended to reduce decision fatigue and keep experiments progressing within the expected timeline. From the results of these analyses, the team will refine requirements, establish verification plans, and execute a structured down-select to the subset of experiments that can be built, integrated, and validated within the AERO 401--402 schedule.
 
 \clearpage
 \section{References}
@@ -995,4 +999,3 @@ If an experiment fails a gate due to schedule or technical limitations, disposit
 \end{itemize}
 
 \end{document}
-
