@@ -87,41 +87,44 @@
 \clearpage
 \section{System Goals \& Success Criteria}
 
-The TAMU-SPIRIT system goals and success criteria in Table~\ref{tab:system_goals} define the high-level conditions under which the TAMU-SPIRIT program will be considered successful at the platform level, independent of any individual flight experiment. These goals were derived from stakeholder needs and TAMU-SPIRIT program constraints and are used as the basis for downstream requirement definition and design trade studies \cite{tamuSpiritQRGv3_2025,tamu-spirit-rfp}.
+Table~\ref{tab:system_goals} condenses TAMU-SPIRIT platform-level mission success into five measurable goals derived from stakeholder needs and program constraints \cite{tamuSpiritQRGv3_2025,tamu-spirit-rfp}. Each goal is tracked with a single primary metric and reported against both a minimum threshold (required for success) and an objective value (stretch performance). Because this SRR cycle is pre-deployment, baseline performance for flight execution metrics is currently zero and the listed thresholds represent first-mission acceptance criteria.
 
 \begin{table}[!htbp]
     \centering
     \footnotesize
     \setlength{\tabcolsep}{4pt}
     \renewcommand{\arraystretch}{1.15}
-    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.1cm}YYY@{}}
+    \begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash}m{1.9cm}
+                                    >{\raggedright\arraybackslash}p{6.1cm}
+                                    >{\raggedright\arraybackslash}p{3.3cm}
+                                    >{\raggedright\arraybackslash}p{3.3cm}@{}}
     \toprule
-    \textbf{Goal ID \& Priority} & \textbf{Goal} & \textbf{Metric} & \textbf{Target Value} \\
+    \textbf{Goal ID \& Priority} & \textbf{Goal} & \textbf{Metric} & \textbf{Threshold / Objective} \\
     \midrule
-    \textbf{SG-1}\\Critical &
-    The TAMU-SPIRIT system shall provide dedicated priority access to the ISS exterior environment for Texas A\&M University System researchers, faculty, and students, enabling experiments that cannot be conducted in ground-based facilities. &
-    Number of flight experiments sent aboard the TAMU-SPIRIT facility. &
-    $\geq$ 1 flight experiment is sent aboard the TAMU-SPIRIT facility. \\
+    \shortstack[c]{\textbf{SG-1}\\Critical} &
+    Provide TAMU researchers priority access to the ISS external environment for experiments not feasible in ground facilities. &
+    Number of TAMU-led flight experiments integrated and deployed per mission cycle. &
+    Threshold: $\geq$ 1 deployed payload. Objective: $\geq$ 3 deployed payloads across active carrier slots. \\
 
-    \textbf{SG-2}\\Critical &
-    The TAMU-SPIRIT system shall support high-quality scientific and technical research that addresses meaningful challenges. &
-    Number of PI-defined research objectives supported by collected data. &
-    $\geq$ 1 primary research objective successfully achieved. \\
+    \shortstack[c]{\textbf{SG-2}\\Critical} &
+    Support high-quality scientific and technical research outcomes that address PI-defined mission objectives. &
+    Number of PI-defined primary objectives satisfied using returned flight and telemetry data. &
+    Threshold: $\geq$ 1 primary objective met per mission. Objective: $\geq$ 2 primary objectives met per mission. \\
 
-    \textbf{SG-3}\\Critical &
-    The TAMU-SPIRIT system shall successfully operate externally mounted Science Carriers and Pallet Carriers to enable multi-user research. &
-    Number of Science and Pallet Carriers that successfully provide required power and data throughout the mission. &
-    All experiments receive required power and data throughout the mission. \\
+    \shortstack[c]{\textbf{SG-3}\\Critical} &
+    Operate externally mounted Science Carriers and Pallet Carriers with continuous compliant interface service. &
+    Percentage of active carriers receiving required power and data for planned operations. &
+    Threshold: 100\% of active carriers receive required interface services. Objective: $\geq$ 95\% service uptime per active carrier over mission duration. \\
 
-    \textbf{SG-4}\\Critical &
-    The TAMU-SPIRIT system shall provide end-to-end mission services, including launch to the ISS, on-orbit operations, and return of experiment hardware to Earth. &
-    Number of flight experiments operated for full mission duration with no anomalies, and all samples returned to Earth. &
-    All flight experiments operate for the full mission duration with no anomalies, and all samples are returned to Earth. \\
+    \shortstack[c]{\textbf{SG-4}\\Critical} &
+    Provide end-to-end mission services: launch, on-orbit operations, and return of experiment hardware to Earth. &
+    Fraction of manifested experiments completing planned mission duration and returned without mission-ending anomaly. &
+    Threshold: 100\% safe return of manifested payload hardware. Objective: 100\% full-duration operation and return for manifested payloads. \\
 
-    \textbf{SG-5}\\Critical &
-    The TAMU-SPIRIT system shall serve as a platform to build a strategic research partnership between Texas A\&M University and an external academic institution. &
-    Number of research partnerships established with external institutions. &
-    $\geq$ 1 partnership established. \\
+    \shortstack[c]{\textbf{SG-5}\\Critical} &
+    Establish TAMU-SPIRIT as a sustained platform for strategic external academic collaboration. &
+    Number of formal external institutional research partnerships supporting TAMU-SPIRIT flights. &
+    Threshold: $\geq$ 1 active partnership. Objective: $\geq$ 2 sustained external partnerships. \\
     \bottomrule
     \end{tabularx}
     \caption{TAMU-SPIRIT System Goals and Success Criteria}
