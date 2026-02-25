@@ -1,15 +1,945 @@
-%! Author = kampw
-%! Date = 2/4/2026
+\documentclass[conf]{new-aiaa}
 
-% Preamble
-\documentclass[11pt]{article}
-
-% Packages
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{longtable,tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{enumitem}
 
-% Document
+\setlength\LTleft{0pt}
+\captionsetup[table]{position=bottom,skip=6pt}
+\captionsetup[figure]{position=bottom,skip=6pt}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
 \begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
 
+    {\LARGE \textbf{TAMU-SPIRIT System Requirements Review Report}\par}
+    \vspace{0.2cm}
+    {\large \textbf{System Requirements Review (SRR)}\par}
 
+    \vspace{0.6cm}
+    \rule{0.8\textwidth}{0.4pt}\par
+    \vspace{0.6cm}
+
+    {\large AERO 401 Capstone \textbar\ Section 930\par}
+    {\large Department of Aerospace Engineering\par}
+    {\large Texas A\&M University\par}
+    {\large Spring 2026\par}
+
+    \vspace{0.8cm}
+    {\large \textbf{Team Members}\par}
+    \vspace{0.3cm}
+    \begin{tabular}{@{}p{0.48\textwidth}p{0.48\textwidth}@{}}
+    Sophia Cuellar \hfill 832006961 & Noah Matus \hfill 732007548 \\
+    Aiden Kampwerth \hfill 632003715 & Riley McNew \hfill 234001693 \\
+    Steven Minniear \hfill 233009885 & Vin Manoj Nair \hfill 833006608 \\
+    Param Patel \hfill 332002218 & Matthew Thanjan \hfill 732004647 \\
+    \end{tabular}
+
+    \vspace{0.8cm}
+    {\large \textbf{Faculty Advisor:} John Connolly\par}
+    {\large \textbf{Revision:} Final v1.0\par}
+    {\large \textbf{Prepared on:} \today\par}
+
+    \vspace*{\fill}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\listoftables
+\clearpage
+
+\section*{Team Contributions}
+\addcontentsline{toc}{section}{Team Contributions}
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}
+                                    >{\raggedright\arraybackslash}X
+                                    >{\raggedright\arraybackslash}X
+                                    >{\centering\arraybackslash}p{2.0cm}
+                                    >{\centering\arraybackslash}p{2.0cm}@{}}
+    \toprule
+    \textbf{Team Member} & \textbf{Sections Contributed} & \textbf{Sections Reviewed} & \textbf{Total Words} & \textbf{Total Graphics} \\
+    \midrule
+    Sophia Cuellar & \S5 & \S1-2 & 158 & 0 \\
+    Aiden Kampwerth & \S5 & \S1-3 & 470 & 0 \\
+    Noah Matus & \S1 & \S2, \S6 & 550 & 0 \\
+    Riley McNew & \S2 & \S4-5 & 402 & 0 \\
+    Steven Minniear & \S6 & \S3, \S5 & 567 & 0 \\
+    Vin Manoj Nair & \S3 & \S4, \S6 & 213 & 0 \\
+    Param Patel & \S3 & \S4, \S6 & 213 & 0 \\
+    Matthew Thanjan & \S4 & \S1, \S5 & 246 & 1 \\
+    \bottomrule
+    \end{tabularx}
+\end{table}
+\clearpage
+\section{System Goals \& Success Criteria}
+
+The TAMU-SPIRIT system goals and success criteria in Table~\ref{tab:system_goals} define the high-level conditions under which the TAMU-SPIRIT program will be considered successful at the platform level, independent of any individual flight experiment. These goals were derived from stakeholder needs and TAMU-SPIRIT program constraints and are used as the basis for downstream requirement definition and design trade studies \cite{tamuSpiritQRGv3_2025,tamu-spirit-rfp}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.1cm}YYY@{}}
+    \toprule
+    \textbf{Goal ID \& Priority} & \textbf{Goal} & \textbf{Metric} & \textbf{Target Value} \\
+    \midrule
+    \textbf{SG-1}\\Critical &
+    The TAMU-SPIRIT system shall provide dedicated priority access to the ISS exterior environment for Texas A\&M University System researchers, faculty, and students, enabling experiments that cannot be conducted in ground-based facilities. &
+    Number of flight experiments sent aboard the TAMU-SPIRIT facility. &
+    $\geq$ 1 flight experiment is sent aboard the TAMU-SPIRIT facility. \\
+
+    \textbf{SG-2}\\Critical &
+    The TAMU-SPIRIT system shall support high-quality scientific and technical research that addresses meaningful challenges. &
+    Number of PI-defined research objectives supported by collected data. &
+    $\geq$ 1 primary research objective successfully achieved. \\
+
+    \textbf{SG-3}\\Critical &
+    The TAMU-SPIRIT system shall successfully operate externally mounted Science Carriers and Pallet Carriers to enable multi-user research. &
+    Number of Science and Pallet Carriers that successfully provide required power and data throughout the mission. &
+    All experiments receive required power and data throughout the mission. \\
+
+    \textbf{SG-4}\\Critical &
+    The TAMU-SPIRIT system shall provide end-to-end mission services, including launch to the ISS, on-orbit operations, and return of experiment hardware to Earth. &
+    Number of flight experiments operated for full mission duration with no anomalies, and all samples returned to Earth. &
+    All flight experiments operate for the full mission duration with no anomalies, and all samples are returned to Earth. \\
+
+    \textbf{SG-5}\\Critical &
+    The TAMU-SPIRIT system shall serve as a platform to build a strategic research partnership between Texas A\&M University and an external academic institution. &
+    Number of research partnerships established with external institutions. &
+    $\geq$ 1 partnership established. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{TAMU-SPIRIT System Goals and Success Criteria}
+    \label{tab:system_goals}
+\end{table}
+
+\clearpage
+\section{System Concept and Architecture}
+
+The Texas A\&M Space Platform Integrating Research and Innovative Technology (TAMU-SPIRIT) is an externally mounted, multi-payload flight facility deployed on the International Space Station (ISS), developed in partnership with Aegis Aerospace \cite{tamuSpiritWeb_2025,aggie-space-lab-tamu-spirit}. The facility uses a modular, carrier-based architecture capable of hosting up to twelve Science Carriers (SC) or Pallet Carriers (PC) simultaneously. Each carrier position provides standardized mechanical, electrical, and data interfaces for hosted flight experiments.
+
+TAMU-SPIRIT operates in low Earth orbit (LEO) at approximately 400 km altitude, exposing payloads to atomic oxygen, radiation, hard vacuum, and thermal cycling from roughly $-120\,^{\circ}$C to $+120\,^{\circ}$C over each 90-minute orbital period. Deployment cycles are six to twelve months, after which carriers and experiment hardware are returned to Earth for post-flight analysis via Dragon downmass operations \cite{iss-national-lab-multi-purpose,gunter-misse-ff,alpha-space-misse}.
+
+At the system level, each carrier is assigned a designated mounting location with predefined interface boundaries. SC hardware is constrained by smaller envelope and mass limits, while PC hardware supports larger form factors and higher mass. Carrier slots support 28 VDC power distribution and bounded command/data transfer through TAMU-SPIRIT operations pathways. Carrier orientation options (Ram, Wake, Nadir, and Zenith) are selected based on experiment objectives and environmental exposure intent.
+
+For the current SRR cycle, ten candidate flight experiments are under development: Thermal Dust Sensor Exposure (TDS), Micro-Gravity Vortex Separator (MGVS), Cryogenic Preservation of Mammalian Organs (CPMO), Autonomous Classification and Tracking of Plumes (ACT-P), Spaceflight Resilience of Food Fermentation Fungi (SRFFF), Freeze-Dried Food Analogs (FDFA), Diels--Alder Self-Healing Exposure (DASH), Event-Based Space Telescope (EBST), AM Exposure, and Phage Biofilms. The system architecture remains centered on standard TAMU-SPIRIT carrier integration while allowing experiment-specific sensing, containment, and autonomy strategies.
+
+\clearpage
+\section{System Requirements}
+
+The following system requirements define the functional, structural, and operational capabilities required for TAMU-SPIRIT to host externally mounted flight experiments on the ISS. These requirements are derived from stakeholder needs, system goals, and interface constraints, and define the minimum criteria for safe integration, sustained operation, and successful return \cite{tamuSpiritQRGv3_2025,nasaSSP51721_2019,nasaHardwareEquipmentVol2_2025}.
+
+{\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{@{}p{2.2cm}p{4.1cm}p{4.1cm}p{4.1cm}@{}}
+\caption{System-Level Requirements}\label{tab:system_level_requirements}\\
+\toprule
+\textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+SYS-1\\SN-T1, SN-T2, PG-1, SG-1, SG-2, SG-5 &
+The TAMU-SPIRIT system shall accommodate no fewer than 12 Science/Payload Carriers (SC/PC) simultaneously. &
+Supports multi-user missions and accessibility to long-duration research platforms. &
+Inspection of carrier slot count in TAMU-SPIRIT flight hardware. \\
+
+SYS-2\\SN-N2, SN-A1, SN-SX1, SG-1, SG-3, SG-4 &
+The TAMU-SPIRIT system shall provide standardized mechanical mounting interfaces for all integrated SC/PC payloads. &
+Ensures experiments have secure attachment, power, and data access. &
+Inspection of interface drawings and hardware configuration. \\
+
+SYS-3\\SN-T2, SN-A1, SG-1, SG-2, SG-3 &
+The TAMU-SPIRIT system shall provide standardized electrical power and data interfaces to each integrated SC/PC payload. &
+Maximizes flexibility in research objectives and improves efficiency in time, cost, and mass. &
+Interface inspection and functional test of power/data connections. \\
+
+SYS-4\\SN-T1, SN-T2, SG-2, SG-3, SG-4, SG-5 &
+TAMU-SPIRIT shall provide a minimum uplink and downlink data capacity of 1 GB per week per payload. &
+Enables experiment-related data transfer to the ground. &
+End-to-end communication demonstration with Payload Operations Control Center (POCC). \\
+
+SYS-5A\\SN-N1, SN-N2, SN-A1, SN-SX1, SG-3, SG-4 &
+All integrated SC and PC payloads shall pass vibration testing consistent with launch vehicle requirements. &
+Ensures mission success and mitigates hazards to crew, experiments, TAMU-SPIRIT, and ISS. &
+Vibration test report. \\
+
+SYS-5B\\SN-N1, SN-A1, SG-3, SG-4 &
+All integrated SC and PC payloads shall pass thermal cycling consistent with ISS operational conditions. &
+Ensures payload survivability for expected on-orbit thermal environments. &
+Thermal cycling test report. \\
+
+SYS-5C\\SN-N1, SN-N2, SN-N3, SN-U1, SG-1, SG-4 &
+All integrated SC and PC payloads shall obtain NASA safety approval prior to launch. &
+Provides formal safety compliance prior to flight integration. &
+Documentation review and certification record. \\
+
+SYS-6\\PG-2, SG-2, SG-4, SG-5 &
+TAMU-SPIRIT shall support continuous payload operation for a minimum of 6 months and up to 12 months per deployment cycle. &
+Enables long-term research aligned with ISS mission timelines. &
+Analysis of power, thermal, and operational lifetime. \\
+
+SYS-7\\SN-N2, SN-SX1, SG-1, SG-4 &
+TAMU-SPIRIT shall interface with ISS-compatible cargo transport vehicles. &
+Enables successful transportation to and from the ISS. &
+Interface compatibility documentation review. \\
+
+SYS-8\\SN-N5, SG-1, SG-4 &
+TAMU-SPIRIT shall allow retrieval of SC/PC payloads using the ISS robotic arm via the Transfer Tray. &
+Ensures safe, controlled, and automated experiment handling. &
+Demonstration and interface compliance review. \\
+
+SYS-9\\SN-A1, SN-SX1, PG-3, SG-4, SG-5 &
+TAMU-SPIRIT shall support standardized procedures for integration, de-integration, and packaging for return to Earth. &
+Ensures safe, repeatable handling and successful hardware retrieval. &
+Testing of standardized procedures and inspection throughout the process. \\
+
+SYS-10\\SN-N5, SN-T2, SG-2, SG-3, SG-4 &
+TAMU-SPIRIT shall enable ground-based command and control via the POCC. &
+Enables ground operations while minimizing ISS crew involvement. &
+Communications test with POCC. \\
+
+SYS-11A\\SN-T1, SN-PI2, SG-2, SG-4, SG-5 &
+TAMU-SPIRIT shall provide temperature data for exposed-deck carriers. &
+Environmental data is required to correlate observed payload changes with actual on-orbit exposure conditions. &
+Sensor calibration and functional test. \\
+
+SYS-11B\\SN-T1, SN-PI2, SG-2, SG-4, SG-5 &
+TAMU-SPIRIT shall provide ultraviolet exposure data for exposed-deck carriers. &
+UV exposure context is required for post-flight interpretation and traceability. &
+Sensor calibration and validation. \\
+
+SYS-11C\\SN-T1, SN-PI2, SG-2, SG-4, SG-5 &
+TAMU-SPIRIT shall provide ionizing radiation exposure data for exposed-deck carriers. &
+Radiation context is required for exposure-response analysis across experiments. &
+Dosimeter calibration and validation. \\
+
+SYS-11D\\SN-T1, SN-PI2, SG-2, SG-4, SG-5 &
+TAMU-SPIRIT shall provide visual imagery of exposed-deck carriers. &
+Visual evidence supports configuration confirmation and anomaly assessment. &
+Functional camera testing. \\
+\end{longtable}
+}
+
+The following requirement tables define additional carrier-specific constraints for Pallet Carriers (PC) and Science Carriers (SC), consistent with TAMU-SPIRIT guidance \cite{tamuSpiritQRGv3_2025}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.2cm}YYY@{}}
+    \toprule
+    \textbf{Req ID} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    PC-SYS-1\\SN-T2, SN-SX1, SG-1, SG-3, SG-4 &
+    TAMU-SPIRIT shall accommodate PC payloads with external dimensions not exceeding 42.16 cm $\times$ 21.84 cm $\times$ 25.07 cm (L $\times$ W $\times$ H). &
+    Ensures experiment compatibility with carrier dimensions. &
+    Pre-flight integration dimensional inspection. \\
+
+    PC-SYS-2\\SN-T2, SG-2, SG-3 &
+    TAMU-SPIRIT shall provide 60 W of electrical power to each PC payload. &
+    Provides sufficient power for larger active experiments. &
+    Ground functional power test. \\
+
+    PC-SYS-3\\SN-N2, SN-SX1, SN-U1, SG-3, SG-4 &
+    PC payload mass shall not exceed 20 kg. &
+    Mitigates launch and integration risk through mass limitation. &
+    Weighing of each PC prior to integration. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{Pallet Carrier Requirements}
+    \label{tab:pc_requirements}
+\end{table}
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.2cm}YYY@{}}
+    \toprule
+    \textbf{Req ID} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    SC-SYS-1\\SN-N2, SN-SX1, SN-U1, SG-3, SG-4 &
+    SC payload mass shall not exceed 8 kg. &
+    Mitigates launch and integration risk through mass limitation. &
+    Weighing of each SC prior to integration. \\
+
+    SC-SYS-2\\SN-T2, SG-2, SG-3 &
+    TAMU-SPIRIT shall supply 50 W of electrical power to each SC payload. &
+    Provides sufficient power for active experiments. &
+    Ground functional power test. \\
+
+    SC-SYS-3\\SN-T2, SN-SX1, SG-1, SG-3, SG-4 &
+    TAMU-SPIRIT SCs shall fit within volume constraints: 24.05 cm $\times$ 18.03 cm $\times$ 0.64 cm (exposure deck mounting) and 31.24 cm $\times$ 17.78 cm $\times$ 7.94 cm (under deck mounting). &
+    Ensures experiment compatibility with carrier dimensions. &
+    Pre-flight dimensional measurement and inspection within SC. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{Science Carrier Requirements}
+    \label{tab:sc_requirements}
+\end{table}
+
+\clearpage
+\section{Subsystem Requirements}
+
+This section defines subsystem-level requirements for each candidate flight experiment. Requirement wording, rationale, and verification methods were converted from the SRR source material into a consistent LaTeX format. The scope includes ten experiments aligned to current TAMU-SPIRIT candidate activities.
+
+\subsection{1. Thermal Dust Sensor Exposure (TDS)}
+
+The Thermal Dust Sensor Exposure experiment (TDS) is an active flight experiment that passed initial downselection. The mission is to modify a pre-designed thermal dust sensor for TAMU-SPIRIT compatibility and quantify sensor degradation under long-duration space exposure. Primary goals are to estimate emissivity evolution in orbit (TDS-G1) and compare on-orbit behavior against control datasets to quantify radiative degradation (TDS-G2) \cite{kurwitz-lsep-2026}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    TDS-R1\\TDS-G1 &
+    The experiment shall quantify sensor degradation through control-test comparison and calculations. &
+    The sensor must observe degradation effects and quantify thermal energy balance. &
+    Ground control tests using representative dust conditions for calibration validation. \\
+
+    TDS-R2\\TDS-G1 &
+    The experiment shall be oriented to minimize parasitic thermal radiation from the ISS. &
+    Isolation of environmental effects improves validity of observed degradation trends. &
+    Orientation trade tests and parasitic-radiation sensitivity analysis. \\
+
+    TDS-R3\\TBD &
+    The experiment shall return data within a 1 GB daily maximum downlink. &
+    Data products must remain within allocated communication limits. &
+    End-to-end test of required data bandwidth and generated file sizes. \\
+
+    TDS-R4\\TBD &
+    The experiment shall consume no more than 60 W when operational and 30 W when non-operational. &
+    The payload must remain within allocated carrier power limits. &
+    Power budgeting and ground verification of operational modes. \\
+
+    TDS-R5\\TDS-G2 &
+    The experiment shall estimate emissivity no less than once every 3--6 days over a 6--12 month mission. &
+    Measurement cadence and mission duration are required for meaningful degradation assessment. &
+    Analysis-driven cadence validation and long-duration operations simulation. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{TDS Subsystem Requirements}
+    \label{tab:tds_requirements}
+\end{table}
+
+\subsection{2. Micro-Gravity Vortex Separator (MGVS)}
+
+The Micro-Gravity Vortex Separator (MGVS) concept aims to demonstrate gravity-independent Rankine-cycle-enabling behavior through vortex phase separation. Goals include fabricating and characterizing key condenser/boiler components (MGVS-G1) and refining experimentally derived models with flight-linked evidence (MGVS-G2). This concept was later dropped for this cycle due to complexity and resource burden, but requirements are preserved for traceability.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    MGVS-R1\\TBD &
+    Vortex-condenser two-phase operation shall return flow-dynamic properties within 1 GB per weekday downlink. &
+    Flight data is required for model refinement. &
+    Bandwidth validation of sensor output data products. \\
+
+    MGVS-R2\\MGVS-G1 &
+    Vortex-boiler modeling data shall be produced at a refinement where further discretization yields less than 5\% variation. &
+    Required to bound model sensitivity and improve predictive fidelity. &
+    Mesh/refinement sweeps to identify convergence threshold. \\
+
+    MGVS-R3\\TBD &
+    Vortex heat exchangers shall consume a maximum of 30 W each at 28 VDC. &
+    Combined heat exchanger load must remain within available power allocation. &
+    Analytical power estimate and experimental verification. \\
+
+    MGVS-R4\\MGVS-G1 &
+    Vortex-condenser heat-transfer correlations shall be refined with ground-test data during flight operations. &
+    Enables comparison of microgravity effects against ground baselines. &
+    Correlation updates using representative sample datasets. \\
+
+    MGVS-R5\\MGVS-G2 &
+    Reduced-order boiling models shall return critical heat flux and superheat over a range of swirl conditions. &
+    Models must capture behavior across varied operating conditions. &
+    Iterative ground-testing campaigns in varied flow conditions. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{MGVS Subsystem Requirements}
+    \label{tab:mgvs_requirements}
+\end{table}
+
+\subsection{3. Cryogenic Preservation of Mammalian Organs (CPMO)}
+
+The objective of this experiment is to design a space-compliant cryogenic system that preserves vitrified mammalian organs for at least six months before return for transplantation studies. Key goals are to maintain structural and isochoric containment autonomy under TAMU-SPIRIT constraints (CPMO-G1) and preserve specimen vitrification and separation throughout mission operations (CPMO-G2).
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    CPMO-R1\\CPMO-G2 &
+    The flight experiment shall maintain mammalian kidneys at approximately $-100\,^{\circ}$C from extraction through mission completion and transplantation. &
+    Kidneys must remain vitrified without ice crystal formation for long-term storage viability. &
+    Continuous chamber temperature logging; specimen temperature checks pre- and post-flight. \\
+
+    CPMO-R2\\CPMO-G1 &
+    The flight experiment chamber shall withstand mission pressure and inertial loads without deformation of chamber or specimens. &
+    Structural integrity prevents mechanical damage and containment loss. &
+    FEA of chamber prototypes, demonstrating 20g capability (10g load with factor of safety 2). \\
+
+    CPMO-R3\\CPMO-G2 &
+    Flight subchambers shall maintain physical separation between individual specimens. &
+    Separation avoids cross-contamination and shared failure modes. &
+    Triple-walled configuration with dye-transfer testing during prototyping. \\
+
+    CPMO-R4\\CPMO-G1 &
+    The flight experiment shall maintain a leak-proof seal with constant volume for the full mission duration. &
+    Isochoric containment is required to prevent release of biological matter. &
+    Continuous pressure logging and pre-flight dye-leak validation. \\
+
+    CPMO-R5\\CPMO-G1 &
+    The flight experiment shall operate autonomously within carrier mass, volume, and power constraints. &
+    Ensures compatibility with TAMU-SPIRIT integration limits. &
+    Integrated simulation and test-platform verification of mass/volume/power. \\
+
+    CPMO-R6\\CPMO-G1 &
+    The flight experiment shall operate autonomously without carrier-supplied power for at least 72 hours. &
+    Provides resilience during transition periods without guaranteed external power. &
+    Thermal simulation and integrated ground test with active thermal/pressure sensing. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{CPMO Subsystem Requirements}
+    \label{tab:cpmo_requirements}
+\end{table}
+
+\subsection{4. Autonomous Classification and Tracking of Plumes (ACT-P)}
+
+ACT-P targets autonomous acquisition of high spatiotemporal fidelity plume-relevant imagery to improve machine-learning datasets and plume detection performance. Goals include producing ML-ready on-orbit datasets (ACTP-G1) and enabling controlled on-orbit model update and comparison workflows (ACTP-G2) \cite{selva-actp}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    ACTP-R1\\ACTP-G1 &
+    The flight experiment shall autonomously direct pointing/acquisition behavior using on-board pretrained plume-detection capability. &
+    Autonomous targeting increases dataset temporal fidelity and event capture probability. &
+    Full-system testing against digitally simulated orbital scenarios. \\
+
+    ACTP-R2\\ACTP-G1 &
+    The flight experiment shall ensure bounded and stable pointing behavior during autonomous operation, with fault detection. &
+    Unstable gimbal behavior is a critical mission risk. &
+    Antagonistic testing of gimbal control authority and fault monitors. \\
+
+    ACTP-R3\\ACTP-G1 &
+    The flight experiment shall produce and time-align acquisition metadata sufficient for downstream ML reuse and reconstruction. &
+    Reconstructable context is required for model training and quantitative comparison. &
+    Inspection of output products for required metadata completeness. \\
+
+    ACTP-R4\\ACTP-G1 &
+    The flight experiment shall preserve dataset integrity and provenance from acquisition through delivery using verifiable completeness and corruption detection. &
+    Prevents silent corruption and supports reproducibility. &
+    Adversarial testing of data storage and transmission pathways. \\
+
+    ACTP-R5\\ACTP-G1 &
+    The flight experiment shall support routine weekly operations by providing health telemetry, fault observability, and recoverability. &
+    Supports long-duration reliability and safe recovery from faults. &
+    Fault-injection testing of critical recovery subsystems. \\
+
+    ACTP-R6\\ACTP-G2 &
+    The flight experiment should support deployment of ground-trained model updates with a controlled lifecycle. &
+    Enables direct verification of model-improvement objective. &
+    Simulated on-orbit model update without unrecoverable fault. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{ACT-P Subsystem Requirements}
+    \label{tab:actp_requirements}
+\end{table}
+
+\subsection{5. Spaceflight Resilience of Food Fermentation Fungi (SRFFF)}
+
+This experiment evaluates the viability of food-relevant fungal spores after spaceflight exposure, including comparative analysis against ground controls and downstream fermentation-performance assessment. Goals are defined as SRFFF-G1 through SRFFF-G3 \cite{thilakarathna-srfff}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    SRFFF-R1\\SRFFF-G2, SRFFF-G3 &
+    The flight experiment shall host spores desiccated to 10\% moisture within hermetically sealed containers that prevent contamination. &
+    Preserves sample integrity, sterility, and data validity. &
+    Moisture analysis, leak testing, and sterility assessment prior to seal. \\
+
+    SRFFF-R2\\SRFFF-G2, SRFFF-G3 &
+    The flight experiment shall expose samples to total ionizing dose within $\pm$10\% of externally measured radiation environment. &
+    Enables meaningful post-flight comparison to controls. &
+    Passive or active dosimeters installed adjacent to samples. \\
+
+    SRFFF-R3\\SRFFF-G1 &
+    The flight experiment shall measure and record temperature and radiation dose for the full six-month flight duration. &
+    Exposure logs are required to correlate environmental conditions with biological outcomes. &
+    Integrated temperature and radiation sensors with mission-duration logging. \\
+
+    SRFFF-R4\\SRFFF-G1 &
+    The chamber shall secure four sample containers and withstand launch/reentry mechanical and thermal loading. &
+    Prevents hardware displacement or structural failure during mission phases. &
+    Structural analysis, vibration testing, and mounting-hardware verification. \\
+
+    SRFFF-R5\\SRFFF-G2 &
+    The flight experiment shall enable safe removal of all four sample containers after return to Earth. &
+    Retrieval is required for post-flight comparative analysis. &
+    Ground operations test of removal workflow and accessibility inspection. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{SRFFF Subsystem Requirements}
+    \label{tab:srfff_requirements}
+\end{table}
+
+\subsection{6. Freeze-Dried Food Analogs (FDFA)}
+
+This experiment evaluates freeze-dried food analog resilience in spaceflight using post-flight assay methods and environmental correlation measurements. Goals include comparison against controls (FDFA-G1), TBARS assay support (FDFA-G2), and radiation-driven structural/nutritional impact characterization (FDFA-G3) \cite{thilakarathna-srfff}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    FDFA-R1\\FDFA-G1, FDFA-G3 &
+    The flight experiment shall expose freeze-dried food samples to the space environment for a six-month flight duration. &
+    Required for post-flight comparison and exposure-response analysis. &
+    Dosimeter placement and mission timeline verification. \\
+
+    FDFA-R2\\FDFA-G2, FDFA-G3 &
+    The flight experiment shall seal samples in sterile, contamination-proof containers that prevent moisture ingress. &
+    Prevents degradation and microbial growth that could invalidate results. &
+    Leak testing and sterility assessment before seal. \\
+
+    FDFA-R3\\FDFA-G3 &
+    The flight experiment shall record temperature and radiation dose throughout mission duration. &
+    Environmental logs enable correlation of observed sample changes. &
+    Mission-duration temperature/radiation sensing and data logging. \\
+
+    FDFA-R4\\FDFA-G1, FDFA-G2 &
+    The chamber shall protect and secure all samples from launch/reentry mechanical and thermal loads. &
+    Ensures structural integrity and retained sample placement. &
+    Structural analysis, vibration testing, and mounting verification. \\
+
+    FDFA-R5\\FDFA-G1 &
+    The flight experiment shall enable safe removal of all four sample containers after return to Earth. &
+    Retrieval is required for comparative post-flight analysis. &
+    Ground operations test for removal procedures and accessibility. \\
+
+    FDFA-R6\\FDFA-G2 &
+    The flight experiment shall accommodate 5--10 g per sample, with up to four samples total. &
+    Ensures adequate quantity for planned TBARS post-flight analysis. &
+    Sample mass measurement and carrier compatibility check. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{FDFA Subsystem Requirements}
+    \label{tab:fdfa_requirements}
+\end{table}
+
+\subsection{7. Diels--Alder Self-Healing Exposure (DASH)}
+
+This experiment evaluates whether Diels--Alder polymer samples retain self-healing performance after prolonged exposure to the orbital environment. Goals are to compare post-flight properties with controls (DASH-G1) and isolate thermal versus radiation degradation effects through grouped exposure conditions (DASH-G2) \cite{zhou2020tailorable}.
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    DASH-R1\\DASH-G1, DASH-G2 &
+    The flight experiment shall accommodate nine samples of 30 mm $\times$ 30 mm $\times$ 0.5 mm with total mass less than 9 g. &
+    Mass and volume must remain compatible with carrier budget allocations. &
+    Caliper checks on dimensions and combined mass measurement. \\
+
+    DASH-R2\\DASH-G1, DASH-G2 &
+    The flight experiment shall allow retrieval of all nine samples at mission end for post-flight analysis. &
+    Returned sample analysis is the primary scientific objective. &
+    Confirm retrieval of all nine samples after mission completion. \\
+
+    DASH-R3\\DASH-G2 &
+    Group 1 (thermal cycling) and Group 3 (full exposure) samples shall remain within $-100\,^{\circ}$C to $+100\,^{\circ}$C throughout the mission. &
+    Bounds reflect sample limits required to avoid thermal damage. &
+    Thermal sensing and logged compliance checks for Groups 1 and 3. \\
+
+    DASH-R4\\DASH-G2 &
+    Group 2 (cosmic irradiation) samples shall remain within $0\,^{\circ}$C to $30\,^{\circ}$C. &
+    Group 2 transition-temperature behavior is sensitive outside this range. &
+    Thermal sensing and logged compliance checks for Group 2. \\
+
+    DASH-R5\\DASH-G1, DASH-G2 &
+    The flight experiment shall record temperature and radiation exposure for all groups, with data retrieved post-flight. &
+    Logged exposure is required to correlate observed degradation mechanisms. &
+    Mission-duration temperature/radiation sensing with post-flight data recovery. \\
+
+    DASH-R6\\DASH-G2 &
+    Group 1 (thermal cycling) samples shall be shielded from cosmic radiation for mission duration. &
+    Required to isolate thermal effects from radiation-driven degradation. &
+    Pre-flight shielding material/radiation effectiveness testing. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{DASH Subsystem Requirements}
+    \label{tab:dash_requirements}
+\end{table}
+
+\subsection{8. Event-Based Space Telescope (EBST)}
+
+The EBST subsystem requirements focus on high-rate attitude/rate estimation validation and autonomous long-duration operation under TAMU-SPIRIT constraints. Detailed mission implementation remains gated by external data-sharing restrictions (NDA).
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    EBST-R1\\EBST-G3 &
+    The EBST shall provide time-tagged, 3-axis attitude and angular-rate estimates to track high-rate rotational motion during testing. &
+    Required to verify attitude-estimation algorithm accuracy. &
+    Analyze returned data products against requirement thresholds. \\
+
+    EBST-R2\\EBST-G1, EBST-G2 &
+    The EBST shall simulate sufficiently high angular rates to determine operational limits of the estimation algorithm. &
+    Algorithm limits define valid use cases and mission envelope. &
+    Measure maximum angular rates achievable by the gimbal setup. \\
+
+    EBST-R3\\EBST-G1 &
+    The EBST gimbal shall allow 180$^{\circ}$ rotation on two axes. &
+    Provides higher fidelity of rotational simulation. &
+    Measure maximum rotation angles for each axis. \\
+
+    EBST-R4\\EBST-G3, SYS-4 &
+    The EBST shall limit downlink data to 1 GB per weekday via TAMU-SPIRIT interfaces. &
+    Must comply with ISS/TAMU-SPIRIT data constraints. &
+    Determine output file sizes through simulated operation. \\
+
+    EBST-R5\\EBST-G3, SYS-6 &
+    The EBST shall operate autonomously for a minimum of six months with no crew assistance beyond initial setup and final removal. &
+    External mounting prevents routine manual intervention. &
+    Long-duration autonomous test campaign in representative isolated conditions. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{EBST Subsystem Requirements}
+    \label{tab:ebst_requirements}
+\end{table}
+
+\subsection{9. AM Exposure}
+
+The AM Exposure experiment evaluates whether mechanically interlocked metal-polymer interfaces retain greater structural integrity than adhesive-bonded interfaces after prolonged orbital exposure. Goals include post-flight comparative mechanical assessment (ACTR-G1) and degradation-mechanism identification under radiation, UV, vacuum, and thermal cycling (ACTR-G2).
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    ACTR-SPEC-R1\\C1, E2 &
+    The flight experiment shall include mechanically interlocked specimens and adhesive-bonded control specimens of identical dimensions and materials for comparative analysis. &
+    The central objective is direct interface-type comparison. &
+    Inspect specimen configuration, geometry, and material. \\
+
+    ACTR-SPEC-R2\\C2, C6 &
+    The flight experiment shall ensure all specimens remain securely mounted and structurally intact through launch, on-orbit exposure, and return. &
+    Prevents sample loss and preserves returned data value. &
+    Structural analysis and vibration testing; mounting inspection prior to flight. \\
+
+    ACTR-SPEC-R3\\P2-A, E1 &
+    The flight experiment shall allow retrieval of all specimens after mission completion for post-flight tensile and structural testing. &
+    Returned hardware is required for comparative degradation analysis. &
+    Post-flight retrieval confirmation and inspection. \\
+
+    ACTR-EXP-R1\\C3, PG2 &
+    The flight experiment shall expose all specimens to LEO for 6--12 months. &
+    Required exposure duration to capture orbital environment effects. &
+    Verify mission timeline and integration records. \\
+
+    ACTR-ENV-R1\\C3, E3 &
+    The flight experiment shall record temperature and radiation exposure during the mission. &
+    Exposure data is required to correlate observed material changes. &
+    Sensor functional test and recorded mission data review. \\
+
+    ACTR-DATA-R1\\C4, E4 &
+    The flight experiment shall uniquely identify each specimen to maintain pre-/post-flight traceability. &
+    Traceability is required for valid preflight-flight-postflight comparison. &
+    Inspect labeling scheme and identification records. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{AM Exposure Subsystem Requirements}
+    \label{tab:am_requirements}
+\end{table}
+
+\subsection{10. Phage Biofilms}
+
+The Phage Biofilms experiment evaluates bacteriophage effectiveness at suppressing bacterial biofilm formation in microgravity and preserving post-flight analyzability. Goals include periodic treatment effectiveness assessment (PB-G1), sample preservation for return analysis (PB-G2), and treated/control comparison of biofilm outcomes (PB-G3).
+
+\begin{table}[!htbp]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}YYY@{}}
+    \toprule
+    \textbf{Requirement ID \& Traceability} & \textbf{Requirement} & \textbf{Rationale} & \textbf{Verification Method} \\
+    \midrule
+    PB-R1\\PB-G1, PB-G2 &
+    Incubation chambers shall maintain 37$^{\circ}$C $\pm$ 2$^{\circ}$C during experiment phases, and cold storage shall maintain $-80\,^{\circ}$C for collected samples. &
+    Bacterial growth and sample preservation require strict temperature control. &
+    Chamber temperature logging and post-flight compliance review. \\
+
+    PB-R2\\PB-G1, PB-G3 &
+    The experiment shall include at least three phage-treated bacterial chambers and at least one untreated control chamber. &
+    Multiple treated samples and controls are required for comparison reliability. &
+    Pre-flight inspection of chamber count and treatment allocation. \\
+
+    PB-R3\\PB-G1 &
+    All biological fluid chambers shall have zero external leakage tolerance for the full mission. &
+    Leakage presents contamination and crew/vehicle safety risk. &
+    Pre-flight pressure leak testing and return visual inspection. \\
+
+    PB-R4\\PB-G1, PB-G2 &
+    The experiment shall autonomously execute phage injections and sample collection with no real-time ground commanding unless power is interrupted. &
+    Externally mounted operations require autonomous execution. &
+    Full-sequence ground simulation, including recovery from power interruption. \\
+
+    PB-R5\\PB-G1, PB-G2, PB-G3 &
+    Total experiment mass shall not exceed 10 kg for SC (or 20 kg for PC), and power draw shall not exceed 75 W at any time. &
+    These are hard TAMU-SPIRIT integration limits. &
+    Pre-integration mass measurement and mode-dependent ground power test. \\
+    \bottomrule
+    \end{tabularx}
+    \caption{Phage Biofilms Subsystem Requirements}
+    \label{tab:pb_requirements}
+\end{table}
+
+\clearpage
+\section{Next Steps}
+
+High-level requirements have been identified for all ten flight experiments, defining preliminary scope. The immediate next step is to reduce ambiguity in currently vague or unknown requirements by executing focused subsystem analyses. A first-pass viability sizing identified nine experiments as feasible within projected allocations; MGVS was removed from current flight selection because estimated resource demand would displace multiple otherwise viable experiments.
+
+The next major effort is analysis closure for each retained experiment. The table below captures required analyses and ordered practical actions for converting high-level requirements into bounded, verifiable design envelopes.
+
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{p{2.6cm} p{3.5cm} p{3.3cm} p{6.5cm}}
+\caption{Next steps by flight experiment (HLR focus + required analyses/trades + ordered actions)}
+\label{tab:next_steps_by_experiment}\\
+\toprule
+\textbf{Flight experiment} & \textbf{HLR focus} & \textbf{Required analyses / trades} & \textbf{Practical next steps (ordered)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Flight experiment} & \textbf{HLR focus} & \textbf{Required analyses / trades} & \textbf{Practical next steps (ordered)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+Thermal Dust Sensor Exposure (TDS) &
+Quantify sensor degradation vs control; isolate space-environment effects; define emissivity estimation cadence. &
+EMI analysis. &
+1) EMI pre-check plus grounding/shielding plan.
+2) Thermal/environment model to define orientation constraints and expected parasitic loading (drives operations and interpretation).
+3) Define degradation-metric data product and cadence; confirm calibration/controls plan. \\
+
+Micro-Gravity Vortex Separator (MGVS) &
+(Concept required extensive integrated fluid/thermal/structural support.) &
+EMI; thermal; structural; cooling system; pressure sensor; thermal sensor; contaminant study. \textit{Dropped due to complexity and SWaP limits.} &
+1) Formal closeout: document drop rationale and feasibility blockers (SWaP/complexity).
+2) Archive requirements and create a ``revive checklist'' (conditions to re-enter). \\
+
+Cryogenic Preservation of Mammalian Organs (CPMO) &
+Maintain vitrified state (cryogenic), isochoric containment integrity, autonomous operations, specimen protection and retrieval. &
+EMI; thermal; structural; cooling system; pressure sensor; thermal sensor; contaminant study; radiation sensor; power systems. &
+1) Structural/pressure-vessel analysis plus margins.
+2) Thermal/cooling architecture trade including ``no-power'' survival case.
+3) Sensor suite trade (pressure/temp/rad) plus placement/calibration.
+4) Contamination/hazard containment assessment $\rightarrow$ sealing plus verification plan.
+5) EMI plus power sizing tied to cooling/sensors. \\
+
+Autonomous Classification and Tracking of Plumes (ACT-P) &
+High-fidelity plume-relevant imagery acquisition; ML-ready dataset delivery (metadata + provenance); safe autonomous pointing; weekly operability; (Phase II) safe model update + on-orbit comparison. &
+EMI analysis; thermal analysis; structural analysis. &
+1) Structural analysis of gimbal/optics alignment and launch loads.
+2) Thermal analysis (internal dissipation + external environment) $\rightarrow$ duty-cycle limits and safing.
+3) EMI analysis to protect sensors/compute and ensure compliance.
+4) Follow-on trades: data budget model; evaluation definition; model update cadence; fault catalog. \\
+
+Spaceflight Resilience of Food Fermentation Fungi (SRFFF) &
+Hermetic containment; prevent contamination; characterize exposure; safe post-flight removal; log key environment. &
+EMI analysis; pressure sensor; thermal sensor; contaminant study; radiation sensor; power systems. &
+1) Contamination study $\rightarrow$ sealing and verification tests.
+2) Sensor selection (temp/rad/pressure as needed) plus logging plan.
+3) Power system sizing for sensors/logging.
+4) EMI analysis to ensure sensor/data integrity.
+5) Mechanical retention plus removal procedure test planning. \\
+
+Freeze-Dried Food Analogs (FDFA) &
+Long-duration exposure; contamination-proof sealing; characterize thermal/radiation exposure; protect samples; safe retrieval. &
+EMI analysis; thermal analysis; pressure sensor; thermal sensor; contaminant study; radiation sensor; power system. &
+1) Contamination study $\rightarrow$ sealing/moisture-ingress verification.
+2) Thermal analysis to bound sample temperature exposure.
+3) Sensor trade (temp/rad/pressure) plus logging.
+4) Power and EMI analyses to support reliable logging.
+5) Structural retention and retrieval procedure verification. \\
+
+Diels--Alder Self-Healing Exposure (DASH) &
+Controlled exposure groups; meet group-specific thermal exposure; record radiation/temperature; shielding for controlled groups; retrieve samples. &
+EMI analysis; thermal sensor; contaminant study; radiation sensor; power systems. &
+1) Thermal exposure design trade (placement/insulation/shielding) to meet group bounds.
+2) Radiation shielding effectiveness trade for controlled group separation.
+3) Sensor suite (temp/rad) plus logging plus power sizing.
+4) Contamination study (materials/outgassing/handling as needed).
+5) EMI analysis to protect sensor integrity. \\
+
+Event-Based Space Telescope (EBST) &
+Validate high-rate attitude/rate estimation; define test envelope; long-duration operations; downlink compliance. &
+Sign NDA. &
+1) Execute NDA (gate).
+2) Finalize test envelope (angular rates, ranges, truth/reference needs).
+3) Define verification artifacts (data formats, timing, synchronization).
+4) After hardware definition: run EMI/structural/thermal checks as needed. \\
+
+AM Exposure &
+Comparative specimen configuration; exposure duration; specimen traceability; characterize temperature/radiation; retention and retrieval. &
+EMI analysis; thermal sensors; contaminant study; radiation sensor; power system. &
+1) Contaminant study plus specimen labeling/traceability scheme.
+2) Sensor suite (temp/rad) plus logging plan.
+3) Power sizing for logging/sensors.
+4) EMI analysis for sensor/logging reliability.
+5) Structural retention verification plus retrieval rehearsal. \\
+
+Phage-Biofilm &
+Confirm/derive HLRs (containment, viability/assay integrity, exposure characterization, safe retrieval) and execute enabling analyses. &
+EMI analysis; thermal sensors; contaminant study. &
+1) Draft/confirm HLRs (containment and contamination prevention, exposure characterization, retrieval).
+2) Contaminant study $\rightarrow$ biocontainment and verification tests.
+3) Thermal sensing plan plus power sizing.
+4) EMI analysis to protect sensor/logging.
+5) Define post-flight handling workflow and required verification artifacts. \\
+\end{longtable}
+}
+
+The objective of these analyses is to determine viability of the remaining flight experiments and support a structured downselect to a set of constructable and validatable experiments for AERO 402 execution. Analysis outputs will convert high-level requirements into bounded, verifiable requirements by resolving open technical risks such as thermal margins, EMI compliance, structural loading, and contamination control.
+
+To support consistent decision-making, each experiment will be evaluated against common gates:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Feasibility:} Implementable within expected TAMU-SPIRIT allocations and packaging constraints with no exceptional subsystem accommodation.
+    \item \textbf{Safety/Compliance:} Meets ISS external payload expectations, including containment, contamination control, structural margins, and EMI compatibility.
+    \item \textbf{Thermal/Power:} Maintains components within allowable operating and survival limits without exceeding allocated power.
+    \item \textbf{Operations:} Can be commanded/monitored with available concepts while producing meaningful scientific results.
+    \item \textbf{Verification:} Can be tested/analyzed within AERO 402 schedule and available resources with traceable evidence.
+\end{itemize}
+
+If an experiment fails a gate due to schedule or technical limitations, disposition paths are: (1) drop if safety/compliance or fundamental physical feasibility is not met, (2) handoff to a future AERO 401 cycle if safety/compliance passes but operational maturity is insufficient, or (3) handoff/continuation through AERO 402 for validation closure when operations are viable but verification remains incomplete.
+
+\clearpage
+\section{References}
+\bibliography{system_requirements_report}
+
+\clearpage
+\appendix
+\section{Nomenclature for Additional Goals and Needs}
+
+\subsection*{NASA Needs}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SN-N1:} NASA safety compliance. The system must meet NASA safety and hazard-mitigation requirements.
+    \item \textbf{SN-N2:} Structural and mechanical compatibility. Payloads must safely integrate and survive launch, handling, and ISS operation.
+    \item \textbf{SN-N3:} Environmental compatibility. Hardware must operate safely in ISS thermal, vacuum, and radiation environments.
+    \item \textbf{SN-N4:} Robotic handling and integration. Hardware must support ISS robotic-arm installation and removal.
+\end{itemize}
+
+\subsection*{TAMU-SPIRIT Program Needs}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SN-T1:} Provide external exposure capability. Experiments must be exposed to space environment and collect data.
+    \item \textbf{SN-T2:} Provide power and data services. The system must provide electrical power and communications to payloads.
+\end{itemize}
+
+\subsection*{Aegis Aerospace Needs}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SN-A1:} Integration and operational compatibility. Payloads must integrate with launch vehicle and ISS operational systems.
+\end{itemize}
+
+\subsection*{SpaceX Needs}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SN-SX1:} Launch vehicle compatibility. Payloads must meet cargo vehicle mass, volume, and safety constraints.
+\end{itemize}
+
+\subsection*{Texas A\&M University Needs}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SN-U1:} Institutional risk and compliance. Hardware must not create legal, financial, or operational risk to TAMU.
+\end{itemize}
+
+\subsection*{Principal Investigator Needs}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SN-PI2:} Scientific data collection capability. The system must enable experiments to collect usable research data.
+\end{itemize}
+
+\subsection*{System Goals (SG)}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{SG-1:} Provide ISS external access to TAMU researchers.
+    \item \textbf{SG-2:} Support high-quality scientific research.
+    \item \textbf{SG-3:} Provide power and data to all carriers.
+    \item \textbf{SG-4:} Provide full mission lifecycle support.
+    \item \textbf{SG-5:} Enable long-term research capability.
+\end{itemize}
+
+\subsection*{Program / Phase Goals (PG)}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{PG-1:} Experiment deployment capability.
+    \item \textbf{PG-2:} Long-duration exposure capability.
+    \item \textbf{PG-3:} Experiment return capability.
+\end{itemize}
 
 \end{document}
