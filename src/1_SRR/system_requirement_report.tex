@@ -75,9 +75,9 @@
     \textbf{Team Member} & \textbf{Sections Contributed} & \textbf{Sections Reviewed} & \textbf{Total Words} & \textbf{Total Graphics} \\
     \midrule
     Sophia Cuellar & \S4 & \S2, \S4 & 964 & 0 \\
-    Aiden Kampwerth & \S5, \S4 & \S4 & 618 & 0 \\
-    Noah Matus & \S1 & \S3, \S4 & 1316 & 0 \\
-    Riley McNew & \S2 & \S4 & 564 & 0 \\
+    Aiden Kampwerth & \S5, \S4 & \S4 & 1051 & 0 \\
+    Noah Matus & \S1, \S4 & \S3, \S4 & 1316 & 0 \\
+    Riley McNew & \S4 & \S4 & 564 & 0 \\
     Steven Minniear & \S2, \S4 & \S4-5 & 1340 & 2 \\
     Vin Manoj Nair & \S2, \S4 & \S4, \S6 & 899 & 1 \\
     Param Patel & \S1, \S4 & \S4, \S6 & 893 & 0 \\
@@ -345,7 +345,15 @@ This section defines subsystem-level requirements for each candidate flight expe
 
 \subsection{1. Thermal Dust Sensor Exposure (TDS)}
 
-The Thermal Dust Sensor Exposure experiment (TDS) is an active flight experiment that passed initial downselection. The mission is to modify a pre-designed thermal dust sensor for TAMU-SPIRIT compatibility and quantify sensor degradation under long-duration space exposure. Primary goals are to estimate emissivity evolution in orbit (TDS-G1) and compare on-orbit behavior against control datasets to quantify radiative degradation (TDS-G2) \cite{kurwitz-lsep-2026}.
+The Thermal Dust Sensor Exposure experiment (TDS) is an active flight experiment that has passed initial downselection. The experiment involves direct exposure of a thermal sensor, initially designed to sense a layer of dust on a lunar or Martian surface, to understand thermal sensor behavior when exposed to solar radiation and the deep-space environment. The project team's mission is to modify the existing sensor apparatus to measure degradation due to long-term radiation. The primary stakeholder and PI, Dr. Richard Kurwitz, will provide the pre-designed sensor for the system team to make compatible with Aegis experiment carriers \cite{kurwitz-lsep-2026}.
+
+The goals for this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Measure thermal values used to estimate changes in on-orbit device emissivity as a baseline condition of the sensor (TDS-G1).
+    \item Compare the device against the control dataset to quantify radiative degradation due to the orbital environment (TDS-G2).
+\end{enumerate}
+
+The requirements for this experiment are shown in Table~\ref{tab:tds_requirements} and were developed with the assistance of a research proposal document for the lunar dust sensor.
 
 \begin{table}[H]
     \centering
@@ -390,7 +398,15 @@ The Thermal Dust Sensor Exposure experiment (TDS) is an active flight experiment
 \clearpage
 \subsection{2. Micro-Gravity Vortex Separator (MGVS)}
 
-The Micro-Gravity Vortex Separator (MGVS) concept aims to demonstrate gravity-independent Rankine-cycle-enabling behavior through vortex phase separation. Goals include fabricating and characterizing key condenser/boiler components (MGVS-G1) and refining experimentally derived models with flight-linked evidence (MGVS-G2). This concept was later dropped for this cycle due to complexity and resource burden, but requirements are preserved for traceability.
+The Micro-Gravity Vortex Separator experiment (MGVS) is part of a cutting-edge research operation that aims to form a gravity-independent Rankine cycle using vortex phase separators. These phase separators allow stable nucleate boiling and efficient direct-contact condensation in microgravity, unlike buoyancy-driven separation. Breakthroughs in this field could enable a high-efficiency, lightweight power source for long-term deep-space missions. The PI, Dr. Richard Kurwitz, and his research group will work with the system team to support development of this experiment as a starting point for further research.
+
+The goals of this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Fabricate and characterize key components of a vortex boiler/condenser such that a Rankine cycle can be performed in microgravity (MGVS-G1).
+    \item Reinforce experimentally derived models with ground-test data and validate vortex-system performance (MGVS-G2).
+\end{enumerate}
+
+The requirements shown in Table~\ref{tab:mgvs_requirements} were formulated with the help of Dr. Kurwitz and the specific aims selected for the timeline of this research project.
 
 \begin{table}[H]
     \centering
@@ -435,7 +451,15 @@ The Micro-Gravity Vortex Separator (MGVS) concept aims to demonstrate gravity-in
 \clearpage
 \subsection{3. Cryogenic Preservation of Mammalian Organs (CPMO)}
 
-The objective of this experiment is to design a space-compliant cryogenic system that preserves vitrified mammalian organs for at least six months before return for transplantation studies. Key goals are to maintain structural and isochoric containment autonomy under TAMU-SPIRIT constraints (CPMO-G1) and preserve specimen vitrification and separation throughout mission operations (CPMO-G2).
+The objective of this experiment is to design a space-compliant cryogenic system to preserve vitrified mammalian organs for at least six months before return to Earth for transplantation into recipient specimens.
+
+There are two primary goals for this flight experiment:
+\begin{enumerate}[leftmargin=*]
+    \item Ensure that experiment chambers are structurally resilient to pressure and loads throughout mission stages and maintain a leak-proof internal isochoric environment autonomously under TAMU-SPIRIT resource constraints (CPMO-G1).
+    \item Maintain physical containment of all specimens and ensure each kidney remains vitrified for the full on-orbit mission (CPMO-G2).
+\end{enumerate}
+
+The requirements shown in Table~\ref{tab:cpmo_requirements} include information collected in collaboration with the current AERO 402 group responsible for this experiment.
 
 \begin{table}[H]
     \centering
@@ -485,7 +509,15 @@ The objective of this experiment is to design a space-compliant cryogenic system
 \clearpage
 \subsection{4. Autonomous Classification and Tracking of Plumes (ACT-P)}
 
-ACT-P targets autonomous acquisition of high spatiotemporal fidelity plume-relevant imagery to improve machine-learning datasets and plume detection performance. Goals include producing ML-ready on-orbit datasets (ACTP-G1) and enabling controlled on-orbit model update and comparison workflows (ACTP-G2) \cite{selva-actp}.
+Autonomous Classification and Tracking of Plumes (ACT-P) maintains the scientific objective of acquiring high spatiotemporal fidelity imagery of atmospheric plume events via active sensing to improve training sets for detection of rare plume events on the lunar surface. ACT-P has flown several balloon-based high-altitude imaging systems to image Earth's surface with mixed results. The ACT-P team under Dr. Daniel Selva's System Engineering, Autonomy, and Knowledge (SEAK) lab maintains that a space-based system aboard TAMU-SPIRIT would improve plume-event detection likelihood and overall operational lifespan \cite{selva-actp}.
+
+The primary goals of this flight experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Acquire high spatiotemporal fidelity plume-relevant imagery on orbit using autonomous gimbaled acquisition and deliver a machine-learning-ready dataset to ground teams for improving current-generation detection models (ACTP-G1).
+    \item Enable a safe update-and-test loop where a ground-trained updated model can be deployed and compared against the baseline model on orbit under controlled conditions, producing quantitative performance evidence (ACTP-G2).
+\end{enumerate}
+
+The requirements for this experiment are shown in Table~\ref{tab:actp_requirements}.
 
 \begin{table}[H]
     \centering
@@ -535,7 +567,16 @@ ACT-P targets autonomous acquisition of high spatiotemporal fidelity plume-relev
 \clearpage
 \subsection{5. Spaceflight Resilience of Food Fermentation Fungi (SRFFF)}
 
-This experiment evaluates the viability of food-relevant fungal spores after spaceflight exposure, including comparative analysis against ground controls and downstream fermentation-performance assessment. Goals are defined as SRFFF-G1 through SRFFF-G3 \cite{thilakarathna-srfff}.
+The scientific objective of this flight experiment is to evaluate the viability of food-relevant fungal spores following exposure to a spaceflight environment. Spores of A.\ oryzae, R.\ oryzae, R.\ microsporus, and N.\ intermedia will be produced under standardized laboratory conditions, harvested, desiccated to a specified moisture content, and sealed in their respective containers.
+
+The high-level goals of this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Assess viability of all four spore samples following a six-month exposure flight (SRFFF-G1).
+    \item Compare viability, germination rate, and growth kinetics of space-exposed spores with Earth-based ground controls (SRFFF-G2).
+    \item Assess effects of space exposure on fermentation performance, metabolite production capacity, and safety of recovered fungal strains (SRFFF-G3).
+\end{enumerate}
+
+The hypothesized outcome is that the spores remain viable while exhibiting subtle molecular and metabolic adaptations to microgravity and space radiation. Dr.\ Reza Ovissipour and his research team will advise this flight experiment \cite{thilakarathna-srfff}. The requirements in Table~\ref{tab:srfff_requirements} were developed to achieve these goals.
 
 \begin{table}[H]
     \centering
@@ -580,7 +621,16 @@ This experiment evaluates the viability of food-relevant fungal spores after spa
 \clearpage
 \subsection{6. Freeze-Dried Food Analogs (FDFA)}
 
-This experiment evaluates freeze-dried food analog resilience in spaceflight using post-flight assay methods and environmental correlation measurements. Goals include comparison against controls (FDFA-G1), TBARS assay support (FDFA-G2), and radiation-driven structural/nutritional impact characterization (FDFA-G3) \cite{thilakarathna-srfff}.
+The scientific objective of this flight experiment is to assess suitability of meat alternatives for space missions by measuring lipid oxidation as a proxy for product quality. The intent is to expose up to four freeze-dried food samples, ranging from cultivated meat to plant-based meat alternatives, to a spaceflight environment.
+
+The high-level goals of this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Compare viability of space-exposed freeze-dried food samples with Earth-based ground controls (FDFA-G1).
+    \item Perform Thiobarbituric Acid Reactive Substances (TBARS) assays for post-flight analysis (FDFA-G2).
+    \item Quantify effects of long-duration radiation exposure on structural and nutritional integrity of freeze-dried food samples (FDFA-G3).
+\end{enumerate}
+
+Dr.\ Reza Ovissipour and his research team will advise this flight experiment \cite{thilakarathna-srfff}. The requirements shown in Table~\ref{tab:fdfa_requirements} were developed to achieve these goals.
 
 \begin{table}[H]
     \centering
@@ -630,7 +680,15 @@ This experiment evaluates freeze-dried food analog resilience in spaceflight usi
 \clearpage
 \subsection{7. Diels--Alder Self-Healing Exposure (DASH)}
 
-This experiment evaluates whether Diels--Alder polymer samples retain self-healing performance after prolonged exposure to the orbital environment. Goals are to compare post-flight properties with controls (DASH-G1) and isolate thermal versus radiation degradation effects through grouped exposure conditions (DASH-G2) \cite{zhou2020tailorable}.
+The scientific objective of this flight experiment is to determine whether Diels--Alder self-healing polymers, materials capable of autonomously repairing cracks at the molecular level by reforming broken chemical bonds, retain that healing ability after prolonged exposure to the space environment.
+
+The goals of this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Assess self-healing capability of Diels--Alder polymer samples after space exposure by comparing tensile strength and material properties of flight samples against ground controls with no space exposure (DASH-G1).
+    \item Determine how thermal cycling and cosmic irradiation individually and collectively affect sample degradation and self-healing performance by separating samples into three groups with different environmental conditions (DASH-G2).
+\end{enumerate}
+
+Together, these goals determine whether Diels--Alder polymer is viable for space applications \cite{zhou2020tailorable}. The requirements established to achieve these goals are shown in Table~\ref{tab:dash_requirements}.
 
 \begin{table}[H]
     \centering
@@ -680,7 +738,16 @@ This experiment evaluates whether Diels--Alder polymer samples retain self-heali
 \clearpage
 \subsection{8. Event-Based Space Telescope (EBST)}
 
-The EBST subsystem requirements focus on high-rate attitude/rate estimation validation and autonomous long-duration operation under TAMU-SPIRIT constraints. Detailed mission implementation remains gated by external data-sharing restrictions (NDA).
+The objective of the Event-Based Space Telescope experiment is to validate a high angular-rate event-based star tracker and assess attitude estimation performance under simulated tumbling and stationary conditions. This is particularly useful for ``lost in space'' scenarios in which a satellite cannot compute its own attitude to correct errant motion. EBST seeks to address this issue using a specialized event-based camera and proprietary estimation algorithm that significantly extends attitude estimation capability into higher angular rates.
+
+To achieve this objective, three high-level goals are defined:
+\begin{enumerate}[leftmargin=*]
+    \item Simulate ``lost in space'' conditions by exposing EBST to high angular rates in LEO (EBST-G1).
+    \item Perform onboard attitude estimation using data collected by EBST with the proprietary algorithm (EBST-G2).
+    \item Downlink all data required to quantitatively assess effectiveness of EBST and the attitude-estimation algorithm (EBST-G3).
+\end{enumerate}
+
+The requirements needed to achieve these goals are shown in Table~\ref{tab:ebst_requirements}.
 
 \begin{table}[H]
     \centering
@@ -725,7 +792,15 @@ The EBST subsystem requirements focus on high-rate attitude/rate estimation vali
 \clearpage
 \subsection{9. AM Exposure}
 
-The AM Exposure experiment evaluates whether mechanically interlocked metal-polymer interfaces retain greater structural integrity than adhesive-bonded interfaces after prolonged orbital exposure. Goals include post-flight comparative mechanical assessment (ACTR-G1) and degradation-mechanism identification under radiation, UV, vacuum, and thermal cycling (ACTR-G2).
+The scientific objective of this flight experiment is to determine whether mechanically interlocked metal--polymer interfaces retain greater structural integrity than adhesive-bonded interfaces after prolonged exposure to the space environment. Mechanical interlocks provide load transfer through geometric engagement rather than chemical adhesion, which is more susceptible to degradation from radiation, ultraviolet exposure, vacuum, and thermal cycling.
+
+The goals of this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Evaluate post-flight mechanical performance of mechanically interlocked specimens by comparing tensile strength and material properties against adhesive-bonded controls and ground references not exposed to space (ACTR-G1).
+    \item Quantify effects of the orbital environment on both interface types and identify dominant degradation mechanisms affecting long-term structural reliability (ACTR-G2).
+\end{enumerate}
+
+These objectives will be achieved by integrating specimens into the TAMU-SPIRIT external carrier for ISS exposure and retrieving them for post-flight testing and analysis. The subsystem requirements for these objectives are shown in Table~\ref{tab:am_requirements}.
 
 \begin{table}[H]
     \centering
@@ -775,7 +850,16 @@ The AM Exposure experiment evaluates whether mechanically interlocked metal-poly
 \clearpage
 \subsection{10. Phage Biofilms}
 
-The Phage Biofilms experiment evaluates bacteriophage effectiveness at suppressing bacterial biofilm formation in microgravity and preserving post-flight analyzability. Goals include periodic treatment effectiveness assessment (PB-G1), sample preservation for return analysis (PB-G2), and treated/control comparison of biofilm outcomes (PB-G3).
+The main goal of the Phage Biofilms experiment is to determine whether bacteriophages can successfully kill bacteria and prevent biofilm formation in space microgravity. The primary objective is to show that bacteriophages can infect and suppress bacterial biofilm formation in closed fluid channels in the absence of gravity.
+
+The goals of this experiment are:
+\begin{enumerate}[leftmargin=*]
+    \item Conduct four controlled release injections during the mission to assess bacteriophage treatment performance at periodic intervals (PB-G1).
+    \item Maintain all samples at $-80\,^{\circ}$C from collection through return to Earth for further laboratory analysis (PB-G2).
+    \item Determine extent of biofilm formation in phage-treated chambers versus untreated control chambers using colony counts and biofilm imaging (PB-G3).
+\end{enumerate}
+
+These objectives determine whether bacteriophage-based biofilm control in space can help protect astronaut health and maintain ISS equipment. The requirements are shown in Table~\ref{tab:pb_requirements}.
 
 \begin{table}[H]
     \centering
