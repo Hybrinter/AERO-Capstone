@@ -140,8 +140,6 @@ TAMU-SPIRIT allows a maximum of twelve payload carriers at a time, with each car
 
 Currently, the team is collaborating with ten candidate flight experiments. Each is sponsored by one of the project's Principal Investigators (PI), whose research goals define the scientific and technical specifications of the payload. Current experiments include Rat Kidney Cryopreservation, Stem Cell Cryopreservation, Phage Biofilm, Self-Healing Polymer Exposure, Additive Manufacturing Exposure, Heat Sensor Exposure, Fungal Spore Exposure, Freeze-Dried Food Analog, Plume Detection, and Star Tracker Gimbal. The TAMU-SPIRIT mission's primary objective is to provide an operational space to validate PI research claims by conducting experiments that are not possible to execute on Earth. These studies span biological behavior in microgravity, long-duration materials degradation in space, and reliability of autonomous sensing systems.
 
-Following the System Concept Review, the team focused on defining requirements for individual flight experiments and formulating preliminary solutions to principal engineering problems common across the candidate portfolio. For example, to maintain specified temperatures, the team is considering resistive heaters and cooling devices for active carrier temperature control. For storage and protection of biological samples from radiation effects, the team is evaluating radiation-tolerant materials as passive shielding. To prevent biological contamination risk to the ISS environment, the team is considering closed, vacuum-sealed containment for biological experiments. These concepts will be expanded during the detailed design phase and matured further during the PDR cycle.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{conops_new.png}
@@ -149,12 +147,24 @@ Following the System Concept Review, the team focused on defining requirements f
     \label{fig:conops_new}
 \end{figure}
 
+Following the System Concept Review, the team focused on defining the requirements for the individual flight experiments and started formulating some preliminary solutions to the principal engineering problems common to the candidate portfolio. For example, in order to maintain a specified temperature, the team is considering the use of resistive heaters and cooling devices that will allow for active temperature control of the carriers. In terms of the design for the storage and protection of biological samples from the effects of radiation, the team is evaluating the use of radiation-tolerant materials as a form of passive shielding. To ensure there is no risk of biological contamination to the environment of the ISS, the team is considering the use of closed, tight vacuum-sealed containers for all experiments that will involve biological materials. These concepts will be expanded during the upcoming detailed design phase, which will go into more depth in the PDR.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{System_Decomp_Flowchart.drawio_1.png}
     \caption{System Decomposition Flowchart}
     \label{fig:system_decomp_flowchart}
 \end{figure}
+
+As a systems engineering mission, one of the most important aspects of developing technical solutions for this project is the system architecture that is followed for the total system, and the lower level sub-systems. The architecture of the system is the means by which a conceptual solution becomes a technical design. While the development of a system architecture is typically something that comes naturally, it's important to recognize what architecture is being used, why it's used, and how it is applied to sections of the systems.
+
+The architecture that this project team uses is a synthesis-based architecture. By referencing previously designed architectures that were used by previous TAMU-SPIRIT teams, PI research groups, and the individual knowledge of the members, our team is able to modify what works and what does not for each subsystem with high resolution trade studies, creating an entirely new architecture supported by historical data. This, along with applying collective discussion, develops a bridge between the concepts and future design plans. This method works well since our primary mission has highly diverse subsystems, each with the potential to be its own high-level mission. So by referencing previously used architectures, and dissecting the primary elements from each one, the mission can be produced at a faster rate without sacrificing detail or refinement.
+
+For each subsystem, a source of information was identified for each PI, identifying the needs, scope, and limitations of the desired experiment. Whether that be a PI research proposal, a previous TAMU-SPIRIT document, or a meeting with graduate students, this source is the keystone to the architecture. Research is then done on the results from previous tangible accomplishments in the field of interest, which is typically also provided by the PI or graduate student, but can also come from external and independent studies. Finally, the technical research is combined with the initial experiment goals, and creates an outline of general achievable objectives. By implementing high-level trade studies for the objective, a detailed bridge between conceptual goals and technical solutions can be established.
+
+This process is iterated throughout all of the subsystems that were selected, and a system architecture is established. For the overall system, a web of interconnected architectures exists, where each can be independently developed, but each subsystem benefits from the advancement of another. This is exemplified when there are overlapping characteristics between subsystems, and the architecture web allows for a reduction of complexity by solving two issues simultaneously.
+
+When the subsystem and full system architecture are developed, the mission operations are the next priority. One way to help break down a complex mission is through diagrams and visuals. Below is a visual of the Functional Flow Block Diagram for this mission, which helps define system relations and examine lower-level processes. Another is the System Decomposition Diagram, which breaks down the components of the mission as a whole, which helps define boundaries of what systems belong where, and simplifies the form-function relationship.
 
 \begin{figure}[H]
     \centering
@@ -354,12 +364,12 @@ The Thermal Dust Sensor Exposure experiment (TDS) is an active flight experiment
     Isolation of environmental effects improves validity of observed degradation trends. &
     Orientation trade tests and parasitic-radiation sensitivity analysis. \\
 
-    TDS-R3\\TBD &
+    TDS-R3\\SYS-4 &
     The experiment shall return data within a 1 GB daily maximum downlink. &
     Data products must remain within allocated communication limits. &
     End-to-end test of required data bandwidth and generated file sizes. \\
 
-    TDS-R4\\TBD &
+    TDS-R4\\ PC-SYS-2 &
     The experiment shall consume no more than 60 W when operational and 30 W when non-operational. &
     The payload must remain within allocated carrier power limits. &
     Power budgeting and ground verification of operational modes. \\
@@ -815,7 +825,7 @@ The next major effort is analysis closure for each retained experiment. The tabl
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.25}
 \begin{longtable}{p{2.6cm} p{3.5cm} p{3.3cm} p{6.5cm}}
-\caption{Next steps by flight experiment (HLR focus + required analyses/trades + ordered actions)}
+\caption{Next steps by flight experiment}
 \label{tab:next_steps_by_experiment}\\
 \toprule
 \textbf{Flight experiment} & \textbf{HLR focus} & \textbf{Required analyses / trades} & \textbf{Practical next steps (ordered)} \\
@@ -829,87 +839,87 @@ The next major effort is analysis closure for each retained experiment. The tabl
 \endfoot
 
 Thermal Dust Sensor Exposure (TDS) &
-Quantify sensor degradation vs control; isolate space-environment effects; define emissivity estimation cadence. &
+Measure sensor degradation against controls under external exposure and define emissivity estimation cadence. &
 EMI analysis. &
-1) EMI pre-check plus grounding/shielding plan.
-2) Thermal/environment model to define orientation constraints and expected parasitic loading (drives operations and interpretation).
-3) Define degradation-metric data product and cadence; confirm calibration/controls plan. \\
+1) Complete EMI check and shielding plan.
+2) Run thermal/environment model to set orientation limits.
+3) Finalize degradation metric, calibration, and sampling cadence. \\
 
 Micro-Gravity Vortex Separator (MGVS) &
-(Concept required extensive integrated fluid/thermal/structural support.) &
+Integrated fluid thermal and structural concept exceeded feasible SWaP and complexity limits. &
 EMI; thermal; structural; cooling system; pressure sensor; thermal sensor; contaminant study. \textit{Dropped due to complexity and SWaP limits.} &
-1) Formal closeout: document drop rationale and feasibility blockers (SWaP/complexity).
-2) Archive requirements and create a ``revive checklist'' (conditions to re-enter). \\
+1) Record drop rationale and key blockers.
+2) Archive requirements with a revive checklist. \\
 
 Cryogenic Preservation of Mammalian Organs (CPMO) &
-Maintain vitrified state (cryogenic), isochoric containment integrity, autonomous operations, specimen protection and retrieval. &
+Maintain cryogenic vitrification and isochoric containment with autonomous monitoring and safe retrieval. &
 EMI; thermal; structural; cooling system; pressure sensor; thermal sensor; contaminant study; radiation sensor; power systems. &
-1) Structural/pressure-vessel analysis plus margins.
-2) Thermal/cooling architecture trade including ``no-power'' survival case.
-3) Sensor suite trade (pressure/temp/rad) plus placement/calibration.
-4) Contamination/hazard containment assessment $\rightarrow$ sealing plus verification plan.
-5) EMI plus power sizing tied to cooling/sensors. \\
+1) Close structural and pressure-vessel margins.
+2) Trade cooling architecture including ``no-power'' survival.
+3) Select pressure, temperature, and radiation sensors.
+4) Define contamination containment verification.
+5) Size EMI and power budgets. \\
 
 Autonomous Classification and Tracking of Plumes (ACT-P) &
-High-fidelity plume-relevant imagery acquisition; ML-ready dataset delivery (metadata + provenance); safe autonomous pointing; weekly operability; (Phase II) safe model update + on-orbit comparison. &
+Acquire plume imagery for ML datasets with autonomous pointing and repeatable weekly operations plus safe Phase II updates. &
 EMI analysis; thermal analysis; structural analysis. &
-1) Structural analysis of gimbal/optics alignment and launch loads.
-2) Thermal analysis (internal dissipation + external environment) $\rightarrow$ duty-cycle limits and safing.
-3) EMI analysis to protect sensors/compute and ensure compliance.
-4) Follow-on trades: data budget model; evaluation definition; model update cadence; fault catalog. \\
+1) Verify gimbal and optics structural margins.
+2) Bound thermal duty cycle and safing limits.
+3) Complete EMI compliance for sensors and compute.
+4) Close data budget, evaluation method, and update cadence. \\
 
 Spaceflight Resilience of Food Fermentation Fungi (SRFFF) &
-Hermetic containment; prevent contamination; characterize exposure; safe post-flight removal; log key environment. &
+Provide hermetic biocontainment with environmental characterization and safe post-flight retrieval. &
 EMI analysis; pressure sensor; thermal sensor; contaminant study; radiation sensor; power systems. &
-1) Contamination study $\rightarrow$ sealing and verification tests.
-2) Sensor selection (temp/rad/pressure as needed) plus logging plan.
-3) Power system sizing for sensors/logging.
-4) EMI analysis to ensure sensor/data integrity.
-5) Mechanical retention plus removal procedure test planning. \\
+1) Complete contamination and seal verification.
+2) Select sensors and logging cadence.
+3) Size power for sensing and data logging.
+4) Close EMI for data integrity.
+5) Verify mechanical retention and removal process. \\
 
 Freeze-Dried Food Analogs (FDFA) &
-Long-duration exposure; contamination-proof sealing; characterize thermal/radiation exposure; protect samples; safe retrieval. &
+Preserve samples during long exposure with sealed containment environmental characterization and safe retrieval. &
 EMI analysis; thermal analysis; pressure sensor; thermal sensor; contaminant study; radiation sensor; power system. &
-1) Contamination study $\rightarrow$ sealing/moisture-ingress verification.
-2) Thermal analysis to bound sample temperature exposure.
-3) Sensor trade (temp/rad/pressure) plus logging.
-4) Power and EMI analyses to support reliable logging.
-5) Structural retention and retrieval procedure verification. \\
+1) Verify sealing and moisture-ingress limits.
+2) Bound sample thermal exposure.
+3) Select sensors and logging cadence.
+4) Size power and close EMI.
+5) Verify retention and retrieval procedure. \\
 
 Diels--Alder Self-Healing Exposure (DASH) &
-Controlled exposure groups; meet group-specific thermal exposure; record radiation/temperature; shielding for controlled groups; retrieve samples. &
+Maintain group-specific thermal and radiation exposure conditions with controlled sample retrieval. &
 EMI analysis; thermal sensor; contaminant study; radiation sensor; power systems. &
-1) Thermal exposure design trade (placement/insulation/shielding) to meet group bounds.
-2) Radiation shielding effectiveness trade for controlled group separation.
-3) Sensor suite (temp/rad) plus logging plus power sizing.
-4) Contamination study (materials/outgassing/handling as needed).
-5) EMI analysis to protect sensor integrity. \\
+1) Finalize thermal grouping and shielding layout.
+2) Quantify radiation shielding separation.
+3) Select sensors and size logging power.
+4) Close contamination and handling controls.
+5) Complete EMI check for sensor integrity. \\
 
 Event-Based Space Telescope (EBST) &
-Validate high-rate attitude/rate estimation; define test envelope; long-duration operations; downlink compliance. &
+Validate high-rate attitude estimation within an agreed test envelope and downlink constraints. &
 Sign NDA. &
 1) Execute NDA (gate).
-2) Finalize test envelope (angular rates, ranges, truth/reference needs).
-3) Define verification artifacts (data formats, timing, synchronization).
-4) After hardware definition: run EMI/structural/thermal checks as needed. \\
+2) Finalize angular-rate test envelope and truth reference.
+3) Define required verification data products.
+4) Run EMI, structural, and thermal checks after hardware freeze. \\
 
 AM Exposure &
-Comparative specimen configuration; exposure duration; specimen traceability; characterize temperature/radiation; retention and retrieval. &
+Maintain specimen traceability during comparative exposure with temperature and radiation characterization and safe retrieval. &
 EMI analysis; thermal sensors; contaminant study; radiation sensor; power system. &
-1) Contaminant study plus specimen labeling/traceability scheme.
-2) Sensor suite (temp/rad) plus logging plan.
-3) Power sizing for logging/sensors.
-4) EMI analysis for sensor/logging reliability.
-5) Structural retention verification plus retrieval rehearsal. \\
+1) Finalize contamination controls and labeling.
+2) Select temperature and radiation sensing with logging.
+3) Size power for sensing and logging.
+4) Complete EMI assessment.
+5) Verify retention and retrieval rehearsal. \\
 
 Phage-Biofilm &
-Confirm/derive HLRs (containment, viability/assay integrity, exposure characterization, safe retrieval) and execute enabling analyses. &
+Define containment and assay integrity requirements with exposure characterization and safe retrieval. &
 EMI analysis; thermal sensors; contaminant study. &
-1) Draft/confirm HLRs (containment and contamination prevention, exposure characterization, retrieval).
-2) Contaminant study $\rightarrow$ biocontainment and verification tests.
-3) Thermal sensing plan plus power sizing.
-4) EMI analysis to protect sensor/logging.
-5) Define post-flight handling workflow and required verification artifacts. \\
+1) Baseline HLRs for containment and retrieval.
+2) Close biocontainment verification testing.
+3) Define thermal sensing and power budget.
+4) Complete EMI check for logging integrity.
+5) Define post-flight handling and evidence package. \\
 \end{longtable}
 }
 
@@ -985,5 +995,4 @@ If an experiment fails a gate due to schedule or technical limitations, disposit
 \end{itemize}
 
 \end{document}
-
 
