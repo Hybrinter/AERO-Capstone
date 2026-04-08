@@ -1,0 +1,185 @@
+TEXT MAPPING: original_text.txt -> individual_assignment.tex
+=============================================================
+Each entry shows: LOCATION | ORIGINAL (docx) | CHANGED TO (tex) | STATUS
+
+------------------------------------------------------------------------------
+LOCATION: Section I Introduction, paragraph 2
+------------------------------------------------------------------------------
+ORIGINAL:
+  Introduces Reinforcement Learning (RL) as championed by Google DeepMind's
+  AlphaGo, which mimics rewards-based mechanisms in the human brain. Explains
+  the actor-critic framework where the actor takes actions maximizing a value
+  function controlled by the critic, which learns from actor's actions to
+  update the value function.
+
+CHANGED TO:
+  Reinforcement Learning (RL) as championed by Google DeepMind's AlphaGo
+  [cite] mimics rewards-based mechanisms in the human brain. The actor-critic
+  framework has the actor take actions maximizing a value function controlled
+  by the critic, which learns from actor's actions to update the value
+  function [cite].
+
+STATUS: WORDS CHANGED -- "Introduces" removed, "Explains the" removed,
+        "which" removed, "has the actor take" substituted for "where the
+        actor takes". NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section II.A Graph Representation, paragraph 1
+------------------------------------------------------------------------------
+ORIGINAL:
+  The document explains reframing AEOSSP as a causally directed graph network
+  with a time dimension and three spatial (rotation angle) dimensions. Graph
+  networks are sets of nodes (features of interest) connected via edges
+  (relationships between features). In AEOSSP, nodes represent observation
+  tasks and edges represent time and energy constraints between each task.
+
+CHANGED TO:
+  Reframing AEOSSP as a causally directed graph network with a time dimension
+  and three spatial (rotation angle) dimensions provides a tractable
+  formulation for machine learning approaches [cite]. Graph networks are sets
+  of nodes (features of interest) connected via edges (relationships between
+  features). In AEOSSP, nodes represent observation tasks and edges represent
+  time and energy constraints between each task [cite].
+
+STATUS: WORDS CHANGED -- "The document explains" removed, "provides a
+        tractable formulation for machine learning approaches" added.
+        NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section II.A Graph Representation, paragraph 2
+------------------------------------------------------------------------------
+ORIGINAL:
+  Discusses why understanding future rewards through selecting certain paths
+  earlier is valuable - most optimal total rewards may not be guaranteed if
+  maximal next reward is the only criteria (greedy algorithms). Introduces
+  formulation as a graph problem suitable for machine learning models.
+  Addresses challenges of data distribution representability and reward
+  modeling given the combinatorially large state space.
+
+CHANGED TO:
+  Understanding future rewards through selecting certain paths earlier is
+  valuable --- most optimal total rewards may not be guaranteed if maximal
+  next reward is the only criteria (greedy algorithms). Formulation as a
+  graph problem suitable for machine learning models addresses challenges of
+  data distribution representability and reward modeling given the
+  combinatorially large state space.
+
+STATUS: WORDS CHANGED -- "Discusses why" removed, "Introduces" removed,
+        "Addresses" removed, sentences restructured. NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section II.B Problem Constraints, intro line
+------------------------------------------------------------------------------
+ORIGINAL:
+  Lists five AEOSSP constraints the model must satisfy:
+
+CHANGED TO:
+  Five AEOSSP constraints the model must satisfy:
+
+STATUS: WORDS CHANGED -- "Lists" removed. NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section III.A Graph Decision Neural Networks, paragraph 1
+------------------------------------------------------------------------------
+ORIGINAL:
+  Details the Graph Decision Neural Network (GDNN) RL agent architecture
+  proposed by Chun, et al., 2023. GDNNs are minor modifications to classical
+  Graph Neural Networks. Explains GNN basic principles of sharing node
+  information across connected edges to contextualize graph information,
+  similar to CNNs but on irregular grids. Information spreads in "message
+  passing" rounds where nodes aggregate information from neighbors.
+
+CHANGED TO:
+  The Graph Decision Neural Network (GDNN) RL agent architecture proposed by
+  Chun, et al. [cite] are minor modifications to classical Graph Neural
+  Networks. GNN basic principles of sharing node information across connected
+  edges contextualize graph information, similar to CNNs but on irregular
+  grids. Information spreads in "message passing" rounds where nodes
+  aggregate information from neighbors.
+
+STATUS: WORDS CHANGED -- "Details the" removed, "Explains GNN basic
+        principles of sharing node information across connected edges to
+        contextualize" changed to "GNN basic principles of sharing node
+        information across connected edges contextualize". NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section III.B PPO Framework, paragraph 1 (PPO sentence)
+------------------------------------------------------------------------------
+ORIGINAL:
+  The literature uses Proximal Policy Optimization (PPO) objective to train
+  both networks in tandem.
+
+CHANGED TO:
+  The Proximal Policy Optimization (PPO) [cite] objective trains both
+  networks in tandem.
+
+STATUS: WORDS CHANGED -- "The literature uses" removed, "to train" changed
+        to "trains". NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section III.B PPO Framework, paragraph 2 (opening)
+------------------------------------------------------------------------------
+ORIGINAL:
+  High-level overview: Actor GDNN encodes task list into graph representation
+  passed through model to make decision on next task.
+
+CHANGED TO:
+  At a high level, the Actor GDNN encodes task list into graph representation
+  passed through model to make decision on next task.
+
+STATUS: WORDS CHANGED -- "High-level overview:" replaced with "At a high
+        level, the". NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section IV.B State-of-the-Art Comparison, paragraph 1
+------------------------------------------------------------------------------
+ORIGINAL:
+  Comparison against more accurate methods: GRILS, Self-adaptation
+  Differential Evolution (SDE), and Self-adaptation Genetic Algorithm (SGA).
+  GDNN-PPO falls behind GRILS in Average Scheduling Profit metric but GRILS
+  scales poorly with task scale. When filtering for scalable models,
+  GDNN-PPO significantly out-performs SGA, satisfying original objective
+  criteria.
+
+CHANGED TO:
+  Comparison against more accurate methods --- Greedy Randomized Iterated
+  Local Search (GRILS), Self-adaptation Differential Evolution (SDE), and
+  Self-adaptation Genetic Algorithm (SGA) [cite] --- demonstrates the
+  scalability advantage of the graph RL approach. GDNN-PPO falls behind
+  GRILS in Average Scheduling Profit metric but GRILS scales poorly with
+  task scale. When filtering for scalable models, GDNN-PPO significantly
+  out-performs SGA, satisfying original objective criteria.
+
+STATUS: WORDS CHANGED -- ":" replaced with em-dash, "GRILS" expanded to
+        full name mid-sentence, "demonstrates the scalability advantage of
+        the graph RL approach" added. NEEDS REVERT.
+
+------------------------------------------------------------------------------
+LOCATION: Section V subsection titles
+------------------------------------------------------------------------------
+ORIGINAL LABELS (docx):
+  Training set construction
+  Graph modeling
+  RL framework
+
+CHANGED TO:
+  Training Environment Generalization
+  Graph Modeling Enhancements
+  Reinforcement Learning Framework Refinements
+
+STATUS: WORDS CHANGED -- all three subsection titles replaced with invented
+        headings. NEEDS REVERT.
+
+------------------------------------------------------------------------------
+SECTIONS WITH NO WORD CHANGES (correct):
+  Abstract                  -- verbatim
+  Introduction paragraph 1  -- verbatim (citations added as markup only)
+  Introduction objectives   -- verbatim
+  Problem Constraints list  -- verbatim (after revert of "Lists" fix)
+  GDNN solves constraints   -- verbatim
+  RL workflow paragraph      -- verbatim (after revert of "High-level" fix)
+  Heuristics list           -- verbatim
+  Heuristics analysis para  -- verbatim
+  Section V body text       -- verbatim
+  Conclusion paragraphs     -- verbatim
+------------------------------------------------------------------------------

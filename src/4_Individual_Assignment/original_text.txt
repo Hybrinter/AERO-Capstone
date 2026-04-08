@@ -1,0 +1,66 @@
+ORIGINAL DOCX TEXT - 401_Individual_Assignment_Kampwerth.docx
+==============================================================
+
+--- ABSTRACT ---
+
+This report investigates the proposed use of Graph Decision Neural Networks (GDNN) with Proximal Policy Optimization (PPO) for the Agile Earth Observation Satellite Scheduling Problem (AEOSSP). AEOSSP is a classical NP-hard problem with no exact solutions and therefore suboptimal solutions limit the usage and efficiency of Earth Observation Satellites (EOS) for a variety of image capturing tasks. GDNN-PPO's performance was investigated against traditional methods to solve AEOSSP by comparing Average Scheduling Profit, Average Scheduling Time, and Percentage of Excessive Profit across a range of task scales. The analysis shows that GDNN-PPO improves solution quality by roughly 50% relative to simple heuristics, achieves performance within about 7% of state-of-the-art metaheuristic methods, and reduces solve time by more than two orders of magnitude while maintaining near-linear scaling in the number of tasks. At the same time, the study identifies several modeling limitations, such as training on fixed problem sizes, simplified time-attitude graph construction, and incomplete use of critic information, that may restrict generalization and operational robustness. The report concludes that graph-based RL provides a viable and computationally efficient framework for AEOSSP, and recommends concrete architectural and training modifications to further improve scalability and reliability for future agile Earth observation missions.
+
+--- BACKGROUND ---
+
+Recent developments in satellite technology - lowering launch costs and increased payload capacity to Low Earth Orbit (LEO) have enabled larger satellite systems. A new generation of Earth Observation Satellites (EOS) developed and deployed for scientific observations including wildfire detection, sea surface temperature tracking, and glacier movements. Development of Agile Earth Observation Satellites (AEOS) with three degrees of freedom for tracking enable the study of numerous, unrelated tasks. Choosing optimal ordering to perform each task within time and energy constraints is a combinatorial difficult NP-Hard problem, akin to the Traveling Salesman problem. While exact solutions exist, they remain computationally intractable for moderately large numbers of tasks. Approximately optimal greedy heuristics exist but often fail to reach sufficient parity with exact solutions while remaining computationally expensive.
+
+The document explains reframing AEOSSP as a causally directed graph network with a time dimension and three spatial (rotation angle) dimensions. Graph networks are sets of nodes (features of interest) connected via edges (relationships between features). In AEOSSP, nodes represent observation tasks and edges represent time and energy constraints between each task.
+
+Discusses why understanding future rewards through selecting certain paths earlier is valuable - most optimal total rewards may not be guaranteed if maximal next reward is the only criteria (greedy algorithms). Introduces formulation as a graph problem suitable for machine learning models. Addresses challenges of data distribution representability and reward modeling given the combinatorially large state space.
+
+Introduces Reinforcement Learning (RL) as championed by Google DeepMind's AlphaGo, which mimics rewards-based mechanisms in the human brain. Explains the actor-critic framework where the actor takes actions maximizing a value function controlled by the critic, which learns from actor's actions to update the value function.
+
+--- OBJECTIVES ---
+
+The report aims to analyze graph-based Reinforcement Learning methods applied to AEOSSP and characterize their suitability as optimal solvers. Three main objectives:
+1. Assess performance of a Graph Neural Network with RL model within AEOSSP constraints
+2. Compare model performance against traditional approximate solvers and heuristics
+3. Analyze limitations and identify potential extensions of assessed work
+
+--- ACTIVITIES AND RESULTS ---
+
+Lists five AEOSSP constraints the model must satisfy:
+1. Scale efficiently to task sizes beyond approximately 27 tasks limit of exact solvers
+2. Achieve accuracy surpassing traditional approximate solvers and heuristics
+3. Respect time and energy constraints of observable windows and available onboard propellant
+4. Generalize well beyond training set examples
+5. Remain computationally tractable for on-orbit satellites to compute
+
+Details the Graph Decision Neural Network (GDNN) RL agent architecture proposed by Chun, et al., 2023. GDNNs are minor modifications to classical Graph Neural Networks. Explains GNN basic principles of sharing node information across connected edges to contextualize graph information, similar to CNNs but on irregular grids. Information spreads in "message passing" rounds where nodes aggregate information from neighbors.
+
+GDNN solves constraints 1, 2, 3 and 5 but lacks generalization beyond training sets. GNN models are inherently based on supervised learning assuming a training set with accurate rewards/labels. RL architecture is added to self-produce the training set required, solving constraint 4.
+
+The RL agent framework utilizes GDNN as primary model around which it optimizes. A single GDNN provides backbone structure for both actor and critic networks with separate final output layers. The literature uses Proximal Policy Optimization (PPO) objective to train both networks in tandem. PPO improves upon standard Policy Optimization by computing the ratio of current achieved rewards to previously achieved rewards, clipping this ratio to prevent large model weight updates, significantly stabilizing training.
+
+High-level overview: Actor GDNN encodes task list into graph representation passed through model to make decision on next task. Satellite then moves to perform task (under encoded time and energy constraints) representing updated graph state. This repeats until satellite reaches final target time where total rewards are accumulated from critic GDNN. Rewards used to update actor then critic weights to reflect information learned, cycle repeats until convergence.
+
+The literature designs four heuristics and a GDNN with Deep Quality Network (DQN):
+1. Start time of observational Time Window Ascending (STWA) - tasks ordered by start time
+2. Profit of Task Descending (PTD) - prioritizes most rewarding tasks
+3. Ratio of Profit and Image time Descending (RPID) - measures reward per time spent on task
+4. Conflict Degree of Task Descending (CDTD) - targets most clustered tasks first
+
+Heuristics perform poorly against machine learning models but provide valuable information. They perform similarly while optimizing for different criteria, showing that task availability, reward value, task duration, and spatial/temporal separation all remain important to AEOSSP.
+
+Comparison against more accurate methods: GRILS, Self-adaptation Differential Evolution (SDE), and Self-adaptation Genetic Algorithm (SGA). GDNN-PPO falls behind GRILS in Average Scheduling Profit metric but GRILS scales poorly with task scale. When filtering for scalable models, GDNN-PPO significantly out-performs SGA, satisfying original objective criteria.
+
+--- POTENTIAL IMPROVEMENTS ---
+
+Training set construction - Currently trained at single task scale. Improvement: include variety of task scales in training environment for scale-invariant GDNN-PPO to improve generalizability. Could introduce larger task scales gradually after model understands smaller cases.
+
+Graph modeling - Current approach via time-attitude adjacency graph computes distances using time heuristic equation incorporating only roll angle while ignoring pitch and yaw angles. Improvement: Incorporate all three angles via transition angle equation. Add nodal information related to constraints such as slack time to View Time Window (VTW) end when transitioning nodes.
+
+RL framework - Lacking proper description of critic network. Current assumption is identical model structure to actor network. Improvement: Use shared encoding structure between actor and critic with separate GNN layer blocks. Add regularization to critic such as L2 loss or physics-informed losses. Adding constraint-based losses with smooth gradients (PPO-Lagrangian) may improve training.
+
+--- CONCLUSIONS ---
+
+AEOSSP presents a difficult challenge the space industry needs to tackle to fully utilize increasing customer demand. Traditional methods fall short in either solution quality or generation speed. GDNN-PPO achieved approximately 50% increase in model performance compared to basic heuristics and fell within 7% of SOTA heuristics-based methods while maintaining near linear scaling on task size and remaining within 2 second solve time. The 350x reduction in solve time compared to SOTA methods represents fundamental shift from pure research to practical implementation. Success suggests similar classes of NP-Hard problems can approximately solve in real-time.
+
+Despite benefits, indirect limitations hamper overall benefit. Modeling decisions such as task scale-locked environments, neglected beneficial node and edge information, and lack of proper RL framework implementation suggest major improvements still available.
+
+Even with current model, practical implementation remains feasible. Adoption might involve deployments from scheduled settings with human oversight to fully autonomous systems onboard satellites handling requests from variety of users. Faster, more efficient, more productive Earth observation satellites have moved from mathematically impossible problem to engineering implementation possibility.
