@@ -114,7 +114,7 @@ Subsequently, the primary success criteria are to:
 \section{GDNN-PPO Framework}
 
 \subsection{Graph Decision Neural Networks}
-To address these constraints, the literature proposes a Graph Decision Neural Network (GDNN) RL agent architecture proposed by Chun, et al.\cite{chun2023deep}.
+To address these constraints, a Graph Decision Neural Network (GDNN) RL agent architecture was proposed by Chun, et al.\cite{chun2023deep}.
 GDNNs are a minor modification to the classical Graph Neural Network (GNN) found throughout the machine learning field.
 A GNN’s basic principle is to share node information across connected edges to fully contextualize all the information in a graph, similar to how Convolutional Neural Networks (CNN) work but on an irregular grid.
 Information is spread in “message passing” rounds where nodes aggregate information provided by their neighbors to add as a residual on the current stored information.
@@ -134,7 +134,7 @@ Therefore, RL was proposed to generate the necessary training set (and associate
 \subsection{Proximal Policy Optimization Framework}
 The RL agent framework utilizes GDNN as primary model around which it optimizes.
 A single GDNN provides the primary structure (backbone) for both the actor and critic networks with separate final output layers for the actor and critic.
-The literature uses Proximal Policy Optimization (PPO)\cite{schulman2017proximal} objective to train both networks in tandem.
+Proximal Policy Optimization (PPO)\cite{schulman2017proximal} objective was utilized to train both networks in tandem.
 Standard Policy Optimization (PO) maximizes the expected reward of a series of actions over a set horizon (number of tasks) with a weighting parameter favoring maximizing current rewards vs future rewards.
 PPO improves upon standard Policy Optimization by computing the ratio of current achieved rewards to previously achieved rewards, clipping this ratio to prevent large model weight updates, significantly stabilizing training.
 
@@ -155,7 +155,7 @@ The Average Scheduling Profit (ASP), the Average Scheduling Time (AST), and Perc
 
 \subsection{Baseline Heuristics}
 
-The literature designs four heuristics and a GDNN with Deep Quality Network (DQN) \cite{chun2023deep}:
+The four standard heuristics were utilized as a baseline benchmark:
 \begin{enumerate}
 \item Start time of observational Time Window Ascending (STWA) --- tasks ordered by start time
 \item Profit of Task Descending (PTD) --- prioritizes most rewarding tasks
@@ -163,7 +163,10 @@ The literature designs four heuristics and a GDNN with Deep Quality Network (DQN
 \item Conflict Degree of Task Descending (CDTD) --- targets most clustered tasks first
 \end{enumerate}
 
-Heuristics perform poorly against machine learning models but provide valuable information. They perform similarly while optimizing for different criteria, showing that task availability, reward value, task duration, and spatial/temporal separation all remain important to AEOSSP.
+As expected, the heuristics perform poorly against the machine learning based models as they necessarily ignore important aspects of AEOSSP as seen in Figure 6.
+Despite the poor performance, the heuristics provide valuable information about AEOSSP.
+Specifically, the heuristics perform similarly (within tens of relative percent of each other) while optimizing for significantly different criteria.
+Therefore, it can be concluded that task availability, reward value, task duration, and spatial and temporal separation all remain important to AEOSSP and, consequently, all valid solvers must respect each of these aspects.
 
 \begin{figure}[hbt!]
 \centering
@@ -173,8 +176,10 @@ Heuristics perform poorly against machine learning models but provide valuable i
 \end{figure}
 
 \subsection{State-of-the-Art Comparison}
-
-Comparison against more accurate methods: GRILS, Self-adaptation Differential Evolution (SDE), and Self-adaptation Genetic Algorithm (SGA) \cite{chun2023deep,li2017hybrid}. GDNN-PPO falls behind GRILS in Average Scheduling Profit metric but GRILS scales poorly with task scale. When filtering for scalable models, GDNN-PPO significantly out-performs SGA, satisfying original objective criteria.
+More accurate methods such as GRILS, Self-adaption Differential Evolution (SDE), and Self-adaptation Genetic Algorithm (SGA) were compared against in Figure 7.
+Notably, GDNN-PPO (referred to as GAT-PPO in Figure 7) falls behind the most optimal model, GRILS, in the ASP metric which would violate the objective of the GDNN-PPO model except that GRILS scales poorly with task scale as seen in Figure 8 with AST scores rapidly increasing with task scale.
+Filtering for only scalable models, GDNN-PPO significantly out-performs its only competition, SGA, and therefore satisfies the constraints set above.
+Based off these results, it was concluded that the GDNN-PPO proposed satisfies the original objective criteria and suggests that efforts to improve scheduling priority should be investigated.
 
 \begin{figure}[hbt!]
 \centering
@@ -193,34 +198,43 @@ Comparison against more accurate methods: GRILS, Self-adaptation Differential Ev
 \section{Proposed Implementation}
 
 \subsection{Training set construction}
-
-Currently trained at single task scale. Improvement: include variety of task scales in training environment for scale-invariant GDNN-PPO to improve generalizability. Could introduce larger task scales gradually after model understands smaller cases.
-
-%% (placeholder - quantitative estimate of expected improvement from proposed training curriculum) %%
+The construction of the training set is done at a single task scale at a time with which the model is trained on.
+This necessarily restricts the model to learning how to optimize over a set horizon rather than learning a generalized solution over an indefinite horizon, a distinction which the literature acknowledges through comparison of the GDNN-PPO model trained and tested at varying scales.
+Given the model’s ability to train and test on differing task scales, a natural improvement to the model would be the inclusion of a variety of task scales in the model’s environment.
+It follows that a scale-invariant GDNN-PPO would necessarily improve the generalizability to a wide variety of task scales as expected in realworld deployment.
+Combining a variety of task scales could also be done gradually throughout the training procedure with the introduction of larger task scales only after the model has begun understanding smaller cases.
+This method could additionally promote stability in training which random shuffling of task sizes may erode.
 
 \subsection{Graph modeling}
-
-Current approach via time-attitude adjacency graph computes distances using time heuristic equation incorporating only roll angle while ignoring pitch and yaw angles. Improvement: Incorporate all three angles via transition angle equation. Add nodal information related to constraints such as slack time to View Time Window (VTW) end when transitioning nodes.
-
-%% (placeholder - transition angle equation incorporating roll, pitch, and yaw) %%
+The graph modeling of AEOSSP is done via a time-attitude adjacency graph where distances are computed via a time heuristic equation that only incorporates the roll angle while ignoring pitch and yaw angles.
+Furthermore, the edge connections are generated via a five-nearest neighbors computation performed in the time heuristic domain.
+While theoretically sufficient, the graph modeling approach is both simple and restrictive to the information naturally stored within each task.
+Incorporating all three angles via the transition angle equation already defined likely improves the model’s understanding of the true mechanics without sacrificing any time constraints which are validated later in the process.
+Furthermore, adding additional nodal information related to the constraints, such as slack time to the View Time Window (VTW) end when transitioning nodes, may aid the model’s ability to select subgraphs which prevent dead ends.
 
 \subsection{RL framework}
-
-Lacking proper description of critic network. Current assumption is identical model structure to actor network. Improvement: Use shared encoding structure between actor and critic with separate GNN layer blocks. Add regularization to critic such as L2 loss or physics-informed losses. Adding constraint-based losses with smooth gradients (PPO-Lagrangian) may improve training.
-
-%% (placeholder - diagram showing proposed shared encoder architecture) %%
+The RL framework lacks a proper description of the critic network, a crucial aspect of the RL architecture, and thus is assumed to be an identical model structure to the actor network (GDNN).
+The actor and critic model are assumed to have independent encoding structures (embedding layers) which typically hurt alignment between the actor and critic, harming generalization.
+Utilizing a shared encoding structure between actor and critic with separate GNN layer blocks both unifies the learned representation of the agent as well as maintains the representability of the individual networks.
+Furthermore, adding regularization to the critic, such as L2 loss or physics-informed losses, may provide increased stability or accuracy over training while maintaining or improving the generalizability of the model.
+Additionally, removing infeasible transitions between tasks creates sharp gradients during training which are not immediately visible compared to when infeasible transitions are utilized directly in the reward structure.
+Adding constraint-based losses with smooth gradients (PPO-Lagrangian) may improve training and generalizability to optimal strategies rather than pattern exploitation.
 
 \section{Conclusion}
+The Agile Earth Observation Satellite Scheduling Problem presents a difficult challenge that the rapidly growing space industry needs to tackle to fully utilize the increasing demand from a variety of customers.
+Traditionally methods and heuristics fall short in either solution quality or generation speed which limit the operational effectiveness of satellites.
+A GDNN-PPO approach proposed achieved the objective in producing high-quality solutions to AEOSSP while remaining computationally tractable yet still left open numerous avenues for improvement of the algorithm as well as expansion to more challenging versions of AEOSSP.
 
-AEOSSP presents a difficult challenge the space industry needs to tackle to fully utilize increasing customer demand. Traditional methods fall short in either solution quality or generation speed. GDNN-PPO achieved approximately 50\% increase in model performance compared to basic heuristics and fell within 7\% of SOTA heuristics-based methods while maintaining near linear scaling on task size and remaining within 2 second solve time. The 350x reduction in solve time compared to SOTA methods represents fundamental shift from pure research to practical implementation. Success suggests similar classes of NP-Hard problems can approximately solve in real-time.
+GDNN-PPO achieved approximately 50\% increase in model performance compared to basic heuristics and fell within 7\% of SOTA heuristics-based methods while maintaining near linear scaling on task size and remaining within 2 second solve time.
+The 350x reduction in solve time compared to SOTA methods represents fundamental shift from pure research to practical implementation.
+Furthermore, the success of the model proposed suggests similar classes of NP-Hard problems can approximately solved in real-time, a potentially revolutionary possibility.
 
-Despite benefits, indirect limitations hamper overall benefit. Modeling decisions such as task scale-locked environments, neglected beneficial node and edge information, and lack of proper RL framework implementation suggest major improvements still available.
+Despite the tantalizing benefits, indirect limitations of GDNN-PPO hamper the overall benefit of the model.
+Modeling decisions such as task scale-locked environments, neglected beneficial node and edge information, and lack of proper RL framework implementation suggest major improvements are still available.
 
-Even with current model, practical implementation remains feasible. Adoption might involve deployments from scheduled settings with human oversight to fully autonomous systems onboard satellites handling requests from variety of users. Faster, more efficient, more productive Earth observation satellites have moved from mathematically impossible problem to engineering implementation possibility.
-
-\section*{Acknowledgments}
-
-%% (placeholder - acknowledgment of supervisor, institution, and any AI tool usage per AIAA policy) %%
+Even with current model, practical implementation remains feasible.
+Adoption into practical applications might involve a range of deployments from scheduled settings with human oversight to fully autonomous systems onboard satellites able to handle requests from a variety of users.
+Faster, more efficient, more productive Earth observation satellites have moved from a mathematically impossible problem to an engineering implementation possibility.
 
 \bibliography{individual_assignment}
 
