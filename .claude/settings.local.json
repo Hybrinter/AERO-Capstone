@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p ~/.claude/skills/council)",
+      "Bash(cp -r /tmp/council-skill/skills/council/* ~/.claude/skills/council/)",
+      "Read(//c/Users/kampw/.claude/skills/**)"
+    ]
+  }
+}
