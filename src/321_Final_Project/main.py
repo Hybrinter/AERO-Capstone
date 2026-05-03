@@ -399,6 +399,92 @@ def _print_modal_table(title: str, modes: list[dict], mode_names: list[str]) -> 
 
 
 # =============================================================================
+# Parts 4 & 5 (cont.): mode identification and eigenvector display
+# =============================================================================
+def identify_longitudinal_modes(modes: list[dict]) -> dict[str, dict]:
+    """Tag the four longitudinal eigenvalues as short period / phugoid pairs.
+
+    Args:
+        modes: list of mode dicts from modal_analysis().
+
+    Returns:
+        dict with keys "short_period" and "phugoid"; each value is the mode
+        dict for ONE of the eigenvalues in that conjugate pair (the one with
+        positive imaginary part by convention, for plotting).
+
+    Notes:
+        Identification is by natural frequency: the higher-wn complex pair is
+        the short period, the lower-wn complex pair is the phugoid. For the
+        A-7A both pairs are well-separated (~3 rad/s vs. ~0.07 rad/s) so this
+        is unambiguous.
+    """
+    complex_modes = [m for m in modes if m["wd"] > 1e-9 and m["lambda"].imag > 0]
+    complex_modes.sort(key=lambda m: m["wn"], reverse=True)
+    if len(complex_modes) < 2:
+        raise ValueError(
+            f"Expected 2 complex pairs in longitudinal modes; got {len(complex_modes)}"
+        )
+    return {"short_period": complex_modes[0], "phugoid": complex_modes[1]}
+
+
+def identify_lateral_modes(modes: list[dict]) -> dict[str, dict]:
+    """Tag the four lateral eigenvalues as dutch roll / roll / spiral.
+
+    Args:
+        modes: list of mode dicts from modal_analysis().
+
+    Returns:
+        dict with keys "dutch_roll", "roll", "spiral".
+
+    Notes:
+        Dutch roll = the unique complex pair (positive-imaginary representative).
+        Roll subsidence = the more-negative real eigenvalue (fast, well damped).
+        Spiral = the real eigenvalue closest to zero (slow; can be slightly
+        positive for an aircraft with weak spiral stability).
+    """
+    complex_modes = [m for m in modes if m["wd"] > 1e-9 and m["lambda"].imag > 0]
+    real_modes    = [m for m in modes if m["wd"] <= 1e-9]
+    if len(complex_modes) != 1 or len(real_modes) != 2:
+        raise ValueError(
+            f"Expected 1 complex pair + 2 real eigenvalues; got "
+            f"{len(complex_modes)} complex, {len(real_modes)} real"
+        )
+    real_modes.sort(key=lambda m: m["lambda"].real)  # most negative first
+    return {
+        "dutch_roll": complex_modes[0],
+        "roll":       real_modes[0],
+        "spiral":     real_modes[1],
+    }
+
+
+def _print_eigenvector_table(title: str, modes_named: dict[str, dict],
+                             state_names: list[str]) -> None:
+    """Print a magnitude-and-phase table of right eigenvectors per mode.
+
+    Magnitudes are normalized so the largest entry per mode equals 1.0;
+    phases are reported in degrees relative to that largest entry.
+    """
+    print()
+    print("-" * 78)
+    print(f" {title} (magnitude / phase deg, normalized to largest entry)")
+    print("-" * 78)
+    header = f" {'State':<10}"
+    for name in modes_named:
+        header += f" {name:>22}"
+    print(header)
+
+    for i, state in enumerate(state_names):
+        row = f" {state:<10}"
+        for m in modes_named.values():
+            v = m["vector"]
+            j = int(np.argmax(np.abs(v)))
+            v_norm = v / v[j]
+            entry = v_norm[i]
+            row += f"  {abs(entry):>9.4g} / {np.rad2deg(np.angle(entry)):>+7.2f}"
+        print(row)
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -437,13 +523,18 @@ def main() -> None:
                   ["dbeta_dot", "dp_dot", "dr_dot", "dphi_dot"],
                   ["d_da", "d_dr"])
 
-    long_modes_raw = modal_analysis(A_long)
-    lat_modes_raw  = modal_analysis(A_lat)
+    long_modes = identify_longitudinal_modes(modal_analysis(A_long))
+    lat_modes  = identify_lateral_modes(modal_analysis(A_lat))
 
-    _print_modal_table("Longitudinal eigenvalues (raw)", long_modes_raw,
-                       [f"mode {i+1}" for i in range(len(long_modes_raw))])
-    _print_modal_table("Lateral eigenvalues (raw)", lat_modes_raw,
-                       [f"mode {i+1}" for i in range(len(lat_modes_raw))])
+    _print_modal_table("Longitudinal modes", list(long_modes.values()),
+                       list(long_modes.keys()))
+    _print_modal_table("Lateral-directional modes", list(lat_modes.values()),
+                       list(lat_modes.keys()))
+
+    _print_eigenvector_table("Longitudinal eigenvectors", long_modes,
+                             ["du", "dw", "dq", "dtheta"])
+    _print_eigenvector_table("Lateral eigenvectors", lat_modes,
+                             ["dbeta", "dp", "dr", "dphi"])
 
 
 if __name__ == "__main__":
