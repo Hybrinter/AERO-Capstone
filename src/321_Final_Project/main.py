@@ -485,11 +485,101 @@ def _print_eigenvector_table(title: str, modes_named: dict[str, dict],
 
 
 # =============================================================================
+# Part 6: impulse response computation and plotting
+# =============================================================================
+def impulse_response(A: np.ndarray, B: np.ndarray, u_index: int,
+                     t: np.ndarray) -> np.ndarray:
+    """Compute the closed-form impulse response of an LTI system.
+
+    Args:
+        A: state matrix (n x n).
+        B: input matrix (n x m).
+        u_index: which column of B (which control input) is being impulsed.
+        t: time grid (length-N, monotonically increasing from 0).
+
+    Returns:
+        np.ndarray: (N x n) array; row k is x(t[k]) = expm(A * t[k]) @ B[:, u_index].
+
+    Notes:
+        For an impulse delta(t) on input u_index, the response is
+        x(t) = e^{At} * B[:, u_index] for t >= 0. We avoid the convolution
+        integral by using this closed form; expm is called per time step,
+        which is fine for the modest N used here.
+    """
+    b = B[:, u_index]
+    X = np.empty((len(t), A.shape[0]))
+    for k, tk in enumerate(t):
+        X[k, :] = expm(A * tk) @ b
+    return X
+
+
+def _plot_impulse(t: np.ndarray, X: np.ndarray, state_labels: list[str],
+                  ylabels: list[str], title: str, out_path: Path) -> None:
+    """Plot a stacked column of impulse responses, one subplot per state."""
+    n = X.shape[1]
+    fig, axes = plt.subplots(n, 1, figsize=(6.5, 8.0), sharex=True)
+    for i in range(n):
+        axes[i].plot(t, X[:, i], color="black", linewidth=1.0)
+        axes[i].set_ylabel(ylabels[i])
+        axes[i].grid(True, color="0.85", linewidth=0.5)
+    axes[-1].set_xlabel(r"Time (s)")
+    axes[0].set_title(title)
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=300)
+    plt.close(fig)
+
+
+def plot_long_impulse(A: np.ndarray, B: np.ndarray, out_dir: Path) -> list[Path]:
+    """Generate the two longitudinal impulse-response figures (de, dT)."""
+    t = np.linspace(0.0, 200.0, 1500)
+    ylabels = [r"$\Delta u$ (ft/s)", r"$\Delta w$ (ft/s)",
+               r"$\Delta q$ (rad/s)", r"$\Delta \theta$ (rad)"]
+    state_labels = ["du", "dw", "dq", "dtheta"]
+    paths: list[Path] = []
+    for u_idx, name, title in [
+        (0, "long_impulse_de.png",
+         r"Longitudinal impulse response to $\delta_e$"),
+        (1, "long_impulse_dT.png",
+         r"Longitudinal impulse response to $\delta_T$"),
+    ]:
+        X = impulse_response(A, B, u_idx, t)
+        out = out_dir / name
+        _plot_impulse(t, X, state_labels, ylabels, title, out)
+        paths.append(out)
+    return paths
+
+
+def plot_lat_impulse(A: np.ndarray, B: np.ndarray, out_dir: Path) -> list[Path]:
+    """Generate the two lateral-directional impulse-response figures (da, dr)."""
+    t = np.linspace(0.0, 30.0, 1500)
+    ylabels = [r"$\Delta \beta$ (rad)", r"$\Delta p$ (rad/s)",
+               r"$\Delta r$ (rad/s)", r"$\Delta \phi$ (rad)"]
+    state_labels = ["dbeta", "dp", "dr", "dphi"]
+    paths: list[Path] = []
+    for u_idx, name, title in [
+        (0, "lat_impulse_da.png",
+         r"Lateral-directional impulse response to $\delta_a$"),
+        (1, "lat_impulse_dr.png",
+         r"Lateral-directional impulse response to $\delta_r$"),
+    ]:
+        X = impulse_response(A, B, u_idx, t)
+        out = out_dir / name
+        _plot_impulse(t, X, state_labels, ylabels, title, out)
+        paths.append(out)
+    return paths
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
     """Run the full A-7A stability analysis pipeline."""
     FIG_DIR.mkdir(exist_ok=True)
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": "serif",
+        "font.size":   11,
+    })
     print("=" * 78)
     print(" A-7A Corsair II Stability Analysis -- Cruise (15,000 ft, M=0.6)")
     print("=" * 78)
@@ -535,6 +625,15 @@ def main() -> None:
                              ["du", "dw", "dq", "dtheta"])
     _print_eigenvector_table("Lateral eigenvectors", lat_modes,
                              ["dbeta", "dp", "dr", "dphi"])
+
+    fig_paths  = plot_long_impulse(A_long, B_long, FIG_DIR)
+    fig_paths += plot_lat_impulse(A_lat, B_lat, FIG_DIR)
+    print()
+    print("-" * 78)
+    print(" Saved figures")
+    print("-" * 78)
+    for p in fig_paths:
+        print(f"  {p}")
 
 
 if __name__ == "__main__":
