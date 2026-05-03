@@ -52,11 +52,13 @@ CLDE, CDDE, CMDE = 0.59, -0.042, -0.912
 # CLU/CDU/CMU per the handout convention; recorded here for reference only.
 
 # -- lateral-directional nondimensional derivatives --
-CYB, CLB, CNB = -0.715, -0.087, 0.075
-CYP, CLP, CNP = 0.0, -0.265, 0.0
-CYR, CLR, CNR = 0.0, 0.10, -0.30
-CYDA, CLDA, CNDA = -0.025, 0.055, 0.00575
-CYDR, CLDR, CNDR = 0.21, 0.020, -0.0925
+# Note: rolling-moment coefficients use lowercase "l" (Cl_*) to disambiguate
+# from lift coefficients (CL*). C_L is lift, C_l is rolling moment.
+CYB, Cl_B, CNB = -0.715, -0.087, 0.075
+CYP, Cl_P, CNP = 0.0, -0.265, 0.0
+CYR, Cl_R, CNR = 0.0, 0.10, -0.30
+CYDA, Cl_DA, CNDA = -0.025, 0.055, 0.00575
+CYDR, Cl_DR, CNDR = 0.21, 0.020, -0.0925
 
 # -- thrust derivative assumptions (handout omits thrust derivatives) --
 # Steady cruise: thrust balances drag, so C_TX1 = C_D1.
@@ -74,7 +76,8 @@ FIG_DIR = Path(__file__).parent / "figures"
 # =============================================================================
 # Main pipeline
 # =============================================================================
-if __name__ == "__main__":
+def main() -> None:
+    """Run the full A-7A stability analysis pipeline."""
     FIG_DIR.mkdir(exist_ok=True)
     print("=" * 78)
     print(" A-7A Corsair II Stability Analysis -- Cruise (15,000 ft, M=0.6)")
@@ -84,3 +87,7 @@ if __name__ == "__main__":
     print(f" m    = {M_MASS:>9.3f} slug")
     print(f" rho  = {RHO:>9.4e} slug/ft^3")
     print(f" theta1 = {np.rad2deg(THETA1):>7.3f} deg")
+
+
+if __name__ == "__main__":
+    main()

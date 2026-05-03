@@ -294,11 +294,11 @@ def compute_lateral_derivatives() -> dict[str, float]:
     d["Ydr"] = (QBAR * S / M_MASS) * CYDR
 
     # -- L rolling-moment derivatives --
-    d["Lb"]  = (QBAR * S * B / IXX) * CLB
-    d["Lp"]  = (QBAR * S * B**2 / (2.0 * IXX * U1)) * CLP
-    d["Lr"]  = (QBAR * S * B**2 / (2.0 * IXX * U1)) * CLR
-    d["Lda"] = (QBAR * S * B / IXX) * CLDA
-    d["Ldr"] = (QBAR * S * B / IXX) * CLDR
+    d["Lb"]  = (QBAR * S * B / IXX) * Cl_B
+    d["Lp"]  = (QBAR * S * B**2 / (2.0 * IXX * U1)) * Cl_P
+    d["Lr"]  = (QBAR * S * B**2 / (2.0 * IXX * U1)) * Cl_R
+    d["Lda"] = (QBAR * S * B / IXX) * Cl_DA
+    d["Ldr"] = (QBAR * S * B / IXX) * Cl_DR
 
     # -- N yawing-moment derivatives --
     d["Nb"]  = (QBAR * S * B / IZZ) * CNB
