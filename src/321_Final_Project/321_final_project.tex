@@ -647,7 +647,7 @@ Z_{\delta_e}                  & Z_{\delta_T} \\
 M_{\delta_e} + M_{\dot w} Z_{\delta_e} & M_{\delta_T} + M_{\dot w} Z_{\delta_T} \\
 0                             & 0
 \end{bmatrix}
-\begin{bmatrix} \Delta\delta_e \\ \Delta\delta_T \end{bmatrix}.
+\begin{bmatrix} \Delta\delta_e \\ \Delta\delta_T \end{bmatrix}
 \end{equation}
 
 Using the values previously found for the dimensional derivatives results in
@@ -697,7 +697,7 @@ L'_{\delta_a} & L'_{\delta_r} \\
 N'_{\delta_a} & N'_{\delta_r} \\
 0           & 0
 \end{bmatrix}
-\begin{bmatrix} \Delta\delta_a \\ \Delta\delta_r \end{bmatrix}.
+\begin{bmatrix} \Delta\delta_a \\ \Delta\delta_r \end{bmatrix}
 \end{equation}
 
 To account for and simplify the $I_{xz}$ moment coupling, primed derivatives are used as shown here
@@ -765,16 +765,25 @@ Spiral           & $-0.0426$             & $0.0426$ & $1.000$  & ---     & $16.2
 \end{tabular}
 \end{table}
 
+\newpage
+
 \section{Modal Characteristics Analysis}
 
-placeholder
+After computing the eigenvalues and the resulting natural frequencies and damping ratios, physically interpretable
+analysis was performed by computing the magnitude and phase of each state for each mode.
+Treating the S-plane as a vector space, the magnitude in Tables 7 and 8 refers to the length of the vector pointing
+at a given eigenvalue/mode.
+The phase then represents the angle that vector makes with the x-axis.
+The magnitude and phase can be utilized to understand how states influence each other leading to oscillatory/damped
+dynamics.
+An important note is that all magnitudes and phases were normalized to provide easily interpretable results for
+cross-comparison within a given mode.
 
 \subsection{Longitudinal Modes}
 
 \begin{table}[h]\label{tab:table_7}
 \centering
-\caption{Longitudinal eigenvector contributions (magnitude / phase in degrees,
-normalized so the largest entry per mode equals $1\angle 0^\circ$).}
+\caption{Longitudinal eigenvector contributions}
 \begin{tabular}{l cc cc}
 \toprule
 & \multicolumn{2}{c}{\textbf{Short Period}} & \multicolumn{2}{c}{\textbf{Phugoid}} \\
@@ -789,20 +798,28 @@ $\Delta\theta$   & $0.00150$ & $-21.72$  & $0.00220$  & $-90.71$  \\
 \end{tabular}
 \end{table}
 
-\subsubsection*{Short Period}
+\subsubsection*{Short Period Mode}
 
-placeholder
+The $\Delta w$ state is the dominant state of the short period mode.
+The other state dynamics are still present however with the important aspect being the $90^{\circ}$ phase offset between
+the $\Delta u$ state and $\Delta \theta$ state as well as between the $\Delta w$ state and $\Delta q$ state.
+This results in an oscillatory motion as the peak of one coupled state induces a gain on the other state which endlessly
+passes kinetic and potential energy between them.
+For the short period mode, this appears as a change in pitch rate driving a restoring moment lagging behind by $90^\circ$.
 
-\subsubsection*{Phugoid}
+\subsubsection*{Phugoid Mode}
 
-placeholder
+The same story applies for the Phugoid mode where $90^\circ$ phases offsets drive a coupled oscillatory dynamical mode
+that exchanges kinetic and potential energy.
+In the case of the Phugoid mode, the $\Delta q$ pitch rate and $\Delta w$ vertical speed are driven by a $\Delta \theta$
+pitch change which occurs over a much longer time span compared to the short period mode due to the significantly lower
+magnitudes of the states.
 
 \subsection{Lateral-Directional Modes}
 
 \begin{table}[h]\label{tab:table_8}
 \centering
-\caption{Lateral-directional eigenvector contributions (magnitude / phase
-in degrees, normalized so the largest entry per mode equals $1\angle 0^\circ$).}
+\caption{Lateral-directional eigenvector contributions}
 \begin{tabular}{l cc cc cc}
 \toprule
 & \multicolumn{2}{c}{\textbf{Dutch Roll}} & \multicolumn{2}{c}{\textbf{Roll}} & \multicolumn{2}{c}{\textbf{Spiral}} \\
@@ -817,25 +834,39 @@ $\Delta\phi$  & $0.461$ & $-94.24$  & $0.334$  & $-180.00$ & $1.000$  & $0.00$  
 \end{tabular}
 \end{table}
 
-\subsubsection*{Dutch Roll}
+\subsubsection*{Dutch Roll Mode}
 
-placeholder
+Compared to the short period mode and Phugoid mode, the dutch roll mode involves significantly more dynamics as visible
+through all four lateral-directional states being of approximate order of magnitude of each other.
+The two coupled set are 1) the $\Delta p$ roll rate and the $\Delta \phi$ roll angle and 2) the $\Delta \beta$ sideslip
+angle and the $\Delta r$ yaw angle.
+The states within each set are separated by $90^\circ$ which induces an oscillatory motion.
+What's unique is the one-to-one correspondence between essentially the first-order and second-order derivatives of a
+given angle, $\phi$ for set 1 and $\beta$ for set 2.
+This would result in a standard sinusoidal response except that phase between the two sets is $45^\circ$, resulting in a
+four state coupled motion.
+This matches expectations for a dutch roll which is known for the weaving maneuver it makes during flight.
 
-\subsubsection*{Roll Subsidence}
+\subsubsection*{Roll Mode}
 
-placeholder
+The roll mode is the simplest mode in the aircraft's dynamics as it is only an exponential decay of any perturbation.
+The phase of all states is 0 and the magnitudes match expectations of the roll rate representing the largest
+contribution to the roll mode.
 
-\subsubsection*{Spiral}
+\subsubsection*{Spiral Mode}
 
-placeholder
+The spiral mode is similar to the roll mode as it represents an exponential decay but of the roll angle state.
+The slow decay of spiral mode represents a stabilization of the roll angle through a change in the sideslip angle,
+resulting in flight path deviations.
+The negative eigenvalue for the spiral mode suggests a stable mode, however the aircraft will still deviate off course
+after an initial perturbation due to the lack of a natural restoring force.
+This requires pilot or control system input to correct and restore the aircraft to the original desired trajectory.
+
+\newpage
 
 \section{Impulse Response Analysis}
 
-placeholder
-
-\subsection{Longitudinal Response}
-
-placeholder
+The following figures showcase impulses or perturbations to trimmed states to visualize their response over time.
 
 \begin{figure}[h]
 \centering
@@ -853,12 +884,6 @@ derivatives, so $X_{\delta_T} = Z_{\delta_T} = M_{\delta_T} = 0$.}
 \label{fig:long-dT}
 \end{figure}
 
-placeholder
-
-\subsection{Lateral-Directional Response}
-
-placeholder
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.78\textwidth]{figures/lat_impulse_da.png}
@@ -873,16 +898,13 @@ placeholder
 \label{fig:lat-dr}
 \end{figure}
 
-placeholder
+\newpage
 
 \section{Flying Qualities Assessment}
 
-placeholder
-
 \begin{table}[h]\label{tab:table_9}
 \centering
-\caption{MIL-F-8785C flying qualities classification (Class IV fighter,
-Category B cruise).}
+\caption{MIL-F-8785C flying qualities classification}
 \begin{tabular}{l l c c}
 \toprule
 \textbf{Mode} & \textbf{Metric} & \textbf{Value} & \textbf{Level} \\
@@ -899,15 +921,20 @@ Spiral           & $t_{\text{double}}$ (s) & stable & Level 1 \\
 \end{tabular}
 \end{table}
 
-placeholder
+The aircraft is a class IV fighter and the analysis was performed under a category B cruise phase which results in
+several metrics for analyzing flying qualities based on the MIL-F-8785C standard.
+During the category B cruise phase, the aircraft maintains a level 1, or excellent, handling status on average with the
+except of the dutch roll mode damping requiring more pilot input comparatively.
+
+\newpage
 
 \appendix
 \addcontentsline{toc}{part}{Appendix}
 
 \section{Python Source Code}
 
-The complete analysis script (\texttt{main.py}) is reproduced below. It
-computes every numerical result reported above and generates all four
+The complete analysis script is reproduced below.
+It computes every numerical result reported above and generates all four
 impulse-response figures, requiring only NumPy, SciPy, and matplotlib.
 
 \lstinputlisting[style=pythonstyle]{main.py}
