@@ -74,6 +74,83 @@ FIG_DIR = Path(__file__).parent / "figures"
 
 
 # =============================================================================
+# Part 1a: longitudinal dimensional stability derivatives
+# =============================================================================
+def compute_longitudinal_derivatives() -> dict[str, float]:
+    """Compute every dimensional longitudinal stability derivative at trim.
+
+    Returns:
+        dict[str, float]: keys are symbolic names (Xu, Xa, Xw, Xde, Zu, ...,
+            Mq, Mwd, Mde, XTu, MTu, MTa) with values in SI-equivalent English
+            engineering units (1/s, 1/(ft*s), ft/s^2, etc.).
+
+    Notes:
+        Formulas implemented per the boxed equations in 321_final_project.tex.
+        The +2*C_(*)1 terms in u-derivatives come from differentiating qbar.
+        Thrust derivatives use the steady-cruise + constant-thrust assumptions
+        documented at the top of this file.
+    """
+    d: dict[str, float] = {}
+
+    # -- X-force derivatives --
+    d["Xu"]  = -(QBAR * S / (M_MASS * U1)) * (CDU + 2.0 * CD1)
+    d["Xa"]  = -(QBAR * S / M_MASS) * (CDA - CL1)
+    d["Xw"]  = d["Xa"] / U1
+    d["Xde"] = -(QBAR * S / M_MASS) * CDDE
+    d["XTu"] =  (QBAR * S / (M_MASS * U1)) * (CTXU + 2.0 * CTX1)
+
+    # -- Z-force derivatives --
+    d["Zu"]  = -(QBAR * S / (M_MASS * U1)) * (CLU + 2.0 * CL1)
+    d["Za"]  = -(QBAR * S / M_MASS) * (CLA + CD1)
+    d["Zw"]  = d["Za"] / U1
+    d["Zad"] = -(QBAR * S * CBAR / (2.0 * M_MASS * U1)) * CLAD
+    d["Zwd"] = d["Zad"] / U1
+    d["Zq"]  = -(QBAR * S * CBAR / (2.0 * M_MASS * U1)) * CLQ
+    d["Zde"] = -(QBAR * S / M_MASS) * CLDE
+
+    # -- M pitching-moment derivatives --
+    d["Mu"]  =  (QBAR * S * CBAR / (IYY * U1)) * (CMU + 2.0 * CM1)
+    d["Ma"]  =  (QBAR * S * CBAR / IYY) * CMA
+    d["Mw"]  =  d["Ma"] / U1
+    d["Mad"] =  (QBAR * S * CBAR**2 / (2.0 * IYY * U1)) * CMAD
+    d["Mwd"] =  d["Mad"] / U1
+    d["Mq"]  =  (QBAR * S * CBAR**2 / (2.0 * IYY * U1)) * CMQ
+    d["Mde"] =  (QBAR * S * CBAR / IYY) * CMDE
+    d["MTu"] =  (QBAR * S * CBAR / (IYY * U1)) * CMTU
+    d["MTa"] =  (QBAR * S * CBAR / IYY) * CMTA
+
+    # -- thrust controls (no throttle-perturbation data in handout) --
+    d["XdT"] = 0.0
+    d["ZdT"] = 0.0
+    d["MdT"] = 0.0
+
+    return d
+
+
+def _print_derivative_table(title: str, derivs: dict[str, float],
+                            units: dict[str, str]) -> None:
+    """Print a three-column table: symbol, value (4 sig figs), units."""
+    print()
+    print("-" * 78)
+    print(f" {title}")
+    print("-" * 78)
+    print(f" {'Symbol':<8}  {'Value':>14}  {'Units':<14}")
+    for name, value in derivs.items():
+        print(f" {name:<8}  {value:>14.4g}  {units.get(name, ''):<14}")
+
+
+_LONG_UNITS: dict[str, str] = {
+    "Xu":  "1/s",        "Xa":  "ft/s^2",   "Xw":  "1/s",       "Xde": "ft/s^2",
+    "XTu": "1/s",        "XdT": "ft/s^2",
+    "Zu":  "1/s",        "Za":  "ft/s^2",   "Zw":  "1/s",       "Zad": "ft/s",
+    "Zwd": "1",          "Zq":  "ft/s",     "Zde": "ft/s^2",    "ZdT": "ft/s^2",
+    "Mu":  "1/(ft*s)",   "Ma":  "1/s^2",    "Mw":  "1/(ft*s)",  "Mad": "1/s",
+    "Mwd": "1/ft",       "Mq":  "1/s",      "Mde": "1/s^2",     "MTu": "1/(ft*s)",
+    "MTa": "1/s^2",      "MdT": "1/s^2",
+}
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -87,6 +164,10 @@ def main() -> None:
     print(f" m    = {M_MASS:>9.3f} slug")
     print(f" rho  = {RHO:>9.4e} slug/ft^3")
     print(f" theta1 = {np.rad2deg(THETA1):>7.3f} deg")
+
+    long_d = compute_longitudinal_derivatives()
+    _print_derivative_table("Longitudinal dimensional derivatives",
+                            long_d, _LONG_UNITS)
 
 
 if __name__ == "__main__":

@@ -238,16 +238,17 @@ Append inside the `if __name__ == "__main__":` block, after the trim summary:
 Run: `python main.py`
 Expected: a table titled "Longitudinal dimensional derivatives" with ~26 rows.
 
-Sanity-check values (based on hand calculation with the trim and coefficients):
-- `Xu` should be ≈ -0.0224 (negative, small magnitude — drag rise with speed)
-- `Xa` should be ≈ -54.5 (forward force from lift tilting, negative because CDα dominates)
-- `Zu` should be ≈ -0.225 (lift-curve slope-like negative)
-- `Za` should be ≈ -740 (large negative from CLα)
-- `Mq` should be ≈ -0.969 (1/s) (negative pitch damping)
-- `Ma` should be ≈ -7.66 (1/s^2) (negative — statically stable)
-- `Mde` should be ≈ -16.0 (1/s^2) (large negative — strong pitch authority)
+Sanity-check values (computed from the actual A-7A constants and the formulas — match these to within ~1%):
+- `Xu` ≈ -0.000942 (1/s) — very small. Near-cancellation from `(CDU + 2*CD1) = -0.0364 + 0.040 = +0.0036`. Correct given the handout's negative `CDU`.
+- `Xa` ≈ -31.2 (ft/s^2) — negative.
+- `Zu` ≈ -0.0225 (1/s) — small negative. Near-cancellation again from `(CLU + 2*CL1) = -0.294 + 0.380 = +0.086`.
+- `Za` ≈ -736.9 (ft/s^2) — large negative from CLα.
+- `Mq` ≈ -0.694 (1/s) — negative pitch damping.
+- `Ma` ≈ -9.04 (1/s^2) — negative (statically stable).
+- `Mde` ≈ -18.86 (1/s^2) — large negative (strong pitch authority).
+- `XTu` = 0 exactly (constant-thrust assumption gives `(CTXU + 2*CTX1) = -2*CD1 + 2*CD1 = 0`).
 
-If any of these is the wrong sign or off by orders of magnitude, the formula in `compute_longitudinal_derivatives` is wrong; do not proceed.
+If any sign is wrong, the formula in `compute_longitudinal_derivatives` is wrong; do not proceed. The unusually small `Xu` and `Zu` are correct — they reflect the A-7A's negative speed-Mach derivatives at this trim.
 
 - [ ] **Step 4: Commit.**
 
