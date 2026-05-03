@@ -5,9 +5,14 @@
 \usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
 
-\title{Derivation of Dimensional Stability Derivatives \\
-       \large from Nondimensional Coefficients}
+\title{A-7A Corsair II Stability and Control Analysis \\
+       \large AERO 321 Final Project}
 \author{}
 \date{}
 
@@ -16,10 +21,35 @@
 \newcommand{\Ixx}{I_{xx}}
 \newcommand{\Iyy}{I_{yy}}
 \newcommand{\Izz}{I_{zz}}
+\newcommand{\Ixz}{I_{xz}}
 \newcommand{\dd}[2]{\dfrac{\partial #1}{\partial #2}}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue!70!black},
+    commentstyle=\color{green!40!black}\itshape,
+    stringstyle=\color{red!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=8pt,
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    frame=single,
+    rulecolor=\color{gray!50},
+    columns=fullflexible,
+    keepspaces=true,
+    tabsize=4,
+}
 
 \begin{document}
 \maketitle
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+placeholder
 
 \part*{Longitudinal Stability Derivatives}
 \addcontentsline{toc}{part}{Longitudinal Stability Derivatives}
@@ -422,5 +452,400 @@ The lateral-directional derivations follow three structural rules:
         contributions that produced these terms in the longitudinal derivation
         do not appear here.
 \end{enumerate}
+
+\part*{Numerical Analysis: A-7A Corsair II}
+\addcontentsline{toc}{part}{Numerical Analysis: A-7A Corsair II}
+
+\section{Aircraft Data and Trim Condition}
+
+placeholder
+
+\begin{table}[h]
+\centering
+\caption{A-7A Corsair II reference geometry, mass, and inertia properties.}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Property} & \textbf{Symbol} & \textbf{Value} \\
+\midrule
+Wing area              & $S$    & $375$ ft$^2$ \\
+Wingspan               & $b$    & $38.7$ ft \\
+Mean aerodynamic chord & $\cbar$ & $10.8$ ft \\
+Weight                 & $W$    & $21{,}889$ lbf \\
+Mass                   & $m$    & $680.3$ slug \\
+Roll inertia           & $\Ixx$ & $13{,}635$ slug\,ft$^2$ \\
+Pitch inertia          & $\Iyy$ & $58{,}966$ slug\,ft$^2$ \\
+Yaw inertia            & $\Izz$ & $67{,}560$ slug\,ft$^2$ \\
+Product of inertia     & $\Ixz$ & $2{,}933$ slug\,ft$^2$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Cruise trim condition (15{,}000 ft, $M = 0.6$).}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Quantity} & \textbf{Symbol} & \textbf{Value} \\
+\midrule
+Altitude                  & $h$       & $15{,}000$ ft \\
+Mach number               & $M$       & $0.6$ \\
+Air density               & $\rho_1$  & $1.4962 \times 10^{-3}$ slug/ft$^3$ \\
+Speed of sound            & $a_1$     & $1057.4$ ft/s \\
+True airspeed             & $U_1$     & $634.44$ ft/s \\
+Dynamic pressure          & $\qbar_1$ & $301.12$ lbf/ft$^2$ \\
+Trim angle of attack      & $\alpha_1$ & $4.0^\circ$ \\
+Trim pitch attitude       & $\theta_1$ & $4.0^\circ$ \\
+Trim elevon deflection    & $\delta_{e_1}$ & $-3.87^\circ$ \\
+Center of gravity         & ---       & $30\%$ MGC \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+placeholder
+
+\section{Dimensional Stability Derivatives}
+
+placeholder
+
+\subsection{Longitudinal Derivatives}
+
+\begin{table}[h]
+\centering
+\caption{Longitudinal dimensional stability derivatives at trim.}
+\begin{tabular}{lcc l lcc}
+\toprule
+\textbf{Symbol} & \textbf{Value} & \textbf{Units} & \quad &
+\textbf{Symbol} & \textbf{Value} & \textbf{Units} \\
+\midrule
+$X_u$       & $-9.418\!\times\!10^{-4}$ & 1/s        & & $Z_q$       & $-2.006$                & ft/s        \\
+$X_\alpha$  & $-31.20$                  & ft/s$^2$   & & $Z_{\delta_e}$ & $-97.93$            & ft/s$^2$    \\
+$X_w$       & $-0.04918$                & 1/s        & & $M_u$       & $1.043\!\times\!10^{-3}$ & 1/(ft$\cdot$s) \\
+$X_{\delta_e}$ & $6.971$                & ft/s$^2$   & & $M_\alpha$  & $-9.038$                & 1/s$^2$     \\
+$X_{T_u}$   & $0$                       & 1/s        & & $M_w$       & $-0.01425$              & 1/(ft$\cdot$s) \\
+$Z_u$       & $-0.0225$                 & 1/s        & & $M_{\dot\alpha}$ & $-0.1324$          & 1/s         \\
+$Z_\alpha$  & $-736.9$                  & ft/s$^2$   & & $M_{\dot w}$ & $-2.087\!\times\!10^{-4}$ & 1/ft   \\
+$Z_w$       & $-1.162$                  & 1/s        & & $M_q$       & $-0.6936$               & 1/s         \\
+$Z_{\dot\alpha}$ & $0$                  & ft/s       & & $M_{\delta_e}$ & $-18.86$             & 1/s$^2$     \\
+$Z_{\dot w}$ & $0$                      & ---        & & $M_{T_u}$, $M_{T_\alpha}$ & $0$         & ---         \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+placeholder
+
+\subsection{Lateral-Directional Derivatives}
+
+\begin{table}[h]
+\centering
+\caption{Lateral-directional dimensional stability derivatives at trim.}
+\begin{tabular}{lcc l lcc}
+\toprule
+\textbf{Symbol} & \textbf{Value} & \textbf{Units} & \quad &
+\textbf{Symbol} & \textbf{Value} & \textbf{Units} \\
+\midrule
+$Y_\beta$        & $-118.7$  & ft/s$^2$ & & $L_{\delta_a}$ & $17.63$   & 1/s$^2$ \\
+$Y_p$            & $0$       & ft/s     & & $L_{\delta_r}$ & $6.41$    & 1/s$^2$ \\
+$Y_r$            & $0$       & ft/s     & & $N_\beta$      & $4.851$   & 1/s$^2$ \\
+$Y_{\delta_a}$   & $-4.149$  & ft/s$^2$ & & $N_p$          & $0$       & 1/s     \\
+$Y_{\delta_r}$   & $34.86$   & ft/s$^2$ & & $N_r$          & $-0.5918$ & 1/s     \\
+$L_\beta$        & $-27.88$  & 1/s$^2$  & & $N_{\delta_a}$ & $0.3719$  & 1/s$^2$ \\
+$L_p$            & $-2.590$  & 1/s      & & $N_{\delta_r}$ & $-5.983$  & 1/s$^2$ \\
+$L_r$            & $0.9775$  & 1/s      & &                &           &         \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+placeholder
+
+\section{Linearized Perturbation Equations in Matrix Form}
+
+placeholder
+
+\subsection{Longitudinal Equations}
+
+The longitudinal perturbation dynamics, written in state-space form
+$\dot{\mathbf{x}} = A_\text{long}\,\mathbf{x} + B_\text{long}\,\mathbf{u}$ with
+state vector $\mathbf{x} = [\Delta u,\,\Delta w,\,\Delta q,\,\Delta\theta]^\top$
+and control vector $\mathbf{u} = [\Delta\delta_e,\,\Delta\delta_T]^\top$, take
+the symbolic form
+\begin{equation}
+\begin{bmatrix} \Delta\dot u \\ \Delta\dot w \\ \Delta\dot q \\ \Delta\dot\theta \end{bmatrix}
+=
+\begin{bmatrix}
+X_u                          & X_w                          & 0                          & -g \\
+Z_u                          & Z_w                          & U_1                        & 0 \\
+M_u + M_{\dot w} Z_u         & M_w + M_{\dot w} Z_w         & M_q + M_{\dot w} U_1       & 0 \\
+0                            & 0                            & 1                          & 0
+\end{bmatrix}
+\begin{bmatrix} \Delta u \\ \Delta w \\ \Delta q \\ \Delta\theta \end{bmatrix}
++
+\begin{bmatrix}
+X_{\delta_e}                  & X_{\delta_T} \\
+Z_{\delta_e}                  & Z_{\delta_T} \\
+M_{\delta_e} + M_{\dot w} Z_{\delta_e} & M_{\delta_T} + M_{\dot w} Z_{\delta_T} \\
+0                             & 0
+\end{bmatrix}
+\begin{bmatrix} \Delta\delta_e \\ \Delta\delta_T \end{bmatrix}.
+\end{equation}
+
+Substituting the dimensional derivatives from the previous section yields
+\begin{equation}
+A_\text{long} =
+\begin{bmatrix}
+-9.418\!\times\!10^{-4} & -0.04918 & 0       & -32.17 \\
+-0.0225                 & -1.162   & 634.4   & 0      \\
++1.048\!\times\!10^{-3} & -0.01400 & -0.8260 & 0      \\
+0                       & 0        & 1       & 0
+\end{bmatrix},
+\qquad
+B_\text{long} =
+\begin{bmatrix}
+6.971  & 0 \\
+-97.93 & 0 \\
+-18.84 & 0 \\
+0      & 0
+\end{bmatrix}.
+\end{equation}
+
+The throttle column of $B_\text{long}$ is identically zero because the project
+handout omits throttle-perturbation derivatives and the constant-thrust jet
+assumption produces $X_{T_u} = M_{T_u} = M_{T_\alpha} = 0$.
+
+placeholder
+
+\subsection{Lateral-Directional Equations}
+
+The lateral-directional perturbation dynamics take the form
+$\dot{\mathbf{x}} = A_\text{lat}\,\mathbf{x} + B_\text{lat}\,\mathbf{u}$ with
+state vector $\mathbf{x} = [\Delta\beta,\,\Delta p,\,\Delta r,\,\Delta\phi]^\top$
+and control vector $\mathbf{u} = [\Delta\delta_a,\,\Delta\delta_r]^\top$:
+\begin{equation}
+\begin{bmatrix} \Delta\dot\beta \\ \Delta\dot p \\ \Delta\dot r \\ \Delta\dot\phi \end{bmatrix}
+=
+\begin{bmatrix}
+Y_\beta/U_1 & Y_p/U_1 & -(1 - Y_r/U_1) & g\cos\theta_1/U_1 \\
+L'_\beta    & L'_p    & L'_r           & 0 \\
+N'_\beta    & N'_p    & N'_r           & 0 \\
+0           & 1       & 0              & 0
+\end{bmatrix}
+\begin{bmatrix} \Delta\beta \\ \Delta p \\ \Delta r \\ \Delta\phi \end{bmatrix}
++
+\begin{bmatrix}
+0           & Y_{\delta_r}/U_1 \\
+L'_{\delta_a} & L'_{\delta_r} \\
+N'_{\delta_a} & N'_{\delta_r} \\
+0           & 0
+\end{bmatrix}
+\begin{bmatrix} \Delta\delta_a \\ \Delta\delta_r \end{bmatrix}.
+\end{equation}
+
+The primed derivatives absorb the product of inertia $\Ixz$ via
+\begin{equation}
+L'_X = \frac{L_X + (\Ixz/\Ixx)\,N_X}{1 - \Ixz^{\,2}/(\Ixx\,\Izz)},
+\qquad
+N'_X = \frac{N_X + (\Ixz/\Izz)\,L_X}{1 - \Ixz^{\,2}/(\Ixx\,\Izz)},
+\qquad X \in \{\beta, p, r, \delta_a, \delta_r\}.
+\end{equation}
+
+Substituting the numerical values yields
+\begin{equation}
+A_\text{lat} =
+\begin{bmatrix}
+-0.1871 & 0       & -1     & 0.05059 \\
+-27.09  & -2.615  & 0.8582 & 0       \\
+3.675   & -0.1135 & -0.5546 & 0      \\
+0       & 1       & 0       & 0
+\end{bmatrix},
+\qquad
+B_\text{lat} =
+\begin{bmatrix}
+0     & 0.05494 \\
+17.87 & 5.171   \\
+1.148 & -5.759  \\
+0     & 0
+\end{bmatrix}.
+\end{equation}
+
+placeholder
+
+\section{Eigenvalues and Modal Parameters}
+
+placeholder
+
+\begin{table}[h]
+\centering
+\caption{Longitudinal modal parameters.}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Mode} & \textbf{Eigenvalue} & \textbf{$\omega_n$ (rad/s)} & \textbf{$\zeta$} & \textbf{$T$ (s)} & \textbf{$t_{1/2}$ (s)} & \textbf{$\tau$ (s)} \\
+\midrule
+Short period & $-0.991 \pm 2.974\,j$       & $3.135$  & $0.316$  & $2.113$ & $0.700$  & --- \\
+Phugoid      & $-0.00330 \pm 0.0708\,j$    & $0.0708$ & $0.0466$ & $88.8$  & $210.1$  & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Lateral-directional modal parameters.}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Mode} & \textbf{Eigenvalue} & \textbf{$\omega_n$ (rad/s)} & \textbf{$\zeta$} & \textbf{$T$ (s)} & \textbf{$t_{1/2}$ (s)} & \textbf{$\tau$ (s)} \\
+\midrule
+Dutch roll       & $-0.161 \pm 2.165\,j$ & $2.171$  & $0.0740$ & $2.902$ & $4.315$  & ---     \\
+Roll subsidence  & $-2.993$              & $2.993$  & $1.000$  & ---     & $0.232$  & $0.334$ \\
+Spiral           & $-0.0426$             & $0.0426$ & $1.000$  & ---     & $16.28$  & $23.48$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+placeholder
+
+\section{Modal Characteristics Analysis}
+
+placeholder
+
+\subsection{Longitudinal Modes}
+
+\begin{table}[h]
+\centering
+\caption{Longitudinal eigenvector contributions (magnitude / phase in degrees,
+normalized so the largest entry per mode equals $1\angle 0^\circ$).}
+\begin{tabular}{l cc cc}
+\toprule
+& \multicolumn{2}{c}{\textbf{Short Period}} & \multicolumn{2}{c}{\textbf{Phugoid}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+\textbf{State} & \textbf{Magnitude} & \textbf{Phase ($^\circ$)} & \textbf{Magnitude} & \textbf{Phase ($^\circ$)} \\
+\midrule
+$\Delta u$       & $0.0305$  & $+60.84$  & $1.000$    & $+0.00$   \\
+$\Delta w$       & $1.000$   & $+0.00$   & $0.0657$   & $-0.96$   \\
+$\Delta q$       & $0.00470$ & $+86.71$  & $0.000156$ & $+1.96$   \\
+$\Delta\theta$   & $0.00150$ & $-21.72$  & $0.00220$  & $-90.71$  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Short Period}
+
+placeholder
+
+\subsubsection*{Phugoid}
+
+placeholder
+
+\subsection{Lateral-Directional Modes}
+
+\begin{table}[h]
+\centering
+\caption{Lateral-directional eigenvector contributions (magnitude / phase
+in degrees, normalized so the largest entry per mode equals $1\angle 0^\circ$).}
+\begin{tabular}{l cc cc cc}
+\toprule
+& \multicolumn{2}{c}{\textbf{Dutch Roll}} & \multicolumn{2}{c}{\textbf{Roll}} & \multicolumn{2}{c}{\textbf{Spiral}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+\textbf{State} & \textbf{Mag.} & \textbf{Phase ($^\circ$)} & \textbf{Mag.} & \textbf{Phase ($^\circ$)} & \textbf{Mag.} & \textbf{Phase ($^\circ$)} \\
+\midrule
+$\Delta\beta$ & $0.121$ & $-142.26$ & $0.0147$ & $0.00$   & $0.00562$ & $0.00$    \\
+$\Delta p$    & $1.000$ & $0.00$    & $1.000$  & $0.00$   & $0.0426$  & $+180.00$ \\
+$\Delta r$    & $0.245$ & $+130.64$ & $0.0244$ & $0.00$   & $0.0498$  & $0.00$    \\
+$\Delta\phi$  & $0.461$ & $-94.24$  & $0.334$  & $-180.00$ & $1.000$  & $0.00$    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Dutch Roll}
+
+placeholder
+
+\subsubsection*{Roll Subsidence}
+
+placeholder
+
+\subsubsection*{Spiral}
+
+placeholder
+
+\section{Impulse Response Analysis}
+
+placeholder
+
+\subsection{Longitudinal Response}
+
+placeholder
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.78\textwidth]{figures/long_impulse_de.png}
+\caption{Longitudinal impulse response to elevator deflection $\delta_e$.}
+\label{fig:long-de}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.78\textwidth]{figures/long_impulse_dT.png}
+\caption{Longitudinal impulse response to throttle perturbation $\delta_T$.
+The response is identically zero because the project handout omits throttle
+derivatives, so $X_{\delta_T} = Z_{\delta_T} = M_{\delta_T} = 0$.}
+\label{fig:long-dT}
+\end{figure}
+
+placeholder
+
+\subsection{Lateral-Directional Response}
+
+placeholder
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.78\textwidth]{figures/lat_impulse_da.png}
+\caption{Lateral-directional impulse response to aileron deflection $\delta_a$.}
+\label{fig:lat-da}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.78\textwidth]{figures/lat_impulse_dr.png}
+\caption{Lateral-directional impulse response to rudder deflection $\delta_r$.}
+\label{fig:lat-dr}
+\end{figure}
+
+placeholder
+
+\section{Flying Qualities Assessment}
+
+placeholder
+
+\begin{table}[h]
+\centering
+\caption{MIL-F-8785C flying qualities classification (Class IV fighter,
+Category B cruise).}
+\begin{tabular}{l l c c}
+\toprule
+\textbf{Mode} & \textbf{Metric} & \textbf{Value} & \textbf{Level} \\
+\midrule
+Short period     & $\zeta$               & $0.316$  & Level 1 \\
+Short period     & CAP (1/s$^2$)         & $0.429$  & Level 1 \\
+Phugoid          & $\zeta$               & $0.0466$ & Level 1 \\
+Dutch roll       & $\zeta$               & $0.0740$ & Level 2 \\
+Dutch roll       & $\zeta\,\omega_n$ (1/s) & $0.161$ & --- \\
+Dutch roll       & $\omega_n$ (rad/s)    & $2.171$  & --- \\
+Roll subsidence  & $\tau$ (s)            & $0.334$  & Level 1 \\
+Spiral           & $t_{\text{double}}$ (s) & stable & Level 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+placeholder
+
+\appendix
+\addcontentsline{toc}{part}{Appendix}
+
+\section{Python Source Code}
+
+The complete analysis script (\texttt{main.py}) is reproduced below. It
+computes every numerical result reported above and generates all four
+impulse-response figures, requiring only NumPy, SciPy, and matplotlib.
+
+\lstinputlisting[style=pythonstyle]{main.py}
 
 \end{document}
