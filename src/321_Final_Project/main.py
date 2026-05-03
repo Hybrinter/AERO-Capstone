@@ -205,6 +205,65 @@ _LAT_UNITS: dict[str, str] = {
 
 
 # =============================================================================
+# Parts 2 & 3a: longitudinal state-space matrices
+# =============================================================================
+# State vector:   x_long = [du, dw, dq, dtheta]^T
+# Control vector: u_long = [d_de, d_dT]^T
+def build_longitudinal_ss(d: dict[str, float]) -> tuple[np.ndarray, np.ndarray]:
+    """Assemble (A_long, B_long) per the matrix form in the project handout.
+
+    Args:
+        d: dictionary returned by compute_longitudinal_derivatives().
+
+    Returns:
+        (A_long, B_long): A is 4x4, B is 4x2. State ordering is
+            [du, dw, dq, dtheta]; control ordering is [d_de, d_dT].
+
+    Notes:
+        Mwd entries appear in row 3 (the q-equation) because the Mwd*Zw term
+        comes from substituting the w-equation into the q-equation to remove
+        the alpha-dot dependency. This is the standard "small-disturbance"
+        longitudinal A-matrix as it appears in the project handout image.
+    """
+    Xu, Xw, Xde       = d["Xu"], d["Xw"], d["Xde"]
+    Zu, Zw, Zde       = d["Zu"], d["Zw"], d["Zde"]
+    Mu, Mw, Mwd       = d["Mu"], d["Mw"], d["Mwd"]
+    Mq, Mde           = d["Mq"], d["Mde"]
+    XdT, ZdT, MdT     = d["XdT"], d["ZdT"], d["MdT"]
+
+    A = np.array([
+        [Xu,                 Xw,                 0.0,             -G          ],
+        [Zu,                 Zw,                 U1,               0.0        ],
+        [Mu + Mwd * Zu,      Mw + Mwd * Zw,      Mq + Mwd * U1,    0.0        ],
+        [0.0,                0.0,                1.0,              0.0        ],
+    ])
+
+    B = np.array([
+        [Xde,                XdT             ],
+        [Zde,                ZdT             ],
+        [Mde + Mwd * Zde,    MdT + Mwd * ZdT ],
+        [0.0,                0.0             ],
+    ])
+
+    return A, B
+
+
+def _print_matrix(name: str, M: np.ndarray,
+                  row_labels: list[str], col_labels: list[str]) -> None:
+    """Print a labeled matrix with 4 significant figures per entry."""
+    print()
+    print("-" * 78)
+    print(f" {name}")
+    print("-" * 78)
+    col_width = 14
+    header = " " * 10 + "".join(f"{c:>{col_width}}" for c in col_labels)
+    print(header)
+    for i, row in enumerate(M):
+        row_str = "".join(f"{v:>{col_width}.4g}" for v in row)
+        print(f" {row_labels[i]:<8}  {row_str}")
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -226,6 +285,14 @@ def main() -> None:
     lat_d = compute_lateral_derivatives()
     _print_derivative_table("Lateral-directional dimensional derivatives",
                             lat_d, _LAT_UNITS)
+
+    A_long, B_long = build_longitudinal_ss(long_d)
+    _print_matrix("A_long", A_long,
+                  ["du_dot", "dw_dot", "dq_dot", "dtheta_dot"],
+                  ["du", "dw", "dq", "dtheta"])
+    _print_matrix("B_long", B_long,
+                  ["du_dot", "dw_dot", "dq_dot", "dtheta_dot"],
+                  ["d_de", "d_dT"])
 
 
 if __name__ == "__main__":
