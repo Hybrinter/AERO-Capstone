@@ -13,8 +13,8 @@
 
 \title{A-7A Corsair II Stability and Control Analysis \\
        \large AERO 321 Final Project}
-\author{}
-\date{}
+\author{Aiden Kampwerth 632003715}
+\date{05/02/2026}
 
 \newcommand{\qbar}{\bar{q}}
 \newcommand{\cbar}{\bar{c}}
@@ -49,295 +49,366 @@
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
 
-placeholder
+This report aims to characterize both the longitudinal and lateral linear stability of the A-7A Corsair II which is
+critical in determining the flying qualities of the aircraft as well as the creation of a generalized plant for controls.
+Furthermore, aircraft designers can use stability analysis to improve the static and dynamic stability of the aircraft
+through modifying certain features such as control surface sizing and placement to meet the design requirements of the
+aircraft.
 
 \part*{Longitudinal Stability Derivatives}
 \addcontentsline{toc}{part}{Longitudinal Stability Derivatives}
 
+The longitudinal stability derivatives are useful in determining the characteristics of the aircraft in Straight, Level,
+Unaccelerated Flight (SLUF) along its central fuselage axis.
+These quantities enable the understanding of how the aircraft tends to respond longitudinally towards perturbations
+which are common in most flight regimes.
+
 \section{Longitudinal Nondimensionalization Conventions}
 
-Dimensional derivatives are obtained by differentiating the dimensional aerodynamic
-forces and moments with respect to each motion variable, then expressing the result
-through the nondimensional coefficients defined as
-\begin{equation}
+The target linearized equations are built upon dimensional derivatives which is not useful during the design process of
+an aircraft.
+Instead, nondimensional derivatives are utilized which must be converted via these three equations defined as
+
+\begin{equation}\label{eq:equation_1}
 C_X = \frac{X}{\qbar S}, \qquad
 C_Z = \frac{Z}{\qbar S}, \qquad
 C_m = \frac{M}{\qbar S \cbar},
 \end{equation}
+
 together with the nondimensional perturbation variables
-\begin{equation}
+
+\begin{equation}\label{eq:equation_2}
 \hat{u} = \frac{u}{U_1}, \qquad
 \hat{\alpha} = \alpha, \qquad
 \hat{\dot\alpha} = \frac{\dot\alpha\,\cbar}{2U_1}, \qquad
 \hat{q} = \frac{q\cbar}{2U_1}, \qquad
 \hat{\delta}_e = \delta_e .
 \end{equation}
-Derivatives are taken about the trim state (subscript $1$), where $U = U_1$
+
+These derivatives are taken about the trim state (subscript $1$), where $U = U_1$
 and $\qbar = \qbar_1 = \tfrac{1}{2}\rho_1 U_1^2$.
 
 \section{X-Force Derivatives}
 
-In stability axes, the total axial force, including the steady contribution and
-perturbations, is
-\begin{equation}
+The total axial force represents the combined effects from both the thrust and the associated drag of the aircraft and
+is formulated as
+
+\begin{equation}\label{eq:equation_3}
 X = \qbar S\,C_X = \tfrac{1}{2}\rho U^2 S\,(-C_D + C_T),
 \end{equation}
+
 where $-C_D$ reflects drag acting opposite to the body $x$-axis and $C_T$ is the
 thrust coefficient.
 
 \subsection{Derivative with respect to $u$}
 
-Differentiating with respect to $u$ at trim, recognizing that both $U^2$ and $C_D$
-depend on $u$:
-\begin{equation}
+Differentiating with respect to $u$ at trim results in
+
+\begin{equation}\label{eq:equation_4}
 \dd{X}{u} = \rho_1 U_1 S\,(-C_{D_1}) + \tfrac{1}{2}\rho_1 U_1^2 S\left(-\dd{C_D}{u}\right).
 \end{equation}
+
 Using $\hat u = u/U_1$, the chain rule gives $\partial C_D/\partial u = C_{D_u}/U_1$.
-Substituting and factoring $\qbar_1 S/(mU_1)$:
-\begin{equation}
+Substituting and factoring $\qbar_1 S/(mU_1)$ results in
+
+\begin{equation}\label{eq:equation_5}
 \boxed{\;X_u = \frac{1}{m}\dd{X}{u} = -\frac{\qbar_1 S}{mU_1}\bigl(C_{D_u} + 2C_{D_1}\bigr)\;}
 \end{equation}
-The factor of $2$ originates from differentiating $U^2$; $C_{D_u}$ accounts for
-compressibility (Mach) effects on drag.
 
 \subsection{Derivative with respect to $\alpha$}
 
-At fixed $U_1$, only $C_D$ and $C_L$ depend on $\alpha$. Resolving forces in the
-stability $x$-axis (small-angle: $\sin\alpha \approx \alpha$) gives a contribution
-from lift tilting forward:
-\begin{equation}
+At fixed $U_1$, only $C_D$ and $C_L$ depend on $\alpha$.
+Utilizing the small-angle approximation where $\sin\alpha \approx \alpha$ results in
+
+\begin{equation}\label{eq:equation_6}
 X = \qbar_1 S\,(-C_D + C_L\,\alpha + \cdots).
 \end{equation}
-Differentiating and evaluating at trim ($\alpha = \alpha_1$, the explicit $\alpha$
-factor drops out but $C_{L_1}$ survives the product rule):
-\begin{equation}
+
+Differentiating and evaluating at trim results in
+
+\begin{equation}\label{eq:equation_7}
 \boxed{\;X_\alpha = \frac{1}{m}\dd{X}{\alpha} = -\frac{\qbar_1 S}{m}\bigl(C_{D_\alpha} - C_{L_1}\bigr)\;}
 \end{equation}
 
 \subsection{Derivative with respect to $\delta_e$}
 
-Only the elevon-induced drag contributes (the elevon-lift contribution to $X$ is
-negligible at small $\alpha_1$):
-\begin{equation}
+Only the elevon-induced drag contributes and results in
+
+\begin{equation}\label{eq:equation_8}
 \boxed{\;X_{\delta_e} = -\frac{\qbar_1 S}{m}C_{D_{\delta_e}}\;}
 \end{equation}
 
 \subsection{Thrust derivative $X_{T_u}$}
 
-By identical reasoning to $X_u$, applied to the thrust term $+C_T$:
-\begin{equation}
+Similarly to $X_u$, the thrust term $+C_T$ differentiated results in
+
+\begin{equation}\label{eq:equation_9}
 \boxed{\;X_{T_u} = \frac{\qbar_1 S}{mU_1}\bigl(C_{T_{X_u}} + 2C_{T_{X_1}}\bigr)\;}
 \end{equation}
 
 \subsection{Conversion between $\alpha$ and $w$}
 
-Since $w = U_1\sin\alpha \approx U_1\alpha$, the chain rule gives
-\begin{equation}
+Since $w = U_1\sin\alpha \approx U_1\alpha$, the chain rule results in
+
+\begin{equation}\label{eq:equation_10}
 X_w = \dd{(X/m)}{w} = \frac{1}{U_1}\dd{(X/m)}{\alpha}
 \quad\Longrightarrow\quad \boxed{\;X_\alpha = U_1 X_w\;}
 \end{equation}
 
 \section{Z-Force Derivatives}
 
-The vertical force (with lift acting in $-z$) is
-\begin{equation}
-Z = -\qbar S\,C_L \quad (\text{plus a small } C_D\sin\alpha \text{ correction}).
+The total vertical force represents the combined effects from both the lift of the aircraft and its weight which
+is formulated as
+
+\begin{equation}\label{eq:equation_11}
+Z = -\qbar S\,C_L \quad
 \end{equation}
+
+assuming the $C_{D} \sin\alpha$ term is neglected via the small-angle approximation.
 
 \subsection{Derivative with respect to $u$}
 
-\begin{equation}
+Differentiating and evaluating at trim results in
+
+\begin{equation}\label{eq:equation_12}
 \dd{Z}{u} = -\rho_1 U_1 S\,C_{L_1} - \tfrac{1}{2}\rho_1 U_1^2 S\,\frac{C_{L_u}}{U_1},
 \end{equation}
-\begin{equation}
+
+canceling terms results in the final form
+
+\begin{equation}\label{eq:equation_13}
 \boxed{\;Z_u = -\frac{\qbar_1 S}{mU_1}\bigl(C_{L_u} + 2C_{L_1}\bigr)\;}
 \end{equation}
-The structure mirrors $X_u$, with $C_L$ replacing $C_D$.
+
+The resultant structure mirrors $X_u$, but with $C_L$ instead of $C_D$.
 
 \subsection{Derivative with respect to $\alpha$}
 
-The body-axis $Z$-force depends on both $C_L$ and the $\alpha$-projection of $C_D$:
-\begin{equation}
+The body-axis $Z$-force depends on both $C_L$ and the $\alpha$-projection of $C_D$ which results in
+
+\begin{equation}\label{eq:equation_14}
 Z = -\qbar_1 S\bigl(C_L + C_D\,\alpha\bigr).
 \end{equation}
-Differentiating with respect to $\alpha$ and evaluating at trim:
-\begin{equation}
+
+Differentiating with respect to $\alpha$ and evaluating at trim results in
+
+\begin{equation}\label{eq:equation_15}
 \boxed{\;Z_\alpha = -\frac{\qbar_1 S}{m}\bigl(C_{L_\alpha} + C_{D_1}\bigr)\;}
 \end{equation}
 
 \subsection{Derivatives with respect to $\dot\alpha$ and $q$}
 
-These come from unsteady aerodynamic terms. The nondimensional derivatives use
-$\hat{\dot\alpha} = \dot\alpha\,\cbar/(2U_1)$ and $\hat q = q\cbar/(2U_1)$, so
-converting back to dimensional $\dot\alpha$ and $q$ introduces a factor $\cbar/(2U_1)$:
-\begin{equation}
+These are due to the unsteady aerodynamic terms.
+The nondimensional derivatives use $\hat{\dot\alpha} = \dot\alpha\,\cbar/(2U_1)$ and $\hat q = q\cbar/(2U_1)$, so
+converting back to dimensional $\dot\alpha$ and $q$ introduces a factor $\cbar/(2U_1)$, resulting in
+
+\begin{equation}\label{eq:equation_16}
 \boxed{\;Z_{\dot\alpha} = \frac{1}{m}\dd{Z}{\dot\alpha}
        = -\frac{\qbar_1 S\cbar}{2mU_1}C_{L_{\dot\alpha}}\;}
 \end{equation}
-\begin{equation}
+
+and similarly
+
+\begin{equation}\label{eq:equation_17}
 \boxed{\;Z_q = \frac{1}{m}\dd{Z}{q}
        = -\frac{\qbar_1 S\cbar}{2mU_1}C_{L_q}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $\delta_e$}
 
-\begin{equation}
+$\delta_{e}$ solely depends on $C_L$ which results in
+
+\begin{equation}\label{eq:equation_18}
 \boxed{\;Z_{\delta_e} = -\frac{\qbar_1 S}{m}C_{L_{\delta_e}}\;}
 \end{equation}
 
 \subsection{Conversion to $w$-derivatives}
 
-By the same chain rule as for $X$:
-\begin{equation}
+By applying the same chain rule logic as for $X$, the result is
+
+\begin{equation}\label{eq:equation_19}
 \boxed{\;Z_\alpha = U_1 Z_w, \qquad Z_{\dot\alpha} = U_1 Z_{\dot w}\;}
 \end{equation}
 
 \section{M-Pitching Moment Derivatives}
 
-The pitching moment is $M = \qbar S \cbar\,C_m$, and the dimensional derivative is
-$M_{(\cdot)} = (1/\Iyy)\,\partial M/\partial(\cdot)$.
+The total longitudinal pitching moment represents the resultant lift and pitching effects from all control surfaces
+which is formulated as
+
+\begin{equation}\label{eq:equation_20}
+M = \qbar S \cbar\,C_m
+\end{equation}
+
+with the dimension derivative as
+
+\begin{equation}\label{eq:equation_21}
+M_{(\cdot)} = (1/\Iyy)\,\partial M/\partial(\cdot)
+\end{equation}
 
 \subsection{Derivative with respect to $u$}
 
-Both $\qbar$ and $C_m$ depend on $u$. Following the same expansion as for $X_u$:
-\begin{equation}
+Both $\qbar$ and $C_m$ depend on $u$ and following the same expansion as for $X_u$ results in
+
+\begin{equation}\label{eq:equation_22}
 \dd{M}{u} = \rho_1 U_1 S\cbar\,C_{m_1} + \qbar_1 S\cbar\,\frac{C_{m_u}}{U_1},
 \end{equation}
-\begin{equation}
+
+and subsequently
+
+\begin{equation}\label{eq:equation_23}
 \boxed{\;M_u = \frac{\qbar_1 S\cbar}{\Iyy U_1}\bigl(C_{m_u} + 2C_{m_1}\bigr)\;}
 \end{equation}
-In trimmed flight $C_{m_1} = 0$, but the formula retains the term for generality.
+
+In SLUF, $C_{m_1} = 0$ but the formula retains the term for generality.
 
 \subsection{Derivatives with respect to $\alpha$ and $\delta_e$}
 
-These are static (no time scaling needed):
-\begin{equation}
+Both $\alpha$ and $\delta_{e}$ are static terms which results in
+
+\begin{equation}\label{eq:equation_24}
 \boxed{\;M_\alpha = \frac{\qbar_1 S\cbar}{\Iyy}C_{m_\alpha}\;}
 \end{equation}
-\begin{equation}
+
+and similarly
+
+\begin{equation}\label{eq:equation_25}
 \boxed{\;M_{\delta_e} = \frac{\qbar_1 S\cbar}{\Iyy}C_{m_{\delta_e}}\;}
 \end{equation}
 
 \subsection{Derivatives with respect to $\dot\alpha$ and $q$}
 
-Both involve the unsteady-aerodynamic nondimensionalization $\cbar/(2U_1)$.
-Importantly, $M$ already carries one factor of $\cbar$ from its own coefficient
-definition, so the dimensional derivative ends up with $\cbar^{\,2}$:
-\begin{equation}
+Both $\dot\alpha$ and $q$ involve the unsteady-aerodynamic nondimensionalization $\cbar/(2U_1)$.
+However, $M$ already carries one factor of $\cbar$ from its own coefficient
+definition, so the dimensional derivative ends up with $\cbar^{\,2}$ and results in
+
+\begin{equation}\label{eq:equation_26}
 \boxed{\;M_{\dot\alpha} = \frac{1}{\Iyy}\dd{M}{\dot\alpha}
        = \frac{\qbar_1 S\cbar^{\,2}}{2\Iyy U_1}C_{m_{\dot\alpha}}\;}
 \end{equation}
-\begin{equation}
+
+and similarly
+
+\begin{equation}\label{eq:equation_27}
 \boxed{\;M_q = \frac{1}{\Iyy}\dd{M}{q}
        = \frac{\qbar_1 S\cbar^{\,2}}{2\Iyy U_1}C_{m_q}\;}
 \end{equation}
 
 \subsection{Thrust-pitching derivatives}
 
-Same logic as $X_{T_u}$ applied to the moment:
-\begin{equation}
+Applying the same logic as $X_{T_u}$ to the moment results in
+
+\begin{equation}\label{eq:equation_28}
 \boxed{\;M_{T_u} = \frac{\qbar_1 S\cbar}{\Iyy U_1}\bigl(C_{m_{T_u}} + 2C_{m_{T_1}}\bigr)\;}
 \end{equation}
-\begin{equation}
+
+and similarly
+
+\begin{equation}\label{eq:equation_29}
 \boxed{\;M_{T_\alpha} = \frac{\qbar_1 S\cbar}{\Iyy}C_{m_{T_\alpha}}\;}
 \end{equation}
 
 \subsection{Conversion to $w$-derivatives}
 
-\begin{equation}
+By applying the same chain rule logic as for $X$ and $Z$ for the moment, the result is
+
+\begin{equation}\label{eq:equation_30}
 \boxed{\;M_\alpha = U_1 M_w, \qquad M_{\dot\alpha} = U_1 M_{\dot w}\;}
 \end{equation}
-
-\section{Longitudinal Pattern Summary}
-
-Three structural elements appear repeatedly:
-\begin{enumerate}[leftmargin=*]
-  \item The $+2 C_{(\cdot)_1}$ term in every $u$-derivative comes from differentiating
-        $\qbar \propto U^2$ at trim. It is a kinematic effect, present even when the
-        coefficient itself has zero Mach sensitivity.
-  \item The factor $\cbar/(2U_1)$ appears whenever the nondimensionalization used
-        $\hat q$ or $\hat{\dot\alpha}$. Pitching-moment versions carry $\cbar^{\,2}$
-        because $M$ contributes its own $\cbar$.
-  \item The $\alpha\!\leftrightarrow\!w$ transformation $(\cdot)_\alpha = U_1(\cdot)_w$
-        follows directly from $w = U_1\alpha$ at small angles and applies uniformly
-        to $X$, $Z$, and $M$.
-\end{enumerate}
 
 \part*{Lateral-Directional Stability Derivatives}
 \addcontentsline{toc}{part}{Lateral-Directional Stability Derivatives}
 
+Similarly to the longitudinal stability derivatives, the lateral stability derivatives are useful in determining the
+characteristics of the aircraft in SLUF along the vertical and lateral axes.
+These quantities enable the understanding of how the aircraft tends to respond in more complex modes with any
+combination of lateral and directional contributions dependent on the specific mode.
+
 \section{Lateral-Directional Nondimensionalization Conventions}
 
-In stability axes, the lateral-directional aerodynamic side force, rolling moment,
-and yawing moment are nondimensionalized as
-\begin{equation}
+As before with the longitudinal derivatives, the target linearized equations are built upon dimensional derivatives
+which is not useful during the design process.
+Instead, the following nondimensional derivative conversions are required to translate the design into the
+stability analysis regime
+
+\begin{equation}\label{eq:equation_31}
 C_y = \frac{Y}{\qbar S}, \qquad
 C_\ell = \frac{L}{\qbar S b}, \qquad
 C_n = \frac{N}{\qbar S b},
 \end{equation}
-where $L$ denotes the rolling moment (not lift) and $b$ is the wingspan. The key
-distinction from the longitudinal case is that the reference length is the
-span~$b$ rather than the chord~$\bar c$, because rolling and yawing moments scale
-naturally with span.
+
+where $L$ denotes the rolling moment (not lift) and $b$ is the wingspan.
+The important distinction from the longitudinal case is that the reference length is not the chord~$\bar c$, but
+rather the span~$b$ because rolling and yawing moments scale with the span.
 
 The lateral-directional perturbation variables are
-\begin{equation}
+
+\begin{equation}\label{eq:equation_32}
 \hat\beta = \beta, \qquad
 \hat p = \frac{p\,b}{2U_1}, \qquad
 \hat r = \frac{r\,b}{2U_1}, \qquad
 \hat{\delta}_a = \delta_a, \qquad
-\hat{\delta}_r = \delta_r .
+\hat{\delta}_r = \delta_r
 \end{equation}
+
 All derivatives are evaluated at the symmetric trim state, where
 $\beta_1 = p_1 = r_1 = 0$, and consequently $C_{y_1} = C_{\ell_1} = C_{n_1} = 0$.
-This symmetry eliminates the $+2C_{(\cdot)_1}$ kinematic term that appeared in the
-longitudinal $u$-derivatives, and it also means lateral-directional derivatives
-are not taken with respect to forward speed (the lateral channel is decoupled
-from speed perturbations to first order).
+This eliminates the $+2C_{(\cdot)_1}$ kinematic term which appeared in the longitudinal $u$-derivatives, and it also
+means lateral-directional derivatives are decoupled from the speed perturbations.
 
 \section{Y-Force (Side-Force) Derivatives}
 
 The total side force is
-\begin{equation}
-Y = \qbar S\,C_y .
+
+\begin{equation}\label{eq:equation_33}
+Y = \qbar S\,C_y
 \end{equation}
-Because $Y$ already lies along the stability $y$-axis and the lateral
-trim coefficients vanish, there is no analog of the $C_{L_1}$ or $C_{D_1}$
-correction terms that appeared in $X_\alpha$ and $Z_\alpha$. Each nondimensional
-coefficient maps to its dimensional derivative directly.
+
+Due to $Y$ already lying on along the stability $y$-axis and the lateral trim coefficients vanishing, there is no
+analog of the $C_{L_1}$ or $C_{D_1}$ correction terms that appeared in $X_\alpha$ and $Z_\alpha$.
+Therefore, each of the nondimensional coefficients map directly to its respective dimensional derivative.
 
 \subsection{Derivative with respect to $\beta$}
 
-Since $\hat\beta = \beta$ requires no rescaling,
-\begin{equation}
+Since $\hat\beta = \beta$ requires no rescaling, this results in
+
+\begin{equation}\label{eq:equation_34}
 \dd{Y}{\beta} = \qbar_1 S\,C_{y_\beta},
 \end{equation}
-\begin{equation}
+
+and consequently
+
+\begin{equation}\label{eq:equation_35}
 \boxed{\;Y_\beta = \frac{1}{m}\dd{Y}{\beta} = \frac{\qbar_1 S}{m}C_{y_\beta}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $p$}
 
-The nondimensional roll rate is $\hat p = pb/(2U_1)$, so
-$\partial C_y/\partial p = \bigl(b/(2U_1)\bigr) C_{y_p}$. Therefore
-\begin{equation}
+The nondimensional roll rate is $\hat p = pb/(2U_1)$, and therefore
+$\partial C_y/\partial p = \bigl(b/(2U_1)\bigr) C_{y_p}$.
+This then results in
+
+\begin{equation}\label{eq:equation_36}
 \dd{Y}{p} = \qbar_1 S\,\frac{b}{2U_1}\,C_{y_p},
 \end{equation}
-\begin{equation}
+
+and consequently
+
+\begin{equation}\label{eq:equation_37}
 \boxed{\;Y_p = \frac{1}{m}\dd{Y}{p} = \frac{\qbar_1 S b}{2mU_1}C_{y_p}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $r$}
 
-Identical scaling, with $\hat r = rb/(2U_1)$:
-\begin{equation}
+Similar to the roll rate, scaling with $\hat r = rb/(2U_1)$ results in
+\begin{equation}\label{eq:equation_38}
 \boxed{\;Y_r = \frac{1}{m}\dd{Y}{r} = \frac{\qbar_1 S b}{2mU_1}C_{y_r}\;}
 \end{equation}
 
 \subsection{Control derivatives}
 
-The aileron and rudder deflections are not rescaled, so
-\begin{equation}
+The aileron and rudder deflections are not rescaled which results in
+
+\begin{equation}\label{eq:equation_39}
 \boxed{\;Y_{\delta_a} = \frac{\qbar_1 S}{m}C_{y_{\delta_a}}\;}
 \qquad
 \boxed{\;Y_{\delta_r} = \frac{\qbar_1 S}{m}C_{y_{\delta_r}}\;}
@@ -345,44 +416,51 @@ The aileron and rudder deflections are not rescaled, so
 
 \section{L-Rolling Moment Derivatives}
 
-The rolling moment is
-\begin{equation}
-L = \qbar S b\,C_\ell ,
-\end{equation}
-and the dimensional derivative is $L_{(\cdot)} = (1/\Ixx)\,\partial L/\partial(\cdot)$.
+The rolling moment is defined as $L = \qbar S b\,C_\ell$ and the dimensional derivative is
+$L_{(\cdot)} = (1/\Ixx)\,\partial L/\partial(\cdot)$.
 
 \subsection{Derivative with respect to $\beta$}
 
-\begin{equation}
+Simply differentiates to
+
+\begin{equation}\label{eq:equation_40}
 \dd{L}{\beta} = \qbar_1 S b\,C_{\ell_\beta},
 \end{equation}
-\begin{equation}
+
+which dimensionalizes to
+
+\begin{equation}\label{eq:equation_41}
 \boxed{\;L_\beta = \frac{\qbar_1 S b}{\Ixx}C_{\ell_\beta}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $p$}
 
-The rate-derivative carries a factor $b/(2U_1)$ from $\hat p$, in addition to the
-factor $b$ already in the rolling-moment definition; the result therefore contains
-$b^{\,2}$:
-\begin{equation}
+The rate-derivative carries a factor $b/(2U_1)$ from $\hat p$ which results in
+
+\begin{equation}\label{eq:equation_42}
 \dd{L}{p} = \qbar_1 S b\,\frac{b}{2U_1}\,C_{\ell_p}
          = \frac{\qbar_1 S b^{\,2}}{2U_1}C_{\ell_p},
 \end{equation}
-\begin{equation}
+
+and consequently
+
+\begin{equation}\label{eq:equation_43}
 \boxed{\;L_p = \frac{1}{\Ixx}\dd{L}{p} = \frac{\qbar_1 S b^{\,2}}{2\Ixx U_1}C_{\ell_p}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $r$}
 
-Same structure with $\hat r = rb/(2U_1)$:
-\begin{equation}
+Same structure as above results in
+
+\begin{equation}\label{eq:equation_44}
 \boxed{\;L_r = \frac{\qbar_1 S b^{\,2}}{2\Ixx U_1}C_{\ell_r}\;}
 \end{equation}
 
 \subsection{Control derivatives}
 
-\begin{equation}
+As before with the side force derivatives
+
+\begin{equation}\label{eq:equation_45}
 \boxed{\;L_{\delta_a} = \frac{\qbar_1 S b}{\Ixx}C_{\ell_{\delta_a}}\;}
 \qquad
 \boxed{\;L_{\delta_r} = \frac{\qbar_1 S b}{\Ixx}C_{\ell_{\delta_r}}\;}
@@ -390,77 +468,65 @@ Same structure with $\hat r = rb/(2U_1)$:
 
 \section{N-Yawing Moment Derivatives}
 
-The yawing moment is
-\begin{equation}
-N = \qbar S b\,C_n ,
-\end{equation}
-with $N_{(\cdot)} = (1/\Izz)\,\partial N/\partial(\cdot)$. The structure mirrors
-the rolling-moment derivatives exactly, with $\Izz$ replacing $\Ixx$ and
-$C_n$ replacing $C_\ell$.
+The yawing moment is defined as $N = \qbar S b\,C_n$ and the dimensional derivative is
+$N_{(\cdot)} = (1/\Izz)\,\partial N/\partial(\cdot)$.
+The structure mirrors the rolling-moment derivatives exactly, with $\Izz$ replacing $\Ixx$ and $C_n$ replacing $C_\ell$.
 
 \subsection{Derivative with respect to $\beta$}
 
-\begin{equation}
+Simply differentiates to
+
+\begin{equation}\label{eq:equation_46}
 \boxed{\;N_\beta = \frac{\qbar_1 S b}{\Izz}C_{n_\beta}\;}
 \end{equation}
 
 \subsection{Thrust-induced derivative $N_{T_\beta}$}
 
-The thrust contribution to yawing moment is treated identically to the
-aerodynamic contribution:
-\begin{equation}
+Unique to the yawing moment, the $N_{T_\beta}$ thrust coefficient differentiated results in
+
+\begin{equation}\label{eq:equation_47}
 \boxed{\;N_{T_\beta} = \frac{\qbar_1 S b}{\Izz}C_{n_{T_\beta}}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $p$}
 
-\begin{equation}
+Similarly to $L_p$, differentiating results in
+
+\begin{equation}\label{eq:equation_48}
 \boxed{\;N_p = \frac{1}{\Izz}\dd{N}{p}
        = \frac{\qbar_1 S b^{\,2}}{2\Izz U_1}C_{n_p}\;}
 \end{equation}
 
 \subsection{Derivative with respect to $r$}
 
-\begin{equation}
+Similarly to $L_r$, differentiating results in
+
+\begin{equation}\label{eq:equation_49}
 \boxed{\;N_r = \frac{1}{\Izz}\dd{N}{r}
        = \frac{\qbar_1 S b^{\,2}}{2\Izz U_1}C_{n_r}\;}
 \end{equation}
 
 \subsection{Control derivatives}
 
-\begin{equation}
+Finally, the control derivatives match the rolling moment derivatives which results in
+
+\begin{equation}\label{eq:equation_50}
 \boxed{\;N_{\delta_a} = \frac{\qbar_1 S b}{\Izz}C_{n_{\delta_a}}\;}
 \qquad
 \boxed{\;N_{\delta_r} = \frac{\qbar_1 S b}{\Izz}C_{n_{\delta_r}}\;}
 \end{equation}
-
-\section{Lateral-Directional Pattern Summary}
-
-The lateral-directional derivations follow three structural rules:
-\begin{enumerate}[leftmargin=*]
-  \item \textbf{Reference length is span $b$, not chord $\bar c$.} Rolling and
-        yawing moments scale with span, so every moment expression carries a
-        factor of $b$ from the coefficient definition itself, and rate
-        nondimensionalizations $\hat p$, $\hat r$ also use $b$.
-  \item \textbf{The rate derivatives carry $b^{\,2}$ in moments.} One factor of
-        $b$ comes from the moment definition $L = \qbar S b\,C_\ell$ (or
-        $N = \qbar S b\,C_n$), and a second factor comes from
-        $\hat p = pb/(2U_1)$ or $\hat r = rb/(2U_1)$.
-  \item \textbf{No $+2C_{(\cdot)_1}$ kinematic terms.} The lateral channel does
-        not take derivatives with respect to forward speed, and at symmetric
-        trim $C_{y_1} = C_{\ell_1} = C_{n_1} = 0$, so the product-rule
-        contributions that produced these terms in the longitudinal derivation
-        do not appear here.
-\end{enumerate}
 
 \part*{Numerical Analysis: A-7A Corsair II}
 \addcontentsline{toc}{part}{Numerical Analysis: A-7A Corsair II}
 
 \section{Aircraft Data and Trim Condition}
 
-placeholder
+Table 1 highlights the provided information about the aircraft which are crucial for computing the
+dimensional stability derivatives.
+Of note, the aircraft is a Class IV aircraft and therefore has significantly reduced $I_{xx}$ rolling moment to enable
+rapid maneuvers.
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_1}
 \centering
 \caption{A-7A Corsair II reference geometry, mass, and inertia properties.}
 \begin{tabular}{lcc}
@@ -480,7 +546,9 @@ Product of inertia     & $\Ixz$ & $2{,}933$ slug\,ft$^2$ \\
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+Table 2 showcases the cruise condition computed using the standard atmosphere and the provide trim parameters.
+
+\begin{table}[h]\label{tab:table_2}
 \centering
 \caption{Cruise trim condition (15{,}000 ft, $M = 0.6$).}
 \begin{tabular}{lcc}
@@ -496,20 +564,20 @@ Dynamic pressure          & $\qbar_1$ & $301.12$ lbf/ft$^2$ \\
 Trim angle of attack      & $\alpha_1$ & $4.0^\circ$ \\
 Trim pitch attitude       & $\theta_1$ & $4.0^\circ$ \\
 Trim elevon deflection    & $\delta_{e_1}$ & $-3.87^\circ$ \\
-Center of gravity         & ---       & $30\%$ MGC \\
+Center of gravity         & $\bar x_{cg}$       & $30\%$ MGC \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-placeholder
+\newpage
 
 \section{Dimensional Stability Derivatives}
 
-placeholder
+Utilizing both the provided geometry and cruise condition, the dimensional stability derivatives were computed
+and subsequently displayed below in Table 3 and Table 4 for longitudinal and lateral-directional derivatives
+respectively.
 
-\subsection{Longitudinal Derivatives}
-
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_3}
 \centering
 \caption{Longitudinal dimensional stability derivatives at trim.}
 \begin{tabular}{lcc l lcc}
@@ -531,11 +599,7 @@ $Z_{\dot w}$ & $0$                      & ---        & & $M_{T_u}$, $M_{T_\alpha
 \end{tabular}
 \end{table}
 
-placeholder
-
-\subsection{Lateral-Directional Derivatives}
-
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_4}
 \centering
 \caption{Lateral-directional dimensional stability derivatives at trim.}
 \begin{tabular}{lcc l lcc}
@@ -555,20 +619,18 @@ $L_r$            & $0.9775$  & 1/s      & &                &           &        
 \end{tabular}
 \end{table}
 
-placeholder
+\newpage
 
 \section{Linearized Perturbation Equations in Matrix Form}
 
-placeholder
-
 \subsection{Longitudinal Equations}
 
-The longitudinal perturbation dynamics, written in state-space form
-$\dot{\mathbf{x}} = A_\text{long}\,\mathbf{x} + B_\text{long}\,\mathbf{u}$ with
-state vector $\mathbf{x} = [\Delta u,\,\Delta w,\,\Delta q,\,\Delta\theta]^\top$
-and control vector $\mathbf{u} = [\Delta\delta_e,\,\Delta\delta_T]^\top$, take
-the symbolic form
-\begin{equation}
+The longitudinal perturbation dynamics, written in the classical state-space form of
+$\dot{\mathbf{x}} = A_\text{long}\,\mathbf{x} + B_\text{long}\,\mathbf{u}$ with a
+state vector of $\mathbf{x} = [\Delta u,\,\Delta w,\,\Delta q,\,\Delta\theta]^\top$
+and a control vector of $\mathbf{u} = [\Delta\delta_e,\,\Delta\delta_T]^\top$, are shown as
+
+\begin{equation}\label{eq:equation_51}
 \begin{bmatrix} \Delta\dot u \\ \Delta\dot w \\ \Delta\dot q \\ \Delta\dot\theta \end{bmatrix}
 =
 \begin{bmatrix}
@@ -588,15 +650,16 @@ M_{\delta_e} + M_{\dot w} Z_{\delta_e} & M_{\delta_T} + M_{\dot w} Z_{\delta_T} 
 \begin{bmatrix} \Delta\delta_e \\ \Delta\delta_T \end{bmatrix}.
 \end{equation}
 
-Substituting the dimensional derivatives from the previous section yields
-\begin{equation}
+Using the values previously found for the dimensional derivatives results in
+
+\begin{equation}\label{eq:equation_52}
 A_\text{long} =
 \begin{bmatrix}
 -9.418\!\times\!10^{-4} & -0.04918 & 0       & -32.17 \\
 -0.0225                 & -1.162   & 634.4   & 0      \\
 +1.048\!\times\!10^{-3} & -0.01400 & -0.8260 & 0      \\
 0                       & 0        & 1       & 0
-\end{bmatrix},
+\end{bmatrix} and
 \qquad
 B_\text{long} =
 \begin{bmatrix}
@@ -604,22 +667,20 @@ B_\text{long} =
 -97.93 & 0 \\
 -18.84 & 0 \\
 0      & 0
-\end{bmatrix}.
+\end{bmatrix}
 \end{equation}
 
-The throttle column of $B_\text{long}$ is identically zero because the project
-handout omits throttle-perturbation derivatives and the constant-thrust jet
-assumption produces $X_{T_u} = M_{T_u} = M_{T_\alpha} = 0$.
-
-placeholder
+The throttle column of $B_\text{long}$ is zero because of the assumed lack of perturbations to the throttles
+based on the constant thrust assumption which results in $X_{T_u} = M_{T_u} = M_{T_\alpha} = 0$.
 
 \subsection{Lateral-Directional Equations}
 
-The lateral-directional perturbation dynamics take the form
-$\dot{\mathbf{x}} = A_\text{lat}\,\mathbf{x} + B_\text{lat}\,\mathbf{u}$ with
-state vector $\mathbf{x} = [\Delta\beta,\,\Delta p,\,\Delta r,\,\Delta\phi]^\top$
-and control vector $\mathbf{u} = [\Delta\delta_a,\,\Delta\delta_r]^\top$:
-\begin{equation}
+The lateral-directional perturbation equations take the general form of
+$\dot{\mathbf{x}} = A_\text{lat}\,\mathbf{x} + B_\text{lat}\,\mathbf{u}$ with a
+state vector of $\mathbf{x} = [\Delta\beta,\,\Delta p,\,\Delta r,\,\Delta\phi]^\top$
+and a control vector of $\mathbf{u} = [\Delta\delta_a,\,\Delta\delta_r]^\top$
+
+\begin{equation}\label{eq:equation_53}
 \begin{bmatrix} \Delta\dot\beta \\ \Delta\dot p \\ \Delta\dot r \\ \Delta\dot\phi \end{bmatrix}
 =
 \begin{bmatrix}
@@ -639,23 +700,25 @@ N'_{\delta_a} & N'_{\delta_r} \\
 \begin{bmatrix} \Delta\delta_a \\ \Delta\delta_r \end{bmatrix}.
 \end{equation}
 
-The primed derivatives absorb the product of inertia $\Ixz$ via
-\begin{equation}
-L'_X = \frac{L_X + (\Ixz/\Ixx)\,N_X}{1 - \Ixz^{\,2}/(\Ixx\,\Izz)},
+To account for and simplify the $I_{xz}$ moment coupling, primed derivatives are used as shown here
+
+\begin{equation}\label{eq:equation_54}
+L'_K = \frac{L_K + (\Ixz/\Ixx)\,N_K}{1 - \Ixz^{\,2}/(\Ixx\,\Izz)},
 \qquad
-N'_X = \frac{N_X + (\Ixz/\Izz)\,L_X}{1 - \Ixz^{\,2}/(\Ixx\,\Izz)},
-\qquad X \in \{\beta, p, r, \delta_a, \delta_r\}.
+N'_K = \frac{N_K + (\Ixz/\Izz)\,L_K}{1 - \Ixz^{\,2}/(\Ixx\,\Izz)},
+\qquad K \in \{\beta, p, r, \delta_a, \delta_r\}
 \end{equation}
 
-Substituting the numerical values yields
-\begin{equation}
+Similarly, using the values found prior results in
+
+\begin{equation}\label{eq:equation_55}
 A_\text{lat} =
 \begin{bmatrix}
 -0.1871 & 0       & -1     & 0.05059 \\
 -27.09  & -2.615  & 0.8582 & 0       \\
 3.675   & -0.1135 & -0.5546 & 0      \\
 0       & 1       & 0       & 0
-\end{bmatrix},
+\end{bmatrix} and
 \qquad
 B_\text{lat} =
 \begin{bmatrix}
@@ -663,16 +726,19 @@ B_\text{lat} =
 17.87 & 5.171   \\
 1.148 & -5.759  \\
 0     & 0
-\end{bmatrix}.
+\end{bmatrix}
 \end{equation}
-
-placeholder
 
 \section{Eigenvalues and Modal Parameters}
 
-placeholder
+Utilizing the numerical $A_{long}$, $A_{lat}$, $B_{long}$, and $B_{lat}$ matrices, the eigenvalues were computed and
+associated with the common SLUF aircraft modes of short period, phugoid, dutch roll, roll, and spiral.
+All modes are dynamically stable with the real part of the eigenvalues all being negative, resulting in overall
+aircraft dynamic stability.
+Of further note, the dutch roll mode only has moderate damping compared to expectations which leads to a significantly
+longer return time.
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_5}
 \centering
 \caption{Longitudinal modal parameters.}
 \begin{tabular}{lcccccc}
@@ -685,7 +751,7 @@ Phugoid      & $-0.00330 \pm 0.0708\,j$    & $0.0708$ & $0.0466$ & $88.8$  & $21
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_6}
 \centering
 \caption{Lateral-directional modal parameters.}
 \begin{tabular}{lcccccc}
@@ -693,13 +759,11 @@ Phugoid      & $-0.00330 \pm 0.0708\,j$    & $0.0708$ & $0.0466$ & $88.8$  & $21
 \textbf{Mode} & \textbf{Eigenvalue} & \textbf{$\omega_n$ (rad/s)} & \textbf{$\zeta$} & \textbf{$T$ (s)} & \textbf{$t_{1/2}$ (s)} & \textbf{$\tau$ (s)} \\
 \midrule
 Dutch roll       & $-0.161 \pm 2.165\,j$ & $2.171$  & $0.0740$ & $2.902$ & $4.315$  & ---     \\
-Roll subsidence  & $-2.993$              & $2.993$  & $1.000$  & ---     & $0.232$  & $0.334$ \\
+Roll             & $-2.993$              & $2.993$  & $1.000$  & ---     & $0.232$  & $0.334$ \\
 Spiral           & $-0.0426$             & $0.0426$ & $1.000$  & ---     & $16.28$  & $23.48$ \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-placeholder
 
 \section{Modal Characteristics Analysis}
 
@@ -707,7 +771,7 @@ placeholder
 
 \subsection{Longitudinal Modes}
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_7}
 \centering
 \caption{Longitudinal eigenvector contributions (magnitude / phase in degrees,
 normalized so the largest entry per mode equals $1\angle 0^\circ$).}
@@ -735,7 +799,7 @@ placeholder
 
 \subsection{Lateral-Directional Modes}
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_8}
 \centering
 \caption{Lateral-directional eigenvector contributions (magnitude / phase
 in degrees, normalized so the largest entry per mode equals $1\angle 0^\circ$).}
@@ -815,7 +879,7 @@ placeholder
 
 placeholder
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:table_9}
 \centering
 \caption{MIL-F-8785C flying qualities classification (Class IV fighter,
 Category B cruise).}

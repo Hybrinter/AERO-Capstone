@@ -334,14 +334,20 @@ Append after the longitudinal derivative print:
 - [ ] **Step 3: Run and verify.**
 
 Run: `python main.py`
-Expected sanity-check values:
-- `Yb` ≈ -118.5 (negative — sideslip pushes back)
-- `Lb` ≈ -27.0 (1/s^2) (negative — dihedral effect, statically stable in roll)
-- `Lp` ≈ -2.41 (1/s) (negative — roll damping)
-- `Nb` ≈ +4.69 (1/s^2) (positive — weathercock stability)
-- `Nr` ≈ -0.756 (1/s) (negative — yaw damping)
+Expected sanity-check values (computed from the actual A-7A constants — match within ~1%):
+- `Yb`  ≈ -118.7 (ft/s^2) — negative; sideslip pushes back
+- `Yda` ≈ -4.15  (ft/s^2)
+- `Ydr` ≈ +34.9  (ft/s^2) — strong rudder side force
+- `Lb`  ≈ -27.88 (1/s^2)  — negative; dihedral effect, statically stable in roll
+- `Lp`  ≈ -2.591 (1/s)    — negative; roll damping
+- `Lr`  ≈ +0.978 (1/s)
+- `Lda` ≈ +17.62 (1/s^2)  — strong aileron roll authority
+- `Nb`  ≈ +4.851 (1/s^2)  — positive; weathercock stability
+- `Nr`  ≈ -0.592 (1/s)    — negative; yaw damping
+- `Ndr` ≈ -5.981 (1/s^2)  — strong rudder yaw authority
+- `Yp`, `Yr`, `Np` should all be exactly 0 (corresponding nondim coefficients are zero)
 
-Sign check: `Lb`, `Lp`, `Nr` must be negative; `Nb` must be positive. Otherwise the aircraft would not be stable and the formula is wrong.
+Sign check: `Yb`, `Lb`, `Lp`, `Nr`, `Ndr` must be negative; `Nb` must be positive. Otherwise the aircraft is not stable and the formula is wrong.
 
 - [ ] **Step 4: Commit.**
 
