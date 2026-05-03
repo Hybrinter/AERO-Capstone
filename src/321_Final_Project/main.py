@@ -264,6 +264,74 @@ def _print_matrix(name: str, M: np.ndarray,
 
 
 # =============================================================================
+# Parts 2 & 3b: lateral-directional state-space matrices (primed derivatives)
+# =============================================================================
+# State vector:   x_lat = [dbeta, dp, dr, dphi]^T
+# Control vector: u_lat = [d_da, d_dr]^T
+def _prime_lateral(d: dict[str, float]) -> dict[str, float]:
+    """Return the primed L and N derivatives that absorb Ixz cross-coupling.
+
+    Args:
+        d: dictionary from compute_lateral_derivatives().
+
+    Returns:
+        dict[str, float]: same keys as d, but L* and N* entries replaced by
+            their primed forms. Y* entries pass through unchanged because the
+            side-force equation has no inertial coupling.
+
+    Notes:
+        This is the standard Roskam treatment for Ixz != 0:
+            L'_X = (L_X + (Ixz/Ixx) * N_X) / (1 - Ixz^2 / (Ixx*Izz))
+            N'_X = (N_X + (Ixz/Izz) * L_X) / (1 - Ixz^2 / (Ixx*Izz))
+        for X in {b, p, r, da, dr}. Without this, the matrix is wrong by a
+        few percent because the rolling and yawing accelerations are coupled
+        through the product of inertia.
+    """
+    denom = 1.0 - IXZ**2 / (IXX * IZZ)
+    primed = dict(d)  # copy Y* entries unchanged
+    for x in ("b", "p", "r", "da", "dr"):
+        Lx, Nx = d[f"L{x}"], d[f"N{x}"]
+        primed[f"L{x}"] = (Lx + (IXZ / IXX) * Nx) / denom
+        primed[f"N{x}"] = (Nx + (IXZ / IZZ) * Lx) / denom
+    return primed
+
+
+def build_lateral_ss(d: dict[str, float]) -> tuple[np.ndarray, np.ndarray]:
+    """Assemble (A_lat, B_lat) using primed derivatives for L* and N*.
+
+    Args:
+        d: dictionary from compute_lateral_derivatives() (unprimed values).
+
+    Returns:
+        (A_lat, B_lat): A is 4x4, B is 4x2. State ordering is
+            [dbeta, dp, dr, dphi]; control ordering is [d_da, d_dr].
+
+    Notes:
+        Yb/U1, Yp/U1, Yr/U1 appear in the beta-equation (row 1) because the
+        sideslip rate is dbeta/dt = (1/U1) * (sum of side accelerations).
+        The (1,3) entry is -(1 - Yr/U1) rather than -1 to keep the form
+        general; for the A-7A Yr = 0 so it collapses to -1.
+    """
+    p = _prime_lateral(d)
+
+    A = np.array([
+        [d["Yb"] / U1,    d["Yp"] / U1,    -(1.0 - d["Yr"] / U1),    G * np.cos(THETA1) / U1],
+        [p["Lb"],         p["Lp"],         p["Lr"],                  0.0],
+        [p["Nb"],         p["Np"],         p["Nr"],                  0.0],
+        [0.0,             1.0,             0.0,                      0.0],
+    ])
+
+    B = np.array([
+        [0.0,             d["Ydr"] / U1   ],
+        [p["Lda"],        p["Ldr"]        ],
+        [p["Nda"],        p["Ndr"]        ],
+        [0.0,             0.0             ],
+    ])
+
+    return A, B
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -293,6 +361,14 @@ def main() -> None:
     _print_matrix("B_long", B_long,
                   ["du_dot", "dw_dot", "dq_dot", "dtheta_dot"],
                   ["d_de", "d_dT"])
+
+    A_lat, B_lat = build_lateral_ss(lat_d)
+    _print_matrix("A_lat", A_lat,
+                  ["dbeta_dot", "dp_dot", "dr_dot", "dphi_dot"],
+                  ["dbeta", "dp", "dr", "dphi"])
+    _print_matrix("B_lat", B_lat,
+                  ["dbeta_dot", "dp_dot", "dr_dot", "dphi_dot"],
+                  ["d_da", "d_dr"])
 
 
 if __name__ == "__main__":
