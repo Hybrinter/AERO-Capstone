@@ -570,6 +570,120 @@ def plot_lat_impulse(A: np.ndarray, B: np.ndarray, out_dir: Path) -> list[Path]:
 
 
 # =============================================================================
+# Part 7: flying qualities (MIL-F-8785C, Class IV fighter, Category B - cruise)
+# =============================================================================
+def classify_short_period(zeta_sp: float, wn_sp: float,
+                          n_alpha: float) -> dict[str, float | str]:
+    """Classify short-period damping and CAP per MIL-F-8785C, Class IV, Cat B.
+
+    Returns:
+        dict with keys "zeta" (level string), "cap" (level string), and
+        "cap_value" (float, the computed CAP = wn^2 / n_alpha in 1/s^2).
+        Level strings are "Level 1", "Level 2", "Level 3", or "Worse than Level 3".
+    """
+    # zeta_sp band (Cat B): L1 [0.30, 2.00], L2 [0.20, 2.00], L3 [0.15, ...]
+    if 0.30 <= zeta_sp <= 2.00:
+        zeta_level = "Level 1"
+    elif 0.20 <= zeta_sp <= 2.00:
+        zeta_level = "Level 2"
+    elif zeta_sp >= 0.15:
+        zeta_level = "Level 3"
+    else:
+        zeta_level = "Worse than Level 3"
+
+    # CAP band (Cat B): L1 [0.085, 3.6], L2 [0.038, 10.0], L3 [0.038, ...]
+    cap = wn_sp**2 / n_alpha
+    if 0.085 <= cap <= 3.6:
+        cap_level = "Level 1"
+    elif 0.038 <= cap <= 10.0:
+        cap_level = "Level 2"
+    elif cap >= 0.038:
+        cap_level = "Level 3"
+    else:
+        cap_level = "Worse than Level 3"
+
+    return {"zeta": zeta_level, "cap": cap_level, "cap_value": cap}
+
+
+def classify_phugoid(zeta_ph: float, t_double_ph: float | None) -> str:
+    """Phugoid: L1 zeta >= 0.04; L2 zeta >= 0; L3 t_double >= 55 s."""
+    if zeta_ph >= 0.04:
+        return "Level 1"
+    if zeta_ph >= 0.0:
+        return "Level 2"
+    if t_double_ph is not None and t_double_ph >= 55.0:
+        return "Level 3"
+    return "Worse than Level 3"
+
+
+def classify_dutch_roll(zeta_dr: float, wn_dr: float) -> str:
+    """Dutch roll: L1 zeta>=0.08, zeta*wn>=0.15, wn>=0.4 (rad/s)."""
+    if zeta_dr >= 0.08 and zeta_dr * wn_dr >= 0.15 and wn_dr >= 0.4:
+        return "Level 1"
+    if zeta_dr >= 0.02 and zeta_dr * wn_dr >= 0.05 and wn_dr >= 0.4:
+        return "Level 2"
+    if zeta_dr >= 0.0 and wn_dr >= 0.4:
+        return "Level 3"
+    return "Worse than Level 3"
+
+
+def classify_roll(tau_r: float) -> str:
+    """Roll subsidence: L1 tau<=1.4 s; L2 tau<=3.0 s; L3 tau<=10.0 s."""
+    if tau_r <= 1.4:
+        return "Level 1"
+    if tau_r <= 3.0:
+        return "Level 2"
+    if tau_r <= 10.0:
+        return "Level 3"
+    return "Worse than Level 3"
+
+
+def classify_spiral(t_double_spiral: float | None) -> str:
+    """Spiral: L1 t_double>=20 s (Cat B); L2 >=12 s; L3 >=4 s. Stable = L1."""
+    if t_double_spiral is None:
+        return "Level 1"  # spiral is stable (real root <= 0)
+    if t_double_spiral >= 20.0:
+        return "Level 1"
+    if t_double_spiral >= 12.0:
+        return "Level 2"
+    if t_double_spiral >= 4.0:
+        return "Level 3"
+    return "Worse than Level 3"
+
+
+def _print_flying_qualities(long_modes: dict[str, dict],
+                            lat_modes: dict[str, dict],
+                            n_alpha: float) -> None:
+    """Run all five classifiers and print a single consolidated table."""
+    sp = long_modes["short_period"]
+    ph = long_modes["phugoid"]
+    dr = lat_modes["dutch_roll"]
+    rl = lat_modes["roll"]
+    sp_res = classify_short_period(sp["zeta"], sp["wn"], n_alpha)
+
+    print()
+    print("-" * 78)
+    print(" Flying qualities (MIL-F-8785C, Class IV, Category B - cruise)")
+    print("-" * 78)
+    print(f" {'Mode':<18} {'Metric':<22} {'Value':>10}  {'Level':<20}")
+
+    print(f" {'Short period':<18} {'zeta':<22} {sp['zeta']:>10.4g}  {sp_res['zeta']:<20}")
+    print(f" {'Short period':<18} {'CAP (1/s^2)':<22} {sp_res['cap_value']:>10.4g}  {sp_res['cap']:<20}")
+    print(f" {'Phugoid':<18} {'zeta':<22} {ph['zeta']:>10.4g}  "
+          f"{classify_phugoid(ph['zeta'], ph['t_double']):<20}")
+    print(f" {'Dutch roll':<18} {'zeta':<22} {dr['zeta']:>10.4g}  "
+          f"{classify_dutch_roll(dr['zeta'], dr['wn']):<20}")
+    print(f" {'Dutch roll':<18} {'zeta * wn (1/s)':<22} {dr['zeta']*dr['wn']:>10.4g}  --")
+    print(f" {'Dutch roll':<18} {'wn (rad/s)':<22} {dr['wn']:>10.4g}  --")
+    print(f" {'Roll subsidence':<18} {'tau (s)':<22} {rl['tau']:>10.4g}  "
+          f"{classify_roll(rl['tau']):<20}")
+    sp_t2 = lat_modes["spiral"]["t_double"]
+    spiral_str = f"{sp_t2:>10.4g}" if sp_t2 is not None else f"{'stable':>10}"
+    print(f" {'Spiral':<18} {'t_double (s)':<22} {spiral_str}  "
+          f"{classify_spiral(sp_t2):<20}")
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -625,6 +739,9 @@ def main() -> None:
                              ["du", "dw", "dq", "dtheta"])
     _print_eigenvector_table("Lateral eigenvectors", lat_modes,
                              ["dbeta", "dp", "dr", "dphi"])
+
+    n_alpha = -long_d["Za"] / G   # load-factor sensitivity to alpha (1/rad -> g/rad)
+    _print_flying_qualities(long_modes, lat_modes, n_alpha)
 
     fig_paths  = plot_long_impulse(A_long, B_long, FIG_DIR)
     fig_paths += plot_lat_impulse(A_lat, B_lat, FIG_DIR)
