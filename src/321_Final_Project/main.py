@@ -332,6 +332,73 @@ def build_lateral_ss(d: dict[str, float]) -> tuple[np.ndarray, np.ndarray]:
 
 
 # =============================================================================
+# Parts 4 & 5: eigenvalue and modal analysis
+# =============================================================================
+def modal_analysis(A: np.ndarray) -> list[dict]:
+    """Compute eigenvalues, modal parameters, and right eigenvectors.
+
+    Args:
+        A: square state matrix (n x n).
+
+    Returns:
+        list[dict]: one entry per eigenvalue, each containing:
+            "lambda":    complex eigenvalue,
+            "wn":        natural frequency |lambda|,
+            "zeta":      damping ratio -Re(lambda)/wn,
+            "wd":        damped frequency Im(lambda) (>= 0 by convention),
+            "period":    2*pi/wd if wd > 0 else None,
+            "t_half":    ln(2)/|Re(lambda)| if Re < 0 else None (time to half),
+            "t_double":  ln(2)/Re(lambda) if Re > 0 else None (time to double),
+            "tau":       -1/Re(lambda) for real eigenvalues, else None,
+            "vector":    right eigenvector (length-n complex array).
+
+    Notes:
+        Returns one dict per eigenvalue (so a complex conjugate pair appears
+        as two entries). Downstream identification functions partition these
+        into named modes.
+    """
+    eigvals, eigvecs = eig(A)
+    out: list[dict] = []
+    for i, lam in enumerate(eigvals):
+        sigma = float(lam.real)
+        omega = float(lam.imag)
+        wn = float(np.abs(lam))
+        is_real = abs(omega) < 1e-9
+
+        entry: dict = {
+            "lambda":   lam,
+            "wn":       wn,
+            "zeta":     (-sigma / wn) if wn > 1e-12 else 0.0,
+            "wd":       abs(omega),
+            "period":   (2.0 * np.pi / abs(omega)) if not is_real else None,
+            "t_half":   (np.log(2.0) / abs(sigma)) if sigma < 0.0 else None,
+            "t_double": (np.log(2.0) / sigma) if sigma > 0.0 else None,
+            "tau":      (-1.0 / sigma) if (is_real and abs(sigma) > 1e-12) else None,
+            "vector":   eigvecs[:, i],
+        }
+        out.append(entry)
+    return out
+
+
+def _print_modal_table(title: str, modes: list[dict], mode_names: list[str]) -> None:
+    """Print a per-mode table: name, lambda, wn, zeta, period, t_half/t_double, tau."""
+    print()
+    print("-" * 78)
+    print(f" {title}")
+    print("-" * 78)
+    print(f" {'Mode':<18} {'lambda':>22} {'wn':>8} {'zeta':>8} {'T(s)':>8} "
+          f"{'t1/2 or t2(s)':>14} {'tau(s)':>8}")
+    for name, m in zip(mode_names, modes):
+        lam_str = f"{m['lambda'].real:+.4g}{m['lambda'].imag:+.4g}j"
+        T   = f"{m['period']:.4g}" if m["period"]   is not None else "--"
+        t12 = (f"{m['t_half']:.4g}" if m["t_half"]  is not None
+               else (f"-{m['t_double']:.4g}" if m["t_double"] is not None else "--"))
+        tau = f"{m['tau']:.4g}" if m["tau"] is not None else "--"
+        print(f" {name:<18} {lam_str:>22} {m['wn']:>8.4g} {m['zeta']:>8.4g} "
+              f"{T:>8} {t12:>14} {tau:>8}")
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -369,6 +436,14 @@ def main() -> None:
     _print_matrix("B_lat", B_lat,
                   ["dbeta_dot", "dp_dot", "dr_dot", "dphi_dot"],
                   ["d_da", "d_dr"])
+
+    long_modes_raw = modal_analysis(A_long)
+    lat_modes_raw  = modal_analysis(A_lat)
+
+    _print_modal_table("Longitudinal eigenvalues (raw)", long_modes_raw,
+                       [f"mode {i+1}" for i in range(len(long_modes_raw))])
+    _print_modal_table("Lateral eigenvalues (raw)", lat_modes_raw,
+                       [f"mode {i+1}" for i in range(len(lat_modes_raw))])
 
 
 if __name__ == "__main__":
