@@ -30,18 +30,19 @@ G = 32.174                                                  # ft/s^2
 M_MASS = W / G                                              # slug
 
 # -- atmosphere (1976 US Standard at 15,000 ft) and trim --
-ALT_FT = 15000.0
+ALT_FT = 15000.0                                            # ft -- recorded for reference
 MACH = 0.6
 RHO = 1.4962e-3                                             # slug/ft^3
 A_SOUND = 1057.4                                            # ft/s
 U1 = MACH * A_SOUND                                         # ft/s
 QBAR = 0.5 * RHO * U1**2                                    # lbf/ft^2
 ALPHA1 = np.deg2rad(4.0)                                    # rad
-DELTA_E1 = np.deg2rad(-3.87)                                # rad
+DELTA_E1 = np.deg2rad(-3.87)                                # rad -- recorded for reference
 THETA1 = ALPHA1                                             # level cruise (gamma1 = 0)
 
 # -- longitudinal nondimensional derivatives (per project handout) --
 CL1, CD1, CM1 = 0.19, 0.02, 0.0
+# CL0, CD0, CM0 are the zero-alpha intercepts; recorded here for reference only.
 CL0, CD0, CM0 = 0.149, 0.0205, -0.08
 CLU, CDU, CMU = -0.294, -0.0364, 0.032
 CLA, CDA, CMA = 4.42, 0.378, -0.437
@@ -256,11 +257,12 @@ def _print_matrix(name: str, M: np.ndarray,
     print(f" {name}")
     print("-" * 78)
     col_width = 14
-    header = " " * 10 + "".join(f"{c:>{col_width}}" for c in col_labels)
+    label_width = max(len(lbl) for lbl in row_labels)
+    header = " " * (label_width + 3) + "".join(f"{c:>{col_width}}" for c in col_labels)
     print(header)
     for i, row in enumerate(M):
         row_str = "".join(f"{v:>{col_width}.4g}" for v in row)
-        print(f" {row_labels[i]:<8}  {row_str}")
+        print(f" {row_labels[i]:<{label_width}}  {row_str}")
 
 
 # =============================================================================
