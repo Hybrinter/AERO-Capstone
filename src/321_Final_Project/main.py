@@ -151,6 +151,60 @@ _LONG_UNITS: dict[str, str] = {
 
 
 # =============================================================================
+# Part 1b: lateral-directional dimensional stability derivatives
+# =============================================================================
+def compute_lateral_derivatives() -> dict[str, float]:
+    """Compute every dimensional lateral-directional derivative at trim.
+
+    Returns:
+        dict[str, float]: keys are symbolic names (Yb, Yp, Yr, Yda, Ydr,
+            Lb, Lp, Lr, Lda, Ldr, Nb, Np, Nr, Nda, Ndr) with values in
+            English engineering units. These are the "unprimed" derivatives;
+            the primed forms (which absorb Ixz cross-coupling) are computed
+            separately in build_lateral_ss().
+
+    Notes:
+        Formulas per the boxed equations in 321_final_project.tex. The lateral
+        channel has no u-derivatives; symmetric trim gives Cy1 = Cl1 = Cn1 = 0
+        so there is no +2*C_(*)1 kinematic term.
+    """
+    d: dict[str, float] = {}
+
+    # -- Y side-force derivatives --
+    d["Yb"]  = (QBAR * S / M_MASS) * CYB
+    d["Yp"]  = (QBAR * S * B / (2.0 * M_MASS * U1)) * CYP
+    d["Yr"]  = (QBAR * S * B / (2.0 * M_MASS * U1)) * CYR
+    d["Yda"] = (QBAR * S / M_MASS) * CYDA
+    d["Ydr"] = (QBAR * S / M_MASS) * CYDR
+
+    # -- L rolling-moment derivatives --
+    d["Lb"]  = (QBAR * S * B / IXX) * Cl_B
+    d["Lp"]  = (QBAR * S * B**2 / (2.0 * IXX * U1)) * Cl_P
+    d["Lr"]  = (QBAR * S * B**2 / (2.0 * IXX * U1)) * Cl_R
+    d["Lda"] = (QBAR * S * B / IXX) * Cl_DA
+    d["Ldr"] = (QBAR * S * B / IXX) * Cl_DR
+
+    # -- N yawing-moment derivatives --
+    d["Nb"]  = (QBAR * S * B / IZZ) * CNB
+    d["Np"]  = (QBAR * S * B**2 / (2.0 * IZZ * U1)) * CNP
+    d["Nr"]  = (QBAR * S * B**2 / (2.0 * IZZ * U1)) * CNR
+    d["Nda"] = (QBAR * S * B / IZZ) * CNDA
+    d["Ndr"] = (QBAR * S * B / IZZ) * CNDR
+
+    return d
+
+
+_LAT_UNITS: dict[str, str] = {
+    "Yb":  "ft/s^2", "Yp":  "ft/s",   "Yr":  "ft/s",
+    "Yda": "ft/s^2", "Ydr": "ft/s^2",
+    "Lb":  "1/s^2",  "Lp":  "1/s",    "Lr":  "1/s",
+    "Lda": "1/s^2",  "Ldr": "1/s^2",
+    "Nb":  "1/s^2",  "Np":  "1/s",    "Nr":  "1/s",
+    "Nda": "1/s^2",  "Ndr": "1/s^2",
+}
+
+
+# =============================================================================
 # Main pipeline
 # =============================================================================
 def main() -> None:
@@ -168,6 +222,10 @@ def main() -> None:
     long_d = compute_longitudinal_derivatives()
     _print_derivative_table("Longitudinal dimensional derivatives",
                             long_d, _LONG_UNITS)
+
+    lat_d = compute_lateral_derivatives()
+    _print_derivative_table("Lateral-directional dimensional derivatives",
+                            lat_d, _LAT_UNITS)
 
 
 if __name__ == "__main__":
